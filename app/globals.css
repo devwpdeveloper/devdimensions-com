@@ -220,6 +220,7 @@
 .theme-hero--about {
   min-height: 682px;
   padding: 185px 0 97px;
+  overflow: visible;
 }
 
 .theme-hero--about .theme-hero-inner {
@@ -6006,4 +6007,13 @@ h2 span {
   .copyright-link {
     display: inline;
   }
+}
+
+/* About hero typography follows the live page's explicit rhythm. */
+.theme-hero--about h1 {
+  line-height: normal;
+}
+
+.theme-hero--about p {
+  line-height: 26px;
 }

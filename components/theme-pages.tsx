@@ -364,7 +364,7 @@ export function AboutPage() {
     <SitePageFrame showCta={false} className="theme-page--about">
       <ThemeHero
         variant="about"
-        title={<>Discover DevDimensions: <span>Your Premier Talent Partner</span></>}
+        title={<>Discover DevDimensions:<br /><span>Your Premier Talent Partner</span></>}
         description="At DD, we’re all about the people. From our talent, teams, to partners: We believe the real magic lies in harnessing human potential. Winning, to us, means creating lasting relationships with our partners. We want to run marathons with you, not just the sprints."
       />
       <section className="theme-mission">
