@@ -3656,6 +3656,10 @@ h2 span {
   padding: 56px 0 36px;
 }
 
+.footer a {
+  transition: color 0.2s ease;
+}
+
 .footer-grid {
   display: block;
   height: auto;
@@ -3834,11 +3838,16 @@ h2 span {
 
 .copyright {
   margin: 41px 0 0;
-  color: var(--line);
+  color: var(--gray-8b);
   font-family: 'Gilroy-Regular', Arial, sans-serif;
   font-size: 12px;
   line-height: 18px;
   text-align: center;
+  white-space: nowrap;
+}
+
+.copyright a {
+  color: var(--gray-8b);
 }
 
 .copyright a:hover {
@@ -3846,7 +3855,7 @@ h2 span {
 }
 
 .copyright-link {
-  display: block;
+  display: inline;
 }
 
 /* Menu and contact modal */
@@ -5983,5 +5992,18 @@ h2 span {
   .faq-answer,
   .faq-answer p {
     font-size: var(--type-small);
+  }
+
+  .copyright {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    white-space: nowrap;
+    font-size: 11px;
+  }
+
+  .copyright-link {
+    display: inline;
   }
 }
