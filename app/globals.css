@@ -5936,6 +5936,7 @@ h2 span {
 
   /* Keep the partner logos visually separate from the testimonials section. */
   .partners {
+    padding-top: var(--space-3);
     padding-bottom: var(--space-6);
   }
 
@@ -5975,7 +5976,10 @@ h2 span {
 }
 
 @media (max-width: 767px) {
-  .faq-subtitle,
+  .faq-subtitle {
+    font-size: var(--type-body);
+  }
+
   .faq-answer,
   .faq-answer p {
     font-size: var(--type-small);
