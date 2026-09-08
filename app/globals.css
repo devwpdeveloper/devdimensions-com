@@ -5934,6 +5934,11 @@ h2 span {
     padding-top: var(--section-pad-mobile);
   }
 
+  /* Keep the partner logos visually separate from the testimonials section. */
+  .partners {
+    padding-bottom: var(--space-6);
+  }
+
   .theme-core-values,
   .theme-join,
   .project-specs,
