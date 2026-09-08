@@ -254,7 +254,14 @@
   left: 50%;
   width: 35px;
   height: 35px;
+  transition: 0.3s ease-in-out;
   transform: translate(-50%, -50%);
+}
+
+.theme-get-touch:hover .theme-get-arrow {
+  top: 40%;
+  left: 40%;
+  transform: rotate(45deg);
 }
 
 @keyframes theme-rotate {
