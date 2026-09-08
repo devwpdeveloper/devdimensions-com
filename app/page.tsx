@@ -3,14 +3,14 @@
 
 import {
   ArrowUpRight,
-  Check,
   ChevronDown,
-  MapPin,
   Menu,
-  Phone,
   X,
 } from "lucide-react";
+import Link from "next/link";
+import { useLenis } from "lenis/react";
 import { useEffect, useState } from "react";
+import { useInfiniteCarouselMotion } from "../components/use-carousel-motion";
 
 const ASSET_ROOT = "/assets/";
 const asset = (name: string) => `${ASSET_ROOT}${name}`;
@@ -76,6 +76,15 @@ const clientLogos: Logo[] = [
 
 const projects: Project[] = [
   {
+    name: "Express Flooring",
+    image: "frame-1261153221-1-668d272b32aee.webp",
+    mobileImage: "Frame-1261153157-10.png",
+    category: "Design, Development",
+    href: "/project/express-flooring/",
+    description:
+      "Express Flooring” is a dynamic website specializing in interior flooring solutions and products, including a wide range of tiles. Utilizing blue as the accent color, the design conveys a sense of trust and professionalism while maintaining a modern and clean aesthetic.",
+  },
+  {
     name: "Literal Co",
     image: "frame-1261153219-3-668d2b050ac7a.webp",
     mobileImage: "Frame-1261153157-21.png",
@@ -91,7 +100,7 @@ const projects: Project[] = [
     category: "Design & Development",
     href: "/project/emd/",
     description:
-      "A focused digital product that turns a complex workflow into a simple, confident customer journey.",
+      "The EMD Construction Company landing page was designed with a clean, professional aesthetic to highlight their expertise and commitment to quality. The layout features a striking hero section with a bold headline and an image of a recent project to capture attention.",
   },
   {
     name: "Vanrock Holdings",
@@ -100,7 +109,7 @@ const projects: Project[] = [
     category: "Design, Development",
     href: "/project/vanrock-holdings/",
     description:
-      "A high-trust web experience built to give a growing holdings group a sharper digital presence.",
+      "VanRock is a project that exemplifies the fusion of design and functionality, aimed at delivering robust financial results for investors through expert management. We began by crafting intuitive and visually appealing designs in Figma, focusing on clarity and user experience.",
   },
   {
     name: "Performance Tours",
@@ -109,34 +118,7 @@ const projects: Project[] = [
     category: "Design, Development",
     href: "/project/performance-tours/",
     description:
-      "A conversion-focused experience for high-energy event travel and unforgettable performance tours.",
-  },
-  {
-    name: "Express Flooring",
-    image: "frame-1261153221-1-668d272b32aee.webp",
-    mobileImage: "Frame-1261153157-10.png",
-    category: "Design, Development",
-    href: "/project/express-flooring/",
-    description:
-      "A premium home-services experience designed to make flooring selection and installation easier.",
-  },
-  {
-    name: "Soy Kitty",
-    image: "frame-1261153219-1-668d25b7abaae.webp",
-    mobileImage: "Frame-1261153157-7.png",
-    category: "Design",
-    href: "/project/soy-kitty/",
-    description:
-      "A playful product experience with a bold identity, friendly interactions, and intuitive shopping flow.",
-  },
-  {
-    name: "Walter On Wine",
-    image: "frame-1261153220-668d24ff54e6f.webp",
-    mobileImage: "Group-626684-optimized-scaled.webp",
-    category: "Design",
-    href: "/project/walter-on-wire/",
-    description:
-      "A content-rich wine platform that makes discovery, education, and connection feel personal.",
+      "The website for Performance Tours showcases a thrilling rafting experience tailored for families seeking adventure in a bold and maximalist aesthetic. Emphasizing safety and excitement, the site’s vibrant visuals and dynamic layout capture the essence of exhilarating river.",
   },
 ];
 
@@ -178,7 +160,7 @@ const testimonials: Testimonial[] = [
     image: "Frame-1261153390.webp",
     logo: "Frame-1261153385.png",
     quote:
-      "DevDimensions has been a game changer for us. Their team understood our product quickly and delivered with the care and speed of an in-house team.",
+      "We recently brought on a team from DevDimensions for a real estate project. Their deep knowledge and extensive experience in the real estate sector, coupled with their proficiency in integrating various APIs for property listings and market data, have significantly boosted our project’s performance and quality.",
     project: "OfferForm",
   },
   {
@@ -187,7 +169,7 @@ const testimonials: Testimonial[] = [
     image: "Frame-1261153392.webp",
     logo: "Frame-1261153385-1.png",
     quote:
-      "They brought structure to our ideas and helped us move from a rough concept to a polished experience our customers love.",
+      "DevDimensions team’s deep understanding of the automotive market and expertise in integrating the Turn14 API has truly transformed our platform. The attention to detail and commitment they showed ensured everything ran smoothly.",
     project: "RSI Motorsports",
   },
   {
@@ -196,7 +178,7 @@ const testimonials: Testimonial[] = [
     image: "Frame-1261153391.webp",
     logo: "Frame-1261153383.png",
     quote:
-      "The quality of talent and the level of communication has been exceptional. We finally have a partner who can scale with us.",
+      "DevDimensions designed and developed an exceptional travel booking system and agent dashboards for TripSeer. Their expertise, seamless communication, and timely delivery exceeded our expectations. Highly recommend them for their outstanding work!",
     project: "TripSeer",
   },
   {
@@ -205,7 +187,7 @@ const testimonials: Testimonial[] = [
     image: "Frame-1261153390-1.webp",
     logo: "Frame-1261153386.png",
     quote:
-      "From the first conversation to launch, the DevDimensions team made every step clear, collaborative, and genuinely enjoyable.",
+      "We hired couple of resources from DevDimensions, and they have been exceptional. Their expertise and dedication have greatly enhanced our project’s efficiency and quality. The team’s professionalism and seamless collaboration make DevDimensions a fantastic choice for staffing needs.",
     project: "ThinkWrite",
   },
 ];
@@ -214,12 +196,18 @@ const faqs = [
   {
     question: "Why wouldn’t I just hire a freelancer?",
     answer:
-      "You could, but it's a pain in the ass. In our experience, it often doesn't end well unless you have experience managing freelancers, which is a headache in itself. We remove all the risk by managing the process and quality checks for you.",
+      "You could but it's a pain in the ass. In our experience, it often doesn’t end well unless you have experience managing freelancers, which is a headache in itself. We remove all the risk by managing the process and quality checks for you.",
   },
   {
     question: "What separates you? How do you vet your talent?",
     answer:
-      'We utilize the GWC method to ensure talent alignment. This ensures candidates "get" their role and your culture, genuinely "want" the job, and have the capacity both in skills and time to excel. Our evaluation includes technical, language, personality, and peer-to-peer checks.',
+      [
+        `We utilize the GWC method to ensure talent alignment. This ensures candidates "get" their role and your culture, genuinely "want" the job, and have the “capacity” both in skills and time to excel.`,
+        `1 - Technical Test: Customized assessments for engineers/designers  to gauge proficiency in required tools and languages for the specific role they are being considered for.`,
+        `2 -  Language Literacy Test: Evaluates spoken and written English capabilities, ensuring clarity in conveying technical and non-technical concepts. Effective communication is crucial for project management and collaboration.`,
+        `3 -  Personality Tests (Myers-Briggs & Team Dimensions Profile):  These pinpoint a candidate's strengths and preferred role in team settings, ensuring smoother team dynamics and more successful placements.`,
+        `4 - 9-Step Peer to Peer Evaluation (HHS System): Determines if a candidate embodies the traits of being Humble, Hungry, and Smart, which are crucial for fostering a collaborative and efficient work environment.  It gauges the humility, work ethic, and emotional intelligence of candidates, ensuring they're not just skilled but also a cultural fit for the organization.`,
+      ].join(String.fromCharCode(10, 10)),
   },
   {
     question: "Can I set up video calls or check-ins with my resource(s)?",
@@ -249,36 +237,45 @@ const faqs = [
   {
     question: "Can I cancel if I don’t like it?",
     answer:
-      "There's no contracts or long-term agreements. We give our clients the flexibility they deserve. You can pause or cancel at any time. However, if a dedicated resource has started work before you decide to cancel, you won't be eligible for a refund.",
+      "There's no contracts or long-term agreements. We give our clients the flexibility they deserve. You can pause or cancel at any time.\nHowever, If we have a dedicated resource that  has started work on your project before you decide to cancel, you won't be eligible for a refund.",
   },
   {
     question: "How do you make sure I am happy with the work?",
     answer:
-      "Our customer experience team will provide bi-weekly check-ins with you and the resource. Our CX team acts as an accountability partner and is available for scheduled meetings to discuss any gaps.",
+      "Our customer experience team will provide bi-weekly check-ins to make sure the resource is performing to the DevDimensions standard with both you and our resources. Our CX team acts as an accountability partner to your dedicated resource.  They are available for scheduled meetings to discuss any mishaps or gaps that need to be addressed.",
   },
 ];
 
 const partners = [
-  "Mask-group.svg",
-  "Mask-group-1.svg",
-  "logo-1-1.svg",
-  "Mask-group-2.svg",
-  "Frame-1261152960-1.svg",
-  "Mask-group-3.svg",
+  "partner-virgo-labs.png",
+  "partner-pittsburg.png",
+  "partner-fhg.png",
+  "partner-panoramic.png",
+  "partner-cellianos.png",
+  "partner-thinkrite.png",
 ];
 
 function Header({
   menuOpen,
   onToggle,
+  onContact,
 }: {
   menuOpen: boolean;
   onToggle: () => void;
+  onContact: () => void;
 }) {
   return (
     <header className="site-header shell">
-      <a className="brand" href="#top" aria-label="DevDimensions home">
+      <Link className="brand" href="/" aria-label="DevDimensions home">
         <img src={asset("logo.svg")} alt="DevDimensions" />
-      </a>
+      </Link>
+      <nav className="desktop-nav" aria-label="Primary navigation">
+        <Link href="/">Home</Link>
+        <Link href="/about-us/">About Us</Link>
+        <Link href="/case-studies/">Case Studies</Link>
+        <Link href="/contact-us/">Contact Us</Link>
+      </nav>
+      <button className="header-cta" type="button" onClick={onContact}>Get Free Consultation</button>
       <button
         className="menu-toggle"
         type="button"
@@ -292,15 +289,119 @@ function Header({
   );
 }
 
+function HeroVisual() {
+  return (
+    <div className="hero-html-visual" aria-label="DevDimensions hiring options">
+      <div className="hero-browser-card">
+        <div className="hero-browser-dots" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="hero-browser-rule" aria-hidden="true" />
+        <p>
+          Do you plan to <strong>Turn Your<br />Ideas into Reality?</strong>
+        </p>
+        <div className="hero-browser-actions">
+          <Link href="/contact-us/">Hire Engineer</Link>
+          <Link href="/contact-us/">Hire Agency</Link>
+        </div>
+      </div>
+
+      <div className="hero-profile-card">
+        <span className="hero-avatar-frame">
+          <img className="hero-avatar" src={asset("hero-avatar.png")} alt="Nauman A. avatar" />
+        </span>
+        <div className="hero-profile-copy">
+          <strong>
+            <span className="hero-profile-desktop">Nauman A.</span>
+            <span className="hero-profile-mobile">Austin M.</span>
+          </strong>
+          <span>
+            <span className="hero-profile-desktop">Sr. Laravel Developer</span>
+            <span className="hero-profile-mobile">MERN Stack Developer</span>
+          </span>
+          <em>25 projects completed</em>
+        </div>
+      </div>
+
+      <div className="hero-coffee-card">
+        Sip Coffee While We Bring Your Ideas
+        <br />
+        To Life With Flawless Execution!
+      </div>
+    </div>
+  );
+}
+
+const hireBars = [
+  { month: "Jan", height: 83, tone: "deep" },
+  { month: "Feb", height: 77, tone: "soft" },
+  { month: "Mar", height: 100, tone: "bright" },
+  { month: "Apr", height: 72, tone: "deep" },
+  { month: "May", height: 40, tone: "soft" },
+] as const;
+
+function HireGraphic() {
+  return (
+    <div className="hire-graphic" aria-label="Win history and submit-to-hire results">
+      <div className="hire-graph-card">
+        <p className="hire-graph-kicker">Win History - Across All Platforms</p>
+        <h3>3:1 Submit to Hire</h3>
+        <p className="hire-graph-rating"><strong>98%</strong> Job Success Rating</p>
+        <div className="hire-bars" aria-label="Monthly hiring results">
+          {hireBars.map((bar) => (
+            <div className="hire-bar" key={bar.month}>
+              <span className={`hire-bar-fill hire-bar-fill--${bar.tone}`} style={{ height: `${bar.height}%` }} />
+              <span className="hire-bar-label">{bar.month}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="hire-review-card">
+        <p className="hire-review-count">
+          <strong>3K</strong> <span>reviews</span>
+          <span className="hire-review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+        </p>
+        <div className="hire-review-meta">
+          <span className="hire-review-arrow" aria-hidden="true">↗</span>
+          <strong>4.9</strong>
+        </div>
+        <img
+          className="hire-review-thumbnails"
+          src={asset("review-thumbnails.png")}
+          alt="Client review avatars"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
+  );
+}
+
 function LogoRow({ logos, reverse = false }: { logos: Logo[]; reverse?: boolean }) {
-  const loop = [...logos, ...logos];
+  // The live site keeps two identical 20-item groups in each rail. The
+  // client-logo source list is shorter, so fill that group before cloning it
+  // for the seamless loop.
+  const groupLogos = logos.length < 20 ? [...logos, ...logos] : logos;
+  const groups = [groupLogos, groupLogos];
 
   return (
     <div className={`marquee-row${reverse ? " marquee-row--reverse" : ""}`}>
       <div className="marquee-track">
-        {loop.map((logo, index) => (
-          <div className="chip-box" key={`${logo.label}-${index}`}>
-            <img src={asset(logo.file)} alt={logo.label} />
+        {groups.map((group, groupIndex) => (
+          <div
+            className="marquee-group"
+            key={`marquee-group-${groupIndex}`}
+            aria-hidden={groupIndex === 1}
+          >
+            {group.map((logo, index) => (
+              <div className="chip-box" key={`${groupIndex}-${logo.label}-${index}`}>
+                <img src={asset(logo.file)} alt={logo.label} loading="lazy" decoding="async" />
+                <span>{logo.label}</span>
+              </div>
+            ))}
           </div>
         ))}
       </div>
@@ -351,7 +452,7 @@ function ContactModal({
         </button>
         <p className="eyebrow">Let’s build something brilliant</p>
         <h2 id="contact-modal-title">Unlock Success with Us</h2>
-        <p className="modal-intro">Tell us a little about your goals and we’ll be in touch shortly.</p>
+        <p className="modal-intro">Fill the form below and our team will get back to you at our earliest.</p>
 
         {status === "success" ? (
           <output className="form-status form-status--success">
@@ -363,7 +464,7 @@ function ContactModal({
         ) : (
           <form className="contact-form" onSubmit={handleSubmit}>
             <label>
-              Name
+              Your Name
               <input
                 required
                 name="name"
@@ -383,17 +484,8 @@ function ContactModal({
                 placeholder="you@company.com"
               />
             </label>
-            <label>
-              Company <span>(optional)</span>
-              <input
-                name="company"
-                value={form.company}
-                onChange={(event) => setForm({ ...form, company: event.target.value })}
-                placeholder="Your company"
-              />
-            </label>
             <label className="contact-form__wide">
-              What can we help with?
+              Brief Message
               <textarea
                 required
                 name="message"
@@ -404,7 +496,7 @@ function ContactModal({
               />
             </label>
             <button className="btn-theme contact-form__wide" type="submit" disabled={status === "submitting"}>
-              {status === "submitting" ? "Sending…" : "Request a consultation"} <ArrowUpRight size={17} />
+              {status === "submitting" ? "Sending…" : "Get Free Consultation"} <ArrowUpRight size={17} />
             </button>
             {status === "error" ? (
               <p className="form-status form-status--error" role="alert">
@@ -421,35 +513,58 @@ function ContactModal({
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [projectIndex, setProjectIndex] = useState(0);
-  const [testimonialIndex, setTestimonialIndex] = useState(0);
-  const [viewportWidth, setViewportWidth] = useState(0);
+  const workMotion = useInfiniteCarouselMotion(projects.length);
+  const testimonialMotion = useInfiniteCarouselMotion(testimonials.length);
+  const {
+    index: projectIndex,
+    position: projectPosition,
+    isTransitioning: workIsTransitioning,
+    setIndex: setProjectIndex,
+    handleTransitionEnd: handleWorkTransitionEnd,
+  } = workMotion;
+  const {
+    index: testimonialIndex,
+    position: testimonialPosition,
+    isTransitioning: testimonialIsTransitioning,
+    setIndex: setTestimonialIndex,
+    handleTransitionEnd: handleTestimonialTransitionEnd,
+  } = testimonialMotion;
   const [faqOpen, setFaqOpen] = useState<number | null>(null);
-  const [role, setRole] = useState("Product Designer");
-  const [specialty, setSpecialty] = useState("Prototyping");
-  const [outcome, setOutcome] = useState("UX Optimization");
+  const [role, setRole] = useState("Full Stack Developer");
+  const [specialty, setSpecialty] = useState("MERN Stack");
+  const [outcome, setOutcome] = useState("Web Application");
+  const [activeProblem, setActiveProblem] = useState(0);
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const roles = ["Full Stack Developer", "Product Designer", "QA Testing Analyst"];
+    const specialties = ["MERN Stack", "Prototyping", "Automated Testing"];
+    const outcomes = ["Web Application", "UX Optimization", "Bug Detection"];
+    let current = 0;
+    const textTimer = window.setInterval(() => {
+      if (document.hidden) return;
+      current = (current + 1) % roles.length;
+      setRole(roles[current]); setSpecialty(specialties[current]); setOutcome(outcomes[current]);
+    }, 5000);
+    const problemTimer = window.setInterval(() => {
+      if (!document.hidden) setActiveProblem((value) => (value + 1) % 5);
+    }, 2000);
+    return () => { window.clearInterval(textTimer); window.clearInterval(problemTimer); };
+  }, []);
 
   const openContact = () => {
     setMenuOpen(false);
     setModalOpen(true);
   };
 
-  const workStep =
-    viewportWidth >= 992
-      ? Math.min(900, viewportWidth - 140) + 20
-      : viewportWidth >= 768
-        ? 507
-        : Math.min(400, Math.max(0, viewportWidth - 60)) + 20;
-  const testimonialStep =
-    viewportWidth >= 992
-      ? 800
-      : viewportWidth >= 768
-        ? 801
-        : Math.max(0, viewportWidth - 30);
-
   useEffect(() => {
     const locked = menuOpen || modalOpen;
-    document.body.style.overflow = locked ? "hidden" : "";
+    if (locked) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.removeProperty("overflow");
+    }
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -460,24 +575,83 @@ export default function Home() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.removeProperty("overflow");
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [menuOpen, modalOpen]);
 
   useEffect(() => {
-    const updateViewportWidth = () => setViewportWidth(window.innerWidth);
-    updateViewportWidth();
-    window.addEventListener("resize", updateViewportWidth);
-    return () => window.removeEventListener("resize", updateViewportWidth);
-  }, []);
+    // Lenis owns wheel input when available. Keep this small header workaround
+    // only for the CSS-smooth fallback, where the browser can otherwise treat
+    // the first gesture over a navigation link as a click.
+    if (lenis) return;
+
+    const handleHeaderWheel = (event: WheelEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element) || !target.closest(".site-header")) return;
+      if (event.ctrlKey || event.deltaY <= 0 || window.scrollY > 0) return;
+
+      // A first wheel gesture over a navigation link can be consumed by the
+      // browser's click/scroll negotiation. Forward that delta to the one
+      // document scroll root so the hero never pauses at the header.
+      event.preventDefault();
+      window.scrollBy({ top: event.deltaY, left: event.deltaX, behavior: "smooth" });
+    };
+
+    window.addEventListener("wheel", handleHeaderWheel, { capture: true, passive: false });
+    return () => window.removeEventListener("wheel", handleHeaderWheel, { capture: true });
+  }, [lenis]);
+
+  useEffect(() => {
+    // The Lenis instance handles touch inertia globally. This listener is only
+    // a fallback for browsers where the provider cannot initialize.
+    if (lenis) return;
+
+    let lastY: number | null = null;
+    let startedOnHeader = false;
+
+    const handleTouchStart = (event: TouchEvent) => {
+      const target = event.target;
+      startedOnHeader = target instanceof Element && Boolean(target.closest(".site-header"));
+      lastY = event.touches[0]?.clientY ?? null;
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const currentY = event.touches[0]?.clientY;
+      if (!startedOnHeader || lastY === null || currentY === undefined) return;
+
+      const deltaY = lastY - currentY;
+      lastY = currentY;
+      if (deltaY <= 0 || window.scrollY > 0 || document.body.style.overflow === "hidden") return;
+
+      event.preventDefault();
+      window.scrollBy({ top: deltaY, behavior: "smooth" });
+    };
+
+    const resetTouch = () => {
+      lastY = null;
+      startedOnHeader = false;
+    };
+
+    window.addEventListener("touchstart", handleTouchStart, { capture: true, passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { capture: true, passive: false });
+    window.addEventListener("touchend", resetTouch, { capture: true, passive: true });
+    window.addEventListener("touchcancel", resetTouch, { capture: true, passive: true });
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart, { capture: true });
+      window.removeEventListener("touchmove", handleTouchMove, { capture: true });
+      window.removeEventListener("touchend", resetTouch, { capture: true });
+      window.removeEventListener("touchcancel", resetTouch, { capture: true });
+    };
+  }, [lenis]);
 
   return (
     <div className="site-shell">
       <main>
         <section className="hero" id="top">
           <img className="hero-background" src={asset("home-hero-1.png")} alt="" aria-hidden="true" />
-          <Header menuOpen={menuOpen} onToggle={() => setMenuOpen(!menuOpen)} />
+          <Header menuOpen={menuOpen} onToggle={() => setMenuOpen(!menuOpen)} onContact={openContact} />
           <div className="shell hero-grid">
             <div className="hero-copy">
               <h1>
@@ -487,15 +661,12 @@ export default function Home() {
                 We&apos;ve scouted and interviewed thousands of game changers in technology: We match you with our top
                 standouts – all while <span>cutting costs by 43% and reducing staffing times by 5x.</span>
               </p>
-              <button className="btn-theme" type="button" onClick={openContact}>
-                7 Days Free Trial <ArrowUpRight size={17} />
-              </button>
+              <Link className="btn-theme" href="/contact-us/">
+                7 Days Free Trial
+              </Link>
             </div>
             <div className="hero-visual">
-              <picture>
-                <source media="(max-width: 767px)" srcSet={asset("Frame-1261152964-1-optimized-1.webp")} />
-                <img src={asset("Right-Side-_1_.webp")} alt="A developer working at a desk" />
-              </picture>
+              <HeroVisual />
             </div>
           </div>
         </section>
@@ -517,35 +688,46 @@ export default function Home() {
                 the goal and you can do better.
               </p>
             </div>
-            <div className="problem-map" aria-label="Common hiring problems">
-              <img className="map-line" src={asset("path-line.png")} alt="" aria-hidden="true" />
-              <div className="company-badge">
-                <span>Your Company</span>
-              </div>
-              <div className="problem-note problem-note--top">No guarantee on project timeline or completion</div>
-              <div className="problem-note problem-note--mid">Quality isn&apos;t worth money/time spent</div>
-              <div className="issue issue-1">
-                <img src={asset("engineer.svg")} alt="" aria-hidden="true" />
-                <span>Exhausting<br />Interviews</span>
-              </div>
-              <div className="issue issue-2">
-                <img src={asset("clarity_talk-bubbles-line.svg")} alt="" aria-hidden="true" />
-                <span>Communication<br />Gaps</span>
-              </div>
-              <div className="issue issue-3">
-                <img src={asset("like-shapes.svg")} alt="" aria-hidden="true" />
-                <span>Quality<br />Issues</span>
-              </div>
-              <div className="issue issue-4">
-                <img src={asset("uim_process.svg")} alt="" aria-hidden="true" />
-                <span>Minimal<br />Systems</span>
-              </div>
-              <div className="issue issue-5">
-                <img src={asset("fluent_clock-28-regular.svg")} alt="" aria-hidden="true" />
-                <span>Timeline<br />Constraints</span>
-              </div>
-              <div className="problem-end">
-                <img src={asset("Frame-1261153171.svg")} alt="" aria-hidden="true" />
+            <div className="problem-map" data-active-problem={activeProblem} aria-label="Common hiring problems">
+              <img className="map-line" src={asset("path-line.png")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+              <h2 className="company-badge">Your<br />Company</h2>
+              <img className="problem-end" src={asset("Frame-1261153171.svg")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+              <div className="steps">
+                <div className={`step s-1${activeProblem === 0 ? " active" : ""}`}>
+                  <h5 className="title">
+                    <img className="icon" src={asset("engineer.svg")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                    <strong>Exhausting</strong><br />Interviews
+                  </h5>
+                  <div className="toltip">30+ interviews for every 1 job slot</div>
+                </div>
+                <div className={`step s-2${activeProblem === 1 ? " active" : ""}`}>
+                  <h5 className="title">
+                    <img className="icon" src={asset("clarity_talk-bubbles-line.svg")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                    Communication<br /><strong>Gaps</strong>
+                  </h5>
+                  <div className="toltip">Communication across time zones is slow, unclear, &amp; difficult</div>
+                </div>
+                <div className={`step s-3${activeProblem === 2 ? " active" : ""}`}>
+                  <h5 className="title">
+                    <img className="icon" src={asset("like-shapes.svg")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                    <strong>Quality</strong><br />Issues
+                  </h5>
+                  <div className="toltip">Quality isn&apos;t worth money/time spent</div>
+                </div>
+                <div className={`step s-4${activeProblem === 3 ? " active" : ""}`}>
+                  <h5 className="title">
+                    <img className="icon" src={asset("uim_process.svg")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                    <strong>Minimal</strong><br />Systems
+                  </h5>
+                  <div className="toltip">Minimal consistency across projects without systems</div>
+                </div>
+                <div className={`step s-5${activeProblem === 4 ? " active" : ""}`}>
+                  <h5 className="title">
+                    <img className="icon" src={asset("fluent_clock-28-regular.svg")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                    <strong>Timeline</strong><br />Constraints
+                  </h5>
+                  <div className="toltip">No guarantee on project timeline or completion</div>
+                </div>
               </div>
             </div>
             <img
@@ -556,76 +738,47 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="welcome" id="hiring">
+        <section className="welcome need" id="hiring">
           <div className="shell welcome-grid">
             <div className="welcome-copy">
-              <h2>
-                Welcome to <span>DevDimensions</span>
-              </h2>
+              <h2>Welcome to DevDimensions</h2>
               <p>
                 We solve those hiring headaches. No we aren’t doctors, just former exited founders with a proven
                 process that has worked for us. From websites, applications, to enterprise solutions, we don’t just
                 design + develop; we become your innovation partner.
               </p>
-              <div className="chooser" aria-label="Build a hiring brief">
-                <button
-                  className="chooser-line"
-                  type="button"
-                  onClick={() =>
-                    setRole(
-                      role === "Product Designer"
-                        ? "QA Testing Analyst"
-                        : role === "QA Testing Analyst"
-                          ? "Full Stack Developer"
-                          : "Product Designer",
-                    )
-                  }
-                >
-                  <span>I need a</span>
-                  <strong className="is-selected">{role}</strong>
-                  <ChevronDown size={17} />
-                </button>
-                <button
-                  className="chooser-line"
-                  type="button"
-                  onClick={() =>
-                    setSpecialty(
-                      specialty === "Prototyping"
-                        ? "Automated Testing"
-                        : specialty === "Automated Testing"
-                          ? "MERN Stack"
-                          : "Prototyping",
-                    )
-                  }
-                >
-                  <span>that specializes in</span>
-                  <strong className="is-selected">{specialty}</strong>
-                  <ChevronDown size={17} />
-                </button>
-                <button
-                  className="chooser-line"
-                  type="button"
-                  onClick={() =>
-                    setOutcome(
-                      outcome === "UX Optimization"
-                        ? "Bug Detection"
-                        : outcome === "Bug Detection"
-                          ? "Web Application"
-                          : "UX Optimization",
-                    )
-                  }
-                >
-                  <span>for</span>
-                  <strong className="is-selected">{outcome}</strong>
-                  <ChevronDown size={17} />
-                </button>
-                <button className="btn-theme chooser-submit" type="button" onClick={openContact}>
-                  Request Quote <ArrowUpRight size={17} />
-                </button>
-              </div>
+              <ul className="we-needs" aria-label="Build a hiring brief">
+                <li>
+                  <span className="start">I need a</span>
+                  <span className="slide-hold">
+                    <span className="experties-text-slider tex_slide1">
+                      <span key={role} className="g-red rotating-word">{role}</span>
+                    </span>
+                  </span>
+                </li>
+                <li>
+                  <span className="start">that specializes in</span>
+                  <span className="slide-hold">
+                    <span className="experties-text-slider tex_slide2">
+                      <span key={specialty} className="g-red rotating-word">{specialty}</span>
+                    </span>
+                  </span>
+                </li>
+                <li>
+                  <span className="start">for</span>
+                  <span className="slide-hold">
+                    <span className="experties-text-slider tex_slide3">
+                      <span key={outcome} className="g-red rotating-word">{outcome}</span>
+                    </span>
+                  </span>
+                </li>
+              </ul>
+              <Link className="btn-theme welcome-section-btn" href="/contact-us/" onClick={() => setMenuOpen(false)}>
+                Request Quote
+              </Link>
             </div>
             <div className="welcome-art">
-              <img src={asset("submit-hire.png")} alt="Win history and submit-to-hire results" />
+              <HireGraphic />
             </div>
           </div>
         </section>
@@ -638,42 +791,55 @@ export default function Home() {
                   Discover What’s <span>Possible</span>
                 </h2>
               </div>
-              <a className="btn-theme" href="#contact">
+              <Link className="btn-theme" href="/case-studies/">
                 View More Work <ArrowUpRight size={17} />
-              </a>
+              </Link>
             </div>
           </div>
-          <div className="work-viewport">
+          <div className="work-viewport" aria-label="Case studies carousel" {...workMotion.handlers}>
             <div
-              className="work-track"
-              style={{ transform: `translateX(-${projectIndex * workStep}px)` }}
+              className={`work-track${workIsTransitioning ? "" : " is-loop-reset"}`}
+              style={{ transform: `translateX(calc(-${projectPosition} * (var(--work-card-width) + var(--slider-gap))))` }}
+              onTransitionEnd={handleWorkTransitionEnd}
             >
-              {projects.map((project, index) => (
-                <article className={`work-card${index === projectIndex ? " is-active" : ""}`} key={project.name}>
-                  <a className="work-cover-link" href={project.href} aria-label={`View ${project.name} case study`}>
-                    <picture>
-                      <source media="(max-width: 767px)" srcSet={asset(project.mobileImage)} />
-                      <img className="work-cover" src={asset(project.image)} alt={`${project.name} project`} />
-                    </picture>
-                  </a>
-                  <div className="work-card-content">
-                    <div className="work-card-topline">
-                      <span className="work-category">{project.category}</span>
-                      <a className="square-arrow" href={project.href} aria-label={`Open ${project.name}`}>
-                        <ArrowUpRight size={20} />
-                      </a>
-                    </div>
-                    <h3 className="work-card-title">
-                      <a href={project.href}>{project.name}</a>
-                    </h3>
-                    <p className="work-description">{project.description}</p>
-                    <div className="work-tools" aria-label="Tools used">
-                      <img src={asset("tool-1.png")} alt="Design tool" />
-                      <img src={asset("tool-2.png")} alt="Development tool" />
+              {[projects[projects.length - 1], ...projects, projects[0]].map((project, physicalIndex) => {
+                const index = (physicalIndex - 1 + projects.length) % projects.length;
+                return (
+                <article className={`work-card${index === projectIndex ? " is-active" : ""}`} key={`${project.name}-${physicalIndex}`}>
+                  <div className="work-card-grid">
+                    <a className="work-cover-link" href={project.href} aria-label={`View ${project.name} case study`}>
+                      <picture>
+                        <source media="(max-width: 767px)" srcSet={asset(project.mobileImage)} />
+                        <img className="work-cover" src={asset(project.image)} alt={`${project.name} project`} loading="lazy" decoding="async" />
+                      </picture>
+                    </a>
+                    <div className="work-card-content">
+                      <h3 className="work-card-title">
+                        <span className="work-title-flow">
+                          <a href={project.href}>{project.name}</a>
+                          <span className="work-categories">
+                            {project.category.split(/,\s*/).map((category) => (
+                              <span className="work-category" key={category}>{category}</span>
+                            ))}
+                          </span>
+                        </span>
+                      </h3>
+                      <p className="work-description">{project.description}</p>
+                      <div className="work-tools" aria-label="Tools used">
+                        <span className="work-tools-label">Tools:</span>
+                        <img src={asset("tool-1.png")} alt="Design tool" loading="lazy" decoding="async" />
+                        <img src={asset("tool-2.png")} alt="Development tool" loading="lazy" decoding="async" />
+                      </div>
+                      <div className="work-card-resources">
+                        <a className="square-arrow" href={project.href} aria-label={`Open ${project.name}`}>
+                          <ArrowUpRight size={20} />
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           </div>
           <div className="work-dots" aria-label="Choose a project">
@@ -690,32 +856,33 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="approach" id="approach">
+        <section className="our-process" id="approach">
           <div className="shell">
             <div className="approach-heading">
               <h2>
-                Our <span>Approach</span>
+                Our Approach
               </h2>
             </div>
-            <div className="process-list">
+          </div>
+            <div className="process">
+              <img className="circle" src={asset("semi-cirlce.svg")} alt="" aria-hidden="true" />
+              <img className="logo" src={asset("logo-big.svg")} alt="" aria-hidden="true" />
               {approachSteps.map((step) => (
-                <article className="process-row" data-step={step.number} key={step.number}>
-                  <div>
+                <article className={`proces-box s-${Number(step.number)}`} key={step.number}>
+                    <span className="no">{Number(step.number)}</span><br />
+                    <img className="icon" src={asset(step.icon)} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                     <h3>
-                      <img src={asset(step.icon)} alt="" aria-hidden="true" />
                       {step.title}
                     </h3>
                     <p>{step.description}</p>
-                  </div>
                 </article>
               ))}
             </div>
-          </div>
         </section>
 
         <section className="utility" id="utility">
-          <img className="utility-shape utility-shape--left" src={asset("left-shape-optimized.webp")} alt="" aria-hidden="true" />
-          <img className="utility-shape utility-shape--right" src={asset("right-shape.webp")} alt="" aria-hidden="true" />
+          <img className="utility-shape utility-shape--left" src={asset("left-shape-optimized.webp")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+          <img className="utility-shape utility-shape--right" src={asset("right-shape.webp")} alt="" aria-hidden="true" loading="lazy" decoding="async" />
           <div className="shell utility-grid">
             <div className="utility-copy">
               <h2>
@@ -726,31 +893,35 @@ export default function Home() {
                 your project to life helping cover any skill gaps along the way.
               </p>
               <ul className="check-list">
-                <li><Check size={17} aria-hidden="true" />Hire Individual Resource</li>
-                <li><Check size={17} aria-hidden="true" />Hire Multiple Resources</li>
-                <li><Check size={17} aria-hidden="true" />Hire Entire Team or Department</li>
+                <li><img src={asset("Check-Circle.svg")} alt="" aria-hidden="true" />Hire Individual Resource</li>
+                <li><img src={asset("Check-Circle.svg")} alt="" aria-hidden="true" />Hire Multiple Resources</li>
+                <li><img src={asset("Check-Circle.svg")} alt="" aria-hidden="true" />Hire Entire Team or Department</li>
               </ul>
               <button className="btn-theme" type="button" onClick={openContact}>
                 Get Free Consultation <ArrowUpRight size={17} />
               </button>
             </div>
             <div className="hiring-cards">
-              <article className="hire-box">
-                <img className="icon" src={asset("HE.svg")} alt="" aria-hidden="true" />
-                <h3>Hire Team Member</h3>
+              <Link className="hire-box" href="/contact-us/">
+                <img className="icon" src={asset("hire-team-member.png")} width={118} height={110} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <div className="hire-box-copy">
+                <h3><span className="hire-heading">Hire Team Member</span></h3>
                 <p>
                   Have a team but need to add a key player or two? Draft your MVP&apos;s here. Our curated pool of talent
                   seamlessly integrates with your existing team, ensuring rapid and efficient results.
                 </p>
-              </article>
-              <article className="hire-box">
-                <img className="icon" src={asset("Group-626683-2.svg")} alt="" aria-hidden="true" />
-                <h3>Hire Entire Team</h3>
+                </div>
+              </Link>
+              <Link className="hire-box" href="/contact-us/">
+                <img className="icon" src={asset("hire-entire-team.png")} width={100} height={116} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <div className="hire-box-copy">
+                <h3><span className="hire-heading">Hire Entire Team</span></h3>
                 <p>
                   Have an idea but no team to build it? Stack your team or department with our designers, developers,
                   and project managers to ensure your core focus remains on business growth.
                 </p>
-              </article>
+                </div>
+              </Link>
             </div>
           </div>
         </section>
@@ -763,7 +934,7 @@ export default function Home() {
             <div className="partner-grid">
               {partners.map((partner, index) => (
                 <div className="partner-logo" key={partner}>
-                  <img src={asset(partner)} alt={`DevDimensions partner ${index + 1}`} />
+                  <img src={asset(partner)} alt={`DevDimensions partner ${index + 1}`} loading="lazy" decoding="async" />
                 </div>
               ))}
             </div>
@@ -776,17 +947,22 @@ export default function Home() {
               Don’t Take Our <span>Word</span> for it
             </h2>
           </div>
-          <div className="testimonial-viewport">
+          <div className="testimonial-viewport" aria-label="Testimonials carousel" {...testimonialMotion.handlers}>
             <div
-              className="testimonial-track"
-              style={{ transform: `translateX(-${testimonialIndex * testimonialStep}px)` }}
+              className={`testimonial-track${testimonialIsTransitioning ? "" : " is-loop-reset"}`}
+              style={{ transform: `translateX(calc(-1 * ${testimonialPosition} * var(--testimonial-step)))` }}
+              onTransitionEnd={handleTestimonialTransitionEnd}
             >
-              {testimonials.map((testimonial, index) => (
-                <article className={`testimonial-card${index === testimonialIndex ? " is-active" : ""}`} key={testimonial.name}>
+              {[testimonials[testimonials.length - 1], ...testimonials, testimonials[0]].map((testimonial, physicalIndex) => {
+                const index = (physicalIndex - 1 + testimonials.length) % testimonials.length;
+                return (
+                <article className={`testimonial-card${index === testimonialIndex ? " is-active" : ""}`} key={`${testimonial.name}-${physicalIndex}`}>
                   <img
                     className="testimonial-card-image"
                     src={asset(testimonial.image)}
                     alt={`${testimonial.name}, ${testimonial.role}`}
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="testimonial-copy">
                     <p className="testimonial-quote">“{testimonial.quote}”</p>
@@ -795,12 +971,13 @@ export default function Home() {
                       <span>{testimonial.role}</span>
                     </div>
                     <div className="testimonial-project">
-                      <span>Project</span>
-                      <img className="testimonial-logo" src={asset(testimonial.logo)} alt={testimonial.project} />
+                      <span>Project:{testimonial.project}</span>
+                      <img className="testimonial-logo" src={asset(testimonial.logo)} alt={testimonial.project} loading="lazy" decoding="async" />
                     </div>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           </div>
           <div className="testimonial-dots" aria-label="Choose a testimonial">
@@ -818,12 +995,16 @@ export default function Home() {
         </section>
 
         <section className="faqs" id="faq">
-          <div className="shell">
-            <h2>
-              Frequently Asked <span>Questions</span>
-            </h2>
-            <p className="faq-subtitle">We value long-term partnerships, and we bet you do too.</p>
-            <div className="faq-list">
+          <div className="shell faq-grid">
+            <div className="faq-sidebar">
+              <h2>
+                Frequently Asked <span>Questions</span>
+              </h2>
+              <p className="faq-subtitle">We value long-term partnerships, and we bet you do too.</p>
+              <Link className="btn-theme faq-btn" href="/contact-us/">Book a Free Call</Link>
+            </div>
+            <div className="faq-content">
+              <div className="faq-list">
               {faqs.map((faq, index) => {
                 const isOpen = faqOpen === index;
                 return (
@@ -837,10 +1018,11 @@ export default function Home() {
                       <span>{faq.question}</span>
                       <ChevronDown size={19} />
                     </button>
-                    {isOpen ? <p className="faq-answer">{faq.answer}</p> : null}
+                    <div className="faq-answer-wrap" aria-hidden={!isOpen}><div><p className="faq-answer">{faq.answer}</p></div></div>
                   </article>
                 );
               })}
+              </div>
             </div>
           </div>
         </section>
@@ -849,15 +1031,19 @@ export default function Home() {
           <div className="shell">
             <div className="cta-box">
               <h2>
-                Connect With The <span>Top 3%</span> Where Brilliance Ignites Extraordinary Achievements.
+                Connect With The <span>Top 3%</span> Where
+                <br className="cta-title-break" />
+                Brilliance Ignites Extraordinary Achievements.
               </h2>
               <div className="cta-actions">
-                <button className="btn-theme" type="button" onClick={openContact}>
-                  Hire Engineers <ArrowUpRight size={17} />
-                </button>
-                <a className="btn-ghost" href="mailto:info@devdimensions.com">
-                  Develop With Us <ArrowUpRight size={17} />
-                </a>
+                <Link className="btn-theme" href="/contact-us/">
+                  Hire Engineers
+                  <img className="cta-button-arrow" src="/theme-assets/ArrowUpLeft.svg" alt="" aria-hidden="true" />
+                </Link>
+                <Link className="btn-ghost" href="/contact-us/">
+                  Develop With Us
+                  <img className="cta-button-arrow" src="/theme-assets/ArrowUpLeft.svg" alt="" aria-hidden="true" />
+                </Link>
               </div>
             </div>
           </div>
@@ -868,29 +1054,29 @@ export default function Home() {
         <div className="shell">
           <div className="footer-grid">
             <div className="footer-brand">
-              <a className="brand" href="#top" aria-label="DevDimensions home">
+              <Link className="brand" href="/" aria-label="DevDimensions home">
                 <img src={asset("logo.svg")} alt="DevDimensions" />
-              </a>
+              </Link>
               <p className="footer-tagline">We believe in growing together by empowering businesses through technology.</p>
               <div className="social-links" aria-label="Social links">
                 <a href="https://www.facebook.com/devdimensions/" target="_blank" rel="noreferrer" aria-label="Facebook">
-                  <span className="social-mark" aria-hidden="true">f</span>
+                  <span className="social-mark social-mark--facebook" aria-hidden="true" />
                   <span>Facebook</span>
                 </a>
                 <a href="https://www.linkedin.com/company/devdimensions?originalSubdomain=pk" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                  <span className="social-mark" aria-hidden="true">in</span>
+                  <span className="social-mark social-mark--linkedin" aria-hidden="true" />
                   <span>LinkedIn</span>
                 </a>
                 <a href="https://www.instagram.com/devdimensions.official" target="_blank" rel="noreferrer" aria-label="Instagram">
-                  <span className="social-mark" aria-hidden="true">◎</span>
+                  <span className="social-mark social-mark--instagram" aria-hidden="true" />
                   <span>Instagram</span>
                 </a>
               </div>
             </div>
             <div className="footer-link-column">
               <h3>Company</h3>
-              <a href="#about">About Us</a>
-              <a href="#work">Case Studies</a>
+              <Link href="/about-us/">About Us</Link>
+              <Link href="/case-studies/">Case Studies</Link>
               <a href="#faq">FAQs</a>
               <a href="https://www.careers-page.com/devdimensions#openings" target="_blank" rel="noreferrer">
                 Careers
@@ -908,9 +1094,9 @@ export default function Home() {
                 <img src={asset("us-flag.png")} alt="" aria-hidden="true" /> United States
               </h3>
               <ul className="office-list">
-                <li><MapPin size={16} /> 10788 Lake Wynds, Boynton Beach, FL</li>
+                <li><img src={asset("icon-location.svg")} alt="" aria-hidden="true" /> 10788 Lake Wynds, Boynton Beach, FL</li>
                 <li>
-                  <Phone size={16} />
+                  <img src={asset("icon-mobile.svg")} alt="" aria-hidden="true" />
                   <span className="office-contact">
                     <a href="tel:+15613360919">+1 (561) 336-0919</a>
                     <a href="mailto:sales@devdimensions.com">sales@devdimensions.com</a>
@@ -923,9 +1109,9 @@ export default function Home() {
                 <img src={asset("pak-flag.png")} alt="" aria-hidden="true" /> Pakistan
               </h3>
               <ul className="office-list">
-                <li><MapPin size={16} /> 26 K Service Rd, Block K, Phase 2, Johar Town Lahore, Pakistan.</li>
+                <li><img src={asset("icon-location.svg")} alt="" aria-hidden="true" /> 26 K Service Rd, Block K, Phase 2, Johar Town Lahore, Pakistan.</li>
                 <li>
-                  <Phone size={16} />
+                  <img src={asset("icon-mobile.svg")} alt="" aria-hidden="true" />
                   <span className="office-contact">
                     <a href="tel:+924232296908">+92 42 322 96908</a>
                     <a href="mailto:info@devdimensions.com">info@devdimensions.com</a>
@@ -939,8 +1125,9 @@ export default function Home() {
 
           <div className="copyright">
             <span>All copyrights by DevDimensions, LLC © 2024 -</span>
-            <span>{" "}</span>
-            <a href="https://www.careers-page.com/devdimensions#openings" target="_blank" rel="noreferrer">Careers</a>
+            <div className="copyright-link">
+              <a href="https://www.careers-page.com/devdimensions#openings" target="_blank" rel="noreferrer">Careers</a>
+            </div>
           </div>
         </div>
       </footer>
@@ -948,25 +1135,18 @@ export default function Home() {
       {menuOpen ? (
         <aside className="menu-panel" aria-label="Main navigation">
           <div className="menu-panel-header">
-            <a className="brand" href="#top" onClick={() => setMenuOpen(false)}>
-              <img src={asset("logo.svg")} alt="DevDimensions" />
-            </a>
+            <h2>Menu</h2>
             <button className="menu-close" type="button" aria-label="Close navigation" onClick={() => setMenuOpen(false)}>
               <X size={25} strokeWidth={1.5} />
             </button>
           </div>
           <nav className="menu-links">
-            <a href="#top" onClick={() => setMenuOpen(false)}>Home</a>
-            <a href="#about" onClick={() => setMenuOpen(false)}>About Us</a>
-            <a href="#work" onClick={() => setMenuOpen(false)}>Case Studies</a>
-            <a href="#contact" onClick={() => setMenuOpen(false)}>Contact Us</a>
+            <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+            <Link href="/about-us/" onClick={() => setMenuOpen(false)}>About Us</Link>
+            <Link href="/case-studies/" onClick={() => setMenuOpen(false)}>Case Studies</Link>
+            <Link href="/contact-us/" onClick={() => setMenuOpen(false)}>Contact Us</Link>
           </nav>
-          <div className="menu-consult">
-            <p>Have a project in mind?</p>
-            <button className="btn-theme" type="button" onClick={openContact}>
-              Get Free Consultation <ArrowUpRight size={17} />
-            </button>
-          </div>
+          <button className="menu-consult" type="button" onClick={openContact}>Get Free Consultation</button>
         </aside>
       ) : null}
 

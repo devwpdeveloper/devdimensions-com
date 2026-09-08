@@ -1,0 +1,12 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Arrow Up Left">
+<path id="Vector 106" d="M10.0012 26.6655L26.5003 10.1663M26.5003 10.1663L26.5003 22.5407M26.5003 10.1663L14.1259 10.1663" stroke="url(#paint0_linear_1_8985)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1_8985" x1="26.6266" y1="10.2926" x2="10.2309" y2="26.8939" gradientUnits="userSpaceOnUse">
+<stop stop-color="#801E19"/>
+<stop offset="0.427479" stop-color="#B51E17"/>
+<stop offset="1" stop-color="#FC3F37"/>
+</linearGradient>
+</defs>
+</svg>
