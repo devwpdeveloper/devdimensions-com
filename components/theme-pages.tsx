@@ -455,7 +455,7 @@ function CaseStudyCard({ project, index }: { project: ThemeProject; index: numbe
           <h2><a href={`/project/${project.slug}/`}>{project.name}</a>{(project.categories ?? [project.category]).map((category) => <span className="theme-case-category" key={category}>{category}</span>)}</h2>
           <p>{project.description}</p>
           <div className="theme-case-tools"><span>Tools:</span><img src={siteAsset("tool-1.png")} alt="Design tool" /><img src={siteAsset("tool-2.png")} alt="Development tool" /></div>
-          <a className="theme-case-arrow" href={`/project/${project.slug}/`} aria-label={`View ${project.name}`}><ArrowUpRight size={23} /></a>
+          <a className="theme-case-arrow" href={`/project/${project.slug}/`} aria-label={`View ${project.name}`}><ArrowUpRight size={25} /></a>
         </div>
       </div>
     </article>
