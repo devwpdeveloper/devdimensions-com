@@ -2,7 +2,8 @@
 /* oxlint-disable next/no-img-element */
 
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { InfiniteCarousel } from "./infinite-carousel";
 
 export const siteAsset = (name: string) => /^https?:\/\//.test(name) ? name : `/assets/${name}`;
 export const themeAsset = (name: string) => `/theme-assets/${name}`;
@@ -101,6 +102,94 @@ export const themeProjects: ThemeProject[] = [
     description:
       "A content-rich wine platform that makes discovery, education, and connection feel personal.",
   },
+  {
+    slug: "desert-gold",
+    name: "Desert gold",
+    category: "Design",
+    image: referenceAsset("Frame-1261153157-2.png"),
+    mobileImage: referenceAsset("Frame-1261153157-2.png"),
+    heroImage: referenceAsset("Frame-1261153157-2.png"),
+    caseStudyImage: referenceAsset("Frame-1261153157-2.png"),
+    description:
+      "For the “Desert Gold” project, we designed a landing page focused on studio lighting solutions tailored for filmmakers and content creators. This project aimed to guide users in selecting the best lighting equipment to enhance their productions. The landing page features a sleek, user-friendly interface that highlights various lighting options, their benefits, and detailed product information.",
+  },
+  {
+    slug: "dent-makers",
+    name: "Dent Makers",
+    category: "Design",
+    image: referenceAsset("Frame-1261153157-1.png"),
+    mobileImage: referenceAsset("Frame-1261153157-1.png"),
+    heroImage: referenceAsset("Frame-1261153157-1.png"),
+    caseStudyImage: referenceAsset("Frame-1261153157-1.png"),
+    description:
+      "Dentmaker is an online streaming platform where users can access video courses from various instructors. It offers annual, monthly, and weekly plans alongside free and premium courses, giving users a flexible way to learn and manage their membership.",
+  },
+  {
+    slug: "outside-live",
+    name: "Outside Live",
+    category: "Design",
+    image: referenceAsset("33075991_laptosssp_screen_mockup_10-1-1.svg"),
+    mobileImage: referenceAsset("33075991_laptosssp_screen_mockup_10-1-1.svg"),
+    heroImage: referenceAsset("33075991_laptosssp_screen_mockup_10-1-1.svg"),
+    caseStudyImage: referenceAsset("33075991_laptosssp_screen_mockup_10-1-1.svg"),
+    description:
+      "OutsideLive.com offers a virtual gateway to exploration and adventure, inviting enthusiasts to embark on a digital journey through breathtaking landscapes, adrenaline-pumping activities, and insightful outdoor narratives.",
+  },
+  {
+    slug: "omnimodus",
+    name: "OmniModus",
+    category: "Design",
+    image: referenceAsset("33075991_laptop_scree1111n_mockup_10-1.png"),
+    mobileImage: referenceAsset("33075991_laptop_scree1111n_mockup_10-1.png"),
+    heroImage: referenceAsset("33075991_laptop_scree1111n_mockup_10-1.png"),
+    caseStudyImage: referenceAsset("33075991_laptop_scree1111n_mockup_10-1.png"),
+    description:
+      "This project combines a striking dark-mode interface with an elegant blue accent. The minimal, sophisticated design keeps essential content clear while creating a balanced and immersive user experience.",
+  },
+  {
+    slug: "qrder",
+    name: "Qrder",
+    category: "Design",
+    image: referenceAsset("33075991_laptop_screen_mockup_10-5.png"),
+    mobileImage: referenceAsset("33075991_laptop_screen_mockup_10-5.png"),
+    heroImage: referenceAsset("33075991_laptop_screen_mockup_10-5.png"),
+    caseStudyImage: referenceAsset("33075991_laptop_screen_mockup_10-5.png"),
+    description:
+      "Qrder is the digital maître d’ for modern restaurants. The platform brings reservations, feedback, and restaurant operations together in a seamless experience for both diners and teams.",
+  },
+  {
+    slug: "rsimotors",
+    name: "RSI Motors",
+    category: "Design & Development",
+    image: referenceAsset("33075991_laptop_screen_mohhhckup_10-1.svg"),
+    mobileImage: referenceAsset("33075991_laptop_screen_mohhhckup_10-1.svg"),
+    heroImage: referenceAsset("33075991_laptop_screen_mohhhckup_10-1.svg"),
+    caseStudyImage: referenceAsset("33075991_laptop_screen_mohhhckup_10-1.svg"),
+    description:
+      "RSI Motors sells more than 400,000 aftermarket automotive components through retail and membership tiers. We recommended a ground-up redesign to address the original site's aesthetic, UX, performance, and database challenges.",
+  },
+  {
+    slug: "cortiam",
+    name: "Cortiam",
+    category: "Development",
+    image: referenceAsset("Frame-1261153157.png"),
+    mobileImage: referenceAsset("Frame-1261153157.png"),
+    heroImage: referenceAsset("Frame-1261153157.png"),
+    caseStudyImage: referenceAsset("Frame-1261153157.png"),
+    description:
+      "Cortiam redefines how homes are bought and sold by connecting sellers with agents in a seamless, empowering experience. Sellers can set their terms and negotiate comfortably through the platform.",
+  },
+  {
+    slug: "the-vacation-calendar",
+    name: "The Vacation Calendar",
+    category: "Design & Development",
+    image: referenceAsset("33075991_laptzzzzop_screen_mockup_10-1-1.svg"),
+    mobileImage: referenceAsset("33075991_laptzzzzop_screen_mockup_10-1-1.svg"),
+    heroImage: referenceAsset("33075991_laptzzzzop_screen_mockup_10-1-1.svg"),
+    caseStudyImage: referenceAsset("33075991_laptzzzzop_screen_mockup_10-1-1.svg"),
+    description:
+      "The Vacation Calendar uses a soothing blue and green palette to make property availability, booking status, galleries, local guides, house rules, and calendar management simple for hosts and guests.",
+  },
 ];
 
 type ProjectDetail = ThemeProject & {
@@ -108,9 +197,16 @@ type ProjectDetail = ThemeProject & {
   deliverables: string[];
   typography: string[];
   paletteImages: string[];
+  heroTools: string[];
+  heroBackground: boolean;
+  featureSections: { title: string; image: string }[];
+  topShotsTitle: string;
   gallery: string[];
   finalGallery: string[];
+  showFinalSection: boolean;
   mobileGallery: string[];
+  showMobileSection: boolean;
+  mobileTitle: string;
 };
 
 const details: Record<string, Partial<ProjectDetail>> = {
@@ -132,6 +228,7 @@ const details: Record<string, Partial<ProjectDetail>> = {
       referenceAsset("retailers.png"),
       referenceAsset("Homepage.png"),
     ],
+    mobileTitle: "Mobile Variations",
   },
   emd: {
     detailDescription:
@@ -201,6 +298,157 @@ const details: Record<string, Partial<ProjectDetail>> = {
       referenceAsset("Frame-1261153220-3.svg"),
     ],
   },
+  "desert-gold": {
+    detailDescription:
+      "For the “Desert Gold” project, we designed a landing page focused on studio lighting solutions tailored for filmmakers and content creators. This project aimed to guide users in selecting the best lighting equipment to enhance their productions. The landing page we created features a sleek, user-friendly interface that highlights various lighting options, their benefits, and detailed product information. My design ensures an engaging and informative experience, making it easier for clients to make informed purchasing decisions.",
+    paletteImages: [referenceAsset("Frame-1261153218.png")],
+    gallery: [referenceAsset("Frame-1261153216-1.png"), referenceAsset("Frame-1261153217.svg")],
+  },
+  "dent-makers": {
+    detailDescription:
+      "Dentmaker is an online streaming platform where users can access video courses from various instructors. Users have the option to purchase annual, monthly, or weekly plans to access premium courses. There are both free and premium courses available on the platform. Free courses are accessible to all users without any membership plan, whereas access to premium courses requires purchasing a membership.",
+    paletteImages: [referenceAsset("Frame-1261153158.png"), referenceAsset("Frame-1261153159.png")],
+    gallery: [
+      referenceAsset("Frame-1261153220.svg"),
+      referenceAsset("image-115.png"),
+      referenceAsset("Frame-1261153220-1.svg"),
+      referenceAsset("Frame-1261153219.svg"),
+      referenceAsset("Frame-1261153220-2.svg"),
+      referenceAsset("Frame-1261153219-1.svg"),
+    ],
+  },
+  "outside-live": {
+    detailDescription:
+      "OutsideLive.com offers a virtual gateway to the world of exploration and adventure, inviting enthusiasts to embark on a digital journey that mirrors the thrill of being outdoors. This innovative platform transcends geographical boundaries, allowing users to immerse themselves in breathtaking landscapes, adrenaline-pumping activities, and insightful narratives from the comfort of their screens. With a diverse range of multimedia content, OutsideLive.com captures the essence of outsidelibe, inspiring a profound connection to nature and a sense of curiosity about the wonders that await beyond our doorsteps.",
+    deliverables: ["QA Report", "Backend Development", "Frontend Development", "UX Design", "UI Design"],
+    typography: ["Montserrat", "Regular", "Medium", "Bold"],
+    paletteImages: [
+      referenceAsset("palette-1.png"),
+      referenceAsset("palette-2.png"),
+      referenceAsset("palette-3.png"),
+      referenceAsset("palette-4.png"),
+    ],
+    heroTools: [referenceAsset("tool-3.png"), referenceAsset("tool-2.png")],
+    heroBackground: false,
+    featureSections: [
+      { title: "Homepage", image: referenceAsset("Frame-1261153219.svg") },
+      { title: "Events", image: referenceAsset("Rectangle-4460.svg") },
+    ],
+    topShotsTitle: "Additional Shots",
+    gallery: [referenceAsset("Rectangle-4458-1.svg"), referenceAsset("Rectangle-4457.svg")],
+    showFinalSection: false,
+    showMobileSection: false,
+  },
+  omnimodus: {
+    detailDescription:
+      "This project embodies a thoughtful integration of two key elements: a striking dark mode interface complemented by an elegant blue accent. The design exudes an air of understated sophistication through its minimalistic approach, allowing essential content to shine. By skillfully blending deep blacks with calming blues, the design achieves a balanced and immersive user experience. At its core, the project’s focus on “Defi Responses to Lost Passwords” stands out prominently, epitomizing its significance. Through a curated color palette and a clean layout, the design not only reflects a contemporary touch but also ensures that the central message remains the focal point. This approach captures the essence of simplicity and impactful communication, offering users a visually compelling and memorable encounter.",
+    paletteImages: [
+      referenceAsset("Frame-1261153158.svg"),
+      referenceAsset("Frame-1261153159.svg"),
+      referenceAsset("Frame-1261153160.svg"),
+    ],
+    featureSections: [
+      { title: "Hero Section", image: referenceAsset("Rectangle-4457.png") },
+      { title: "Roadmap", image: referenceAsset("Rectangle-4459.png") },
+    ],
+    topShotsTitle: "Additional Shots",
+    gallery: [referenceAsset("Rectangle-4457-1.png"), referenceAsset("Rectangle-4459-1.png")],
+    showMobileSection: false,
+  },
+  qrder: {
+    detailDescription:
+      "Qrder is the The Digital Maître d’ for Modern Restaurants 🍽️ They hired 2 full time designers as resources to build all-encompassing POS solution tailored for restaurants, big or small. In this modern era where customers demand a seamless and sophisticated dining experience, Qrder delivers. We’ve turned dining establishments into digital dynamos, making everything from reservations to feedback a breeze. With features akin to Shopify stores, it offers unparalleled restaurant customization while empowering owners to manage multiple branches. We also prototyped.",
+    deliverables: ["User Journey", "UI Design", "Design QA", "UX Design", "Sitemap & Diagraming", "Site Optimisation"],
+    typography: ["SF Pro Display", "Regular", "Medium", "Bold"],
+    paletteImages: [
+      referenceAsset("Frame-1261153158-1.svg"),
+      referenceAsset("Frame-1261153159-1.svg"),
+      referenceAsset("Frame-1261153160-1.svg"),
+    ],
+    heroTools: [referenceAsset("tool-2.png"), referenceAsset("tool-3.png")],
+    featureSections: [
+      { title: "Hero Section", image: referenceAsset("Frame-1261153215.svg") },
+      { title: "Key Features", image: referenceAsset("Frame-1261153215-1.svg") },
+    ],
+    topShotsTitle: "Some More Shots",
+    gallery: [
+      referenceAsset("Frame-1261153214.svg"),
+      referenceAsset("Frame-1261153216.svg"),
+      referenceAsset("Frame-1261153215-2.svg"),
+      referenceAsset("Frame-1261153213.svg"),
+    ],
+    showFinalSection: false,
+    showMobileSection: false,
+  },
+  rsimotors: {
+    detailDescription:
+      "RSI is a young company specialized in the sale of over 400,000 aftermarket automotive components. Their business model has both a regular retail component as well a membership tiers for high volume purchasers. Their initial website was poorly designed, with aesthetic, UX, and painfully slow performance issues because of poor database design. Instead of working to fix the existing site, we recommended a ground-up redesign. Greatly improved aesthetics, UX, and performance through a complete back-end re-design will keep users engaged, purchasing products, and coming back. Because of the site complexity, we implemented a new approach to development that had the client as part of the team, with weekly meetings to review progress, make changes as needed, and test the system. This approach has worked so well it is being used with all clients, allowing near real-time design changes during the build rather than after delivery.",
+    deliverables: ["Quality Assurance Report", "Sitemap", "Site Optimisation", "Github Code"],
+    typography: ["Ubuntu", "Regular", "Medium", "Bold"],
+    paletteImages: [referenceAsset("Frame-1261153160.svg"), referenceAsset("Frame-1261153158-1-1.svg")],
+    heroTools: [
+      referenceAsset("1443988__1__1-removebg-preview-1.svg"),
+      referenceAsset("Component-16-1.svg"),
+    ],
+    heroBackground: false,
+    featureSections: [
+      { title: "Homepage", image: referenceAsset("Frame-1261153213-4.svg") },
+      { title: "Product Page", image: referenceAsset("Frame-1261153216-3-1.svg") },
+    ],
+    topShotsTitle: "Top Shots",
+    gallery: [
+      referenceAsset("Frame-1261153213-3.svg"),
+      referenceAsset("Frame-1261153217-1.svg"),
+      referenceAsset("Frame-1261153213-5.svg"),
+      referenceAsset("Frame-1261153216-4.svg"),
+    ],
+    showFinalSection: false,
+    mobileTitle: "Top Shots",
+  },
+  cortiam: {
+    detailDescription:
+      "Cortiam is a game-changer in the real estate industry, redefining the way homes are bought and sold. Recognizing that buying or selling a home is one of life’s most significant investments, Cortiam was born from a deep desire to revolutionize an age-old process. Traditionally, connecting home sellers with agents involved a somewhat cumbersome and often impersonal approach. We’ve transformed this experience into something seamless and empowering. Cortiam acts as a matchmaker, bridging the gap between home sellers and real estate agents, offering a platform where sellers can set their terms and negotiate with agents comfortably. We believe that selling your home should always be on your terms, and at Cortiam, we’re here to make that a reality. Beyond serving home sellers, we’re equally dedicated to empowering new real estate agents. We provide them with access to quality leads and a platform to showcase their talents, giving them the opportunity to shine in a competitive market. Cortiam’s mission is simple: to help you find your perfect real estate match when you’re ready to sell your home.",
+    deliverables: ["QA Report", "Backend Development", "Frontend Development", "UX Design", "UI Design"],
+    typography: ["SF Pro Display", "Regular", "Medium", "Bold"],
+    paletteImages: [
+      referenceAsset("Frame-1261153160-2.svg"),
+      referenceAsset("Frame-1261153159-2.svg"),
+      referenceAsset("Frame-1261153158-3.svg"),
+      referenceAsset("Frame-1261153160.svg"),
+    ],
+    heroTools: [referenceAsset("Component-16-1.svg"), referenceAsset("Frame-1261153220.svg")],
+    heroBackground: false,
+    featureSections: [
+      { title: "Homepage", image: referenceAsset("Frame-1261153213-11.svg") },
+      { title: "Set Your Terms", image: referenceAsset("Frame-1261153213-12.svg") },
+    ],
+    topShotsTitle: "Additional Shots",
+    gallery: [referenceAsset("Frame-1261153218-1.svg"), referenceAsset("Frame-1261153217-5.svg")],
+    showFinalSection: false,
+    showMobileSection: false,
+  },
+  "the-vacation-calendar": {
+    detailDescription:
+      "The Vacation Calendar, with its soothing blue and green color palette, is an essential addition to any portfolio. This versatile tool features a House List, enabling users to effortlessly determine the property’s availability and booking status. Its integration options, including bulletin board and gallery, make it a visually appealing and collaborative solution for vacation planning. Additionally, the ability to set local guides and house rules, along with easy calendar management, ensures an efficient and enjoyable experience for both hosts and guests.",
+    deliverables: ["QA Report", "Backend Development", "Frontend Development", "UX Design", "UI Design"],
+    typography: ["Poppins", "Regular", "Medium", "Bold"],
+    paletteImages: [referenceAsset("Frame-1261153158-2.svg"), referenceAsset("Frame-1261153160.svg")],
+    heroTools: [referenceAsset("Component-16-1.svg"), referenceAsset("tool-2.png")],
+    heroBackground: false,
+    featureSections: [
+      { title: "Homepage", image: referenceAsset("Frame-1261153213-6.svg") },
+      { title: "About", image: referenceAsset("Frame-1261153217-3.svg") },
+    ],
+    topShotsTitle: "Additional Shots",
+    gallery: [
+      referenceAsset("Frame-1261153216-9.svg"),
+      referenceAsset("Frame-1261153213-10.svg"),
+      referenceAsset("Frame-1261153213-9.svg"),
+      referenceAsset("Frame-1261153217-4.svg"),
+    ],
+    showFinalSection: false,
+    showMobileSection: false,
+  },
 };
 
 export function getProject(slug: string): ProjectDetail {
@@ -213,9 +461,16 @@ export function getProject(slug: string): ProjectDetail {
     deliverables: extra.deliverables ?? ["User Journey", "UX /UI Design", "Project Documentation", "Story Writing"],
     typography: extra.typography ?? ["Clash Display", "Regular", "Medium", "Bold"],
     paletteImages: extra.paletteImages ?? [],
+    heroTools: extra.heroTools ?? ["tool-1.png", "tool-2.png"],
+    heroBackground: extra.heroBackground ?? true,
+    featureSections: extra.featureSections ?? [],
+    topShotsTitle: extra.topShotsTitle ?? "Some Top Shots",
     gallery: extra.gallery ?? [],
     finalGallery: extra.finalGallery ?? [],
+    showFinalSection: extra.showFinalSection ?? true,
     mobileGallery: extra.mobileGallery ?? [],
+    showMobileSection: extra.showMobileSection ?? true,
+    mobileTitle: extra.mobileTitle ?? "",
   };
 }
 
@@ -287,7 +542,7 @@ function SiteHeader({ menuOpen, onToggle, onContact }: { menuOpen: boolean; onTo
   );
 }
 
-function MobileNavigation({ onClose, onContact }: { onClose: () => void; onContact: () => void }) {
+export function MobileNavigation({ onClose, onContact }: { onClose: () => void; onContact: () => void }) {
   return (
     <aside className="menu-panel" aria-label="Main navigation">
       <div className="menu-panel-header">
@@ -550,36 +805,22 @@ function RelatedProjectCard({ project, currentSlug }: { project: ThemeProject; c
 }
 
 function RelatedProjects({ projects, currentSlug }: { projects: ThemeProject[]; currentSlug: string }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const desktopProjects = projects.filter((project) => project.slug !== currentSlug);
-  const getVisibleCards = () => Array.from(trackRef.current?.children ?? []).filter((card) => getComputedStyle(card).display !== "none") as HTMLElement[];
-  const scrollToProject = (index: number) => {
-    const track = trackRef.current;
-    const card = getVisibleCards()[index];
-    if (!track || !card) return;
-    setActiveIndex(index);
-    track.scrollTo({ left: card.offsetLeft, behavior: "smooth" });
-  };
-
+  const relatedProjects = projects.filter((project) => project.slug !== currentSlug);
   return (
-      <section className={`project-related project-related--${currentSlug}`}>
+    <section className={`project-related project-related--${currentSlug}`}>
       <div className="shell"><h2>Relevant Case Studies</h2></div>
-      <div className="project-related-viewport">
-        <div className="project-related-track" ref={trackRef} onScroll={(event) => {
-          const track = event.currentTarget;
-          const cards = Array.from(track.children).filter((item) => getComputedStyle(item).display !== "none") as HTMLElement[];
-          if (cards.length) {
-            const nearestIndex = cards.reduce((best, item, index) => Math.abs(item.offsetLeft - track.scrollLeft) < Math.abs(cards[best].offsetLeft - track.scrollLeft) ? index : best, 0);
-            setActiveIndex(Math.min(4, nearestIndex));
-          }
-        }}>
-          {projects.map((project) => <RelatedProjectCard key={project.slug} project={project} currentSlug={currentSlug} />)}
-        </div>
-        <div className="project-related-dots" role="tablist" aria-label="Related case studies">
-          {desktopProjects.slice(0, 5).map((project, index) => <button key={project.slug} type="button" role="tab" aria-selected={activeIndex === index} aria-label={`Show ${project.name}`} className={activeIndex === index ? "is-active" : ""} onClick={() => scrollToProject(index)} />)}
-        </div>
-      </div>
+      <InfiniteCarousel
+        items={relatedProjects}
+        ariaLabel="Related case studies"
+        className="project-related-viewport"
+        trackClassName="project-related-track"
+        itemSize="var(--related-card-width)"
+        getItemLabel={(project) => project.name}
+        getKey={(project, physicalIndex) => `${project.slug}-${physicalIndex}`}
+        dotsClassName="project-related-dots"
+        dotItems={relatedProjects.slice(0, 5)}
+        renderItem={(project) => <RelatedProjectCard project={project} currentSlug={currentSlug} />}
+      />
     </section>
   );
 }
@@ -664,18 +905,18 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
   return (
     <SitePageFrame className="theme-page--project">
       <section className="project-hero">
-        <img className="project-hero-background" src={siteAsset("home-hero-1.png")} alt="" aria-hidden="true" />
+        {project.heroBackground ? <img className="project-hero-background" src={siteAsset("home-hero-1.png")} alt="" aria-hidden="true" /> : null}
         <img className="project-hero-cover" src={siteAsset(project.heroImage ?? project.image)} alt={`${project.name} project`} />
         <div className="shell project-hero-content">
-          <div className={`project-title-row ${["vanrock-holdings", "performance-tours", "express-flooring"].includes(project.slug) ? "project-title-row--tools-wrap" : ""}`}><h1>{project.name}</h1>{(project.categories ?? [project.category]).map((category) => <span className="theme-case-category" key={category}>{category}</span>)}<div className="project-tools"><img src={siteAsset("tool-1.png")} alt="Design tool" /><img src={siteAsset("tool-2.png")} alt="Development tool" /></div></div>
+          <div className="project-title-row"><h1>{project.name}</h1>{(project.categories ?? [project.category]).map((category) => <span className="theme-case-category" key={category}>{category}</span>)}<div className="project-tools">{project.heroTools.map((tool, index) => <img key={`${tool}-${index}`} src={siteAsset(tool)} alt={`${project.name} tool ${index + 1}`} />)}</div></div>
           <p>{project.detailDescription}</p>
         </div>
       </section>
       <section className="project-specs"><div className="shell project-spec-grid"><div><h2>Deliverables</h2><ul>{project.deliverables.map((item) => <li key={item}>{item}</li>)}</ul></div><div><h2>Typography</h2><ul className="project-type-list">{project.typography.map((item, index) => <li key={item} className={`type-${index}`}>{item}</li>)}</ul></div><div><h2>Color Palette</h2><div className="project-palette">{project.paletteImages.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} palette ${index + 1}`} />)}</div></div></div></section>
-      <section className="project-before-after" aria-hidden="true"><div className="shell" /></section>
-      <section className="project-shots"><div className="shell"><h2>Some Top Shots</h2><div className="project-gallery">{project.gallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} project view ${index + 1}`} decoding="async" />)}</div></div></section>
-      <section className={`project-shots project-final ${project.finalGallery.length ? "project-final--filled" : "project-final--empty"}`}><div className="shell"><h2>Relevant Case Studies</h2>{project.finalGallery.length ? <div className="project-gallery project-gallery--single">{project.finalGallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} final project view ${index + 1}`} decoding="async" />)}</div> : <div className="project-final-spacer" aria-hidden="true" />}</div></section>
-      <section className={`project-shots project-mobile ${project.mobileGallery.length ? "project-mobile--filled" : "project-mobile--empty"}`}><div className="shell">{project.mobileGallery.length ? <><h2>Mobile Variations</h2><div className="project-gallery project-gallery--mobile">{project.mobileGallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} mobile view ${index + 1}`} decoding="async" />)}</div></> : null}</div></section>
+      <section className={`project-before-after ${project.featureSections.length ? "project-featured" : "project-featured--empty"}`} aria-label={project.featureSections.length ? "Featured project pages" : undefined}><div className="shell">{project.featureSections.length ? <div className="project-feature-grid">{project.featureSections.map((feature) => <div className="project-feature-item" key={feature.title}><h2>{feature.title}</h2><img src={siteAsset(feature.image)} alt={`${project.name} ${feature.title}`} decoding="async" /></div>)}</div> : null}</div></section>
+      <section className="project-shots"><div className="shell"><h2>{project.topShotsTitle}</h2><div className="project-gallery">{project.gallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} project view ${index + 1}`} decoding="async" />)}</div></div></section>
+      {project.showFinalSection ? <section className={`project-shots project-final ${project.finalGallery.length ? "project-final--filled" : "project-final--empty"}`}><div className="shell"><h2>Relevant Case Studies</h2>{project.finalGallery.length ? <div className="project-gallery project-gallery--single">{project.finalGallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} final project view ${index + 1}`} decoding="async" />)}</div> : <div className="project-final-spacer" aria-hidden="true" />}</div></section> : null}
+      {project.showMobileSection ? <section className={`project-shots project-mobile ${project.mobileGallery.length ? "project-mobile--filled" : "project-mobile--empty"}`}><div className="shell">{project.mobileGallery.length || project.mobileTitle ? <><h2>{project.mobileTitle}</h2>{project.mobileGallery.length ? <div className="project-gallery project-gallery--mobile">{project.mobileGallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} mobile view ${index + 1}`} decoding="async" />)}</div> : null}</> : null}</div></section> : null}
       <RelatedProjects projects={related} currentSlug={project.slug} />
     </SitePageFrame>
   );

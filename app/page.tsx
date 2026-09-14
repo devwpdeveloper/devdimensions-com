@@ -10,7 +10,9 @@ import {
 import Link from "next/link";
 import { useLenis } from "lenis/react";
 import { useEffect, useState } from "react";
+import { InfiniteCarousel } from "../components/infinite-carousel";
 import { useInfiniteCarouselMotion } from "../components/use-carousel-motion";
+import { MobileNavigation } from "../components/theme-pages";
 
 const ASSET_ROOT = "/assets/";
 const asset = (name: string) => `${ASSET_ROOT}${name}`;
@@ -513,15 +515,7 @@ function ContactModal({
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const workMotion = useInfiniteCarouselMotion(projects.length);
   const testimonialMotion = useInfiniteCarouselMotion(testimonials.length);
-  const {
-    index: projectIndex,
-    position: projectPosition,
-    isTransitioning: workIsTransitioning,
-    setIndex: setProjectIndex,
-    handleTransitionEnd: handleWorkTransitionEnd,
-  } = workMotion;
   const {
     index: testimonialIndex,
     position: testimonialPosition,
@@ -796,64 +790,51 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <div className="work-viewport" aria-label="Case studies carousel" {...workMotion.handlers}>
-            <div
-              className={`work-track${workIsTransitioning ? "" : " is-loop-reset"}`}
-              style={{ transform: `translateX(calc(-${projectPosition} * (var(--work-card-width) + var(--slider-gap))))` }}
-              onTransitionEnd={handleWorkTransitionEnd}
-            >
-              {[projects[projects.length - 1], ...projects, projects[0]].map((project, physicalIndex) => {
-                const index = (physicalIndex - 1 + projects.length) % projects.length;
-                return (
-                <article className={`work-card${index === projectIndex ? " is-active" : ""}`} key={`${project.name}-${physicalIndex}`}>
-                  <div className="work-card-grid">
-                    <a className="work-cover-link" href={project.href} aria-label={`View ${project.name} case study`}>
-                      <picture>
-                        <source media="(max-width: 767px)" srcSet={asset(project.mobileImage)} />
-                        <img className="work-cover" src={asset(project.image)} alt={`${project.name} project`} loading="lazy" decoding="async" />
-                      </picture>
-                    </a>
-                    <div className="work-card-content">
-                      <h3 className="work-card-title">
-                        <span className="work-title-flow">
-                          <a href={project.href}>{project.name}</a>
-                          <span className="work-categories">
-                            {project.category.split(/,\s*/).map((category) => (
-                              <span className="work-category" key={category}>{category}</span>
-                            ))}
-                          </span>
+          <InfiniteCarousel
+            items={projects}
+            ariaLabel="Case studies carousel"
+            className="work-viewport"
+            trackClassName="work-track"
+            itemSize="var(--work-card-width)"
+            getItemLabel={(project) => project.name}
+            getKey={(project, physicalIndex) => `${project.name}-${physicalIndex}`}
+            dotsClassName="work-dots"
+            renderItem={(project, index, _physicalIndex, isActive) => (
+              <article className={`work-card${isActive ? " is-active" : ""}`}>
+                <div className="work-card-grid">
+                  <a className="work-cover-link" href={project.href} aria-label={`View ${project.name} case study`}>
+                    <picture>
+                      <source media="(max-width: 767px)" srcSet={asset(project.mobileImage)} />
+                      <img className="work-cover" src={asset(project.image)} alt={`${project.name} project`} loading="lazy" decoding="async" />
+                    </picture>
+                  </a>
+                  <div className="work-card-content">
+                    <h3 className="work-card-title">
+                      <span className="work-title-flow">
+                        <a href={project.href}>{project.name}</a>
+                        <span className="work-categories">
+                          {project.category.split(/,\s*/).map((category) => (
+                            <span className="work-category" key={category}>{category}</span>
+                          ))}
                         </span>
-                      </h3>
-                      <p className="work-description">{project.description}</p>
-                      <div className="work-tools" aria-label="Tools used">
-                        <span className="work-tools-label">Tools:</span>
-                        <img src={asset("tool-1.png")} alt="Design tool" loading="lazy" decoding="async" />
-                        <img src={asset("tool-2.png")} alt="Development tool" loading="lazy" decoding="async" />
-                      </div>
-                      <div className="work-card-resources">
-                        <a className="square-arrow" href={project.href} aria-label={`Open ${project.name}`}>
-                          <ArrowUpRight size={20} />
-                        </a>
-                      </div>
+                      </span>
+                    </h3>
+                    <p className="work-description">{project.description}</p>
+                    <div className="work-tools" aria-label="Tools used">
+                      <span className="work-tools-label">Tools:</span>
+                      <img src={asset("tool-1.png")} alt="Design tool" loading="lazy" decoding="async" />
+                      <img src={asset("tool-2.png")} alt="Development tool" loading="lazy" decoding="async" />
+                    </div>
+                    <div className="work-card-resources">
+                      <a className="square-arrow" href={project.href} aria-label={`Open ${project.name}`}>
+                        <ArrowUpRight size={20} />
+                      </a>
                     </div>
                   </div>
-                </article>
-                );
-              })}
-            </div>
-          </div>
-          <div className="work-dots" aria-label="Choose a project">
-            {projects.map((project, index) => (
-              <button
-                type="button"
-                key={project.name}
-                className={index === projectIndex ? "is-active" : ""}
-                aria-label={`Show ${project.name}`}
-                aria-pressed={index === projectIndex}
-                onClick={() => setProjectIndex(index)}
-              />
-            ))}
-          </div>
+                </div>
+              </article>
+            )}
+          />
         </section>
 
         <section className="our-process" id="approach">
@@ -1132,23 +1113,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {menuOpen ? (
-        <aside className="menu-panel" aria-label="Main navigation">
-          <div className="menu-panel-header">
-            <h2>Menu</h2>
-            <button className="menu-close" type="button" aria-label="Close navigation" onClick={() => setMenuOpen(false)}>
-              <X size={25} strokeWidth={1.5} />
-            </button>
-          </div>
-          <nav className="menu-links">
-            <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
-            <Link href="/about-us/" onClick={() => setMenuOpen(false)}>About Us</Link>
-            <Link href="/case-studies/" onClick={() => setMenuOpen(false)}>Case Studies</Link>
-            <Link href="/contact-us/" onClick={() => setMenuOpen(false)}>Contact Us</Link>
-          </nav>
-          <button className="menu-consult" type="button" onClick={openContact}>Get Free Consultation</button>
-        </aside>
-      ) : null}
+      {menuOpen ? <MobileNavigation onClose={() => setMenuOpen(false)} onContact={openContact} /> : null}
 
       <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </div>
