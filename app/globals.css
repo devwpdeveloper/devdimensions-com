@@ -420,9 +420,9 @@
 .theme-case-media img {
   display: block;
   width: 100%;
-  aspect-ratio: 1440 / 789;
-  object-fit: cover;
-  object-position: top;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
 }
 
 .theme-case-copy {
@@ -448,8 +448,8 @@
 
 .theme-case-category {
   display: inline-block;
-  margin-left: 12px;
-  padding: 5px 10px;
+  margin-left: 20px;
+  padding: 0 15px;
   border-radius: 8px;
   background: rgba(255, 212, 60, 0.4);
   color: var(--white);
@@ -457,7 +457,7 @@
   font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.2px;
-  line-height: 1.2;
+  line-height: 38px;
   vertical-align: middle;
 }
 
@@ -473,11 +473,11 @@
 .theme-case-tools {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 30px;
   min-height: 23px;
   margin-top: 20px;
   color: var(--gray-d3);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .theme-case-tools img {
@@ -493,11 +493,12 @@
   margin-top: 54px;
   place-items: center;
   border-radius: 8px;
-  background: rgba(78, 78, 78, 0.32);
+  background: linear-gradient(90deg, var(--red) 0%, var(--red-bright) 100%);
   color: var(--white);
 }
 
-.theme-case-arrow:hover {
+.theme-case-arrow:hover,
+.theme-case-arrow:focus-visible {
   background: var(--red);
 }
 
@@ -6089,5 +6090,61 @@ h2 span {
     width: 178px;
     height: 178px;
     margin: 0 auto;
+  }
+}
+
+/* Case-study listing alignment and responsive image treatment. */
+@media (min-width: 768px) {
+  .theme-page--cases .theme-case-list {
+    padding-top: 92px;
+  }
+
+  .theme-page--cases .theme-case-copy h2 {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 767px) {
+  .theme-page--cases .theme-case-list {
+    padding-top: 35px;
+  }
+
+  .theme-page--cases .theme-case-card {
+    padding-bottom: 56px;
+  }
+
+  .theme-page--cases .theme-case-media img {
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+  }
+
+  .theme-page--cases .theme-case-copy {
+    padding: 28px 0 0;
+  }
+
+  .theme-page--cases .theme-case-copy h2 {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .theme-page--cases .theme-case-category {
+    display: block;
+    width: max-content;
+    margin: 10px 0 0;
+    padding: 0 15px;
+    line-height: 38px;
+  }
+
+  .theme-page--cases .theme-case-tools {
+    gap: 18px;
+    font-size: 14px;
+  }
+
+  .theme-page--cases .theme-case-arrow {
+    margin-top: 24px;
   }
 }

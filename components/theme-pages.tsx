@@ -14,6 +14,7 @@ export type ThemeProject = {
   categories?: string[];
   image: string;
   mobileImage: string;
+  caseStudyImage?: string;
   description: string;
 };
 
@@ -24,6 +25,7 @@ export const themeProjects: ThemeProject[] = [
     category: "Design",
     image: "Frame-1261153157-21.png",
     mobileImage: "Frame-1261153157-21.png",
+    caseStudyImage: "frame-1261153219-3-668d2b050ac7a.webp",
     description:
       "The first retail media platform that unites on-site and off-site capabilities. We empower brands and retailers to seamlessly connect with their audiences wherever they are. With our innovative solutions.",
   },
@@ -33,6 +35,7 @@ export const themeProjects: ThemeProject[] = [
     category: "Design & Development",
     image: "Frame-1261153157-15.png",
     mobileImage: "Frame-1261153157-15.png",
+    caseStudyImage: "frame-1261153220-1-668d297b1a2ea.webp",
     description:
       "The EMD Construction Company landing page was designed with a clean, professional aesthetic to highlight their expertise and commitment to quality. The layout features a striking hero section with a bold headline and an image of a recent project to capture attention.",
   },
@@ -43,6 +46,7 @@ export const themeProjects: ThemeProject[] = [
     categories: ["Design", "Development"],
     image: "Frame-1261153157-13.png",
     mobileImage: "Frame-1261153157-13.png",
+    caseStudyImage: "frame-1261153213-1-668d2867370a2.webp",
     description:
       "VanRock is a project that exemplifies the fusion of design and functionality, aimed at delivering robust financial results for investors through expert management. We began by crafting intuitive and visually appealing designs in Figma, focusing on clarity and user experience.",
   },
@@ -53,6 +57,7 @@ export const themeProjects: ThemeProject[] = [
     categories: ["Design", "Development"],
     image: "Frame-1261153157-19.png",
     mobileImage: "Frame-1261153157-19.png",
+    caseStudyImage: "frame-1261153219-2-668d290a3710a.webp",
     description:
       "The website for Performance Tours showcases a thrilling rafting experience tailored for families seeking adventure in a bold and maximalist aesthetic. Emphasizing safety and excitement, the site’s vibrant visuals and dynamic layout capture the essence of exhilarating river.",
   },
@@ -63,6 +68,7 @@ export const themeProjects: ThemeProject[] = [
     categories: ["Design", "Development"],
     image: "Frame-1261153157-10.png",
     mobileImage: "Frame-1261153157-10.png",
+    caseStudyImage: "frame-1261153221-1-668d272b32aee.webp",
     description:
       "Express Flooring” is a dynamic website specializing in interior flooring solutions and products, including a wide range of tiles. Utilizing blue as the accent color, the design conveys a sense of trust and professionalism while maintaining a modern and clean aesthetic.",
   },
@@ -72,6 +78,7 @@ export const themeProjects: ThemeProject[] = [
     category: "Design",
     image: "Frame-1261153157-7.png",
     mobileImage: "Frame-1261153157-7.png",
+    caseStudyImage: "frame-1261153219-1-668d25b7abaae.webp",
     description:
       "“Soy Kitty” is a thoughtfully designed website that caters to environmentally conscious cat owners seeking non-toxic, odor-free, and eco-friendly cat litter options. The site features a simple yet elegant layout, utilizing soothing pastel colors to create a calming and user-friendly experience.",
   },
@@ -427,11 +434,12 @@ export function AboutPage() {
 }
 
 function CaseStudyCard({ project, index }: { project: ThemeProject; index: number }) {
+  const caseStudyImage = project.caseStudyImage ?? project.image;
   return (
     <article className="theme-case-card">
-      <img className={`theme-case-shape theme-case-shape--${index % 2 ? "left" : "right"}`} src={themeAsset(index % 2 ? "left-shape.png" : "rihght-shape.png")} alt="" aria-hidden="true" />
+      <img className={`theme-case-shape theme-case-shape--${index % 2 ? "left" : "right"}`} src={themeAsset(index % 2 ? "left-shape.png" : "right-shape.png")} alt="" aria-hidden="true" />
       <div className="theme-case-grid">
-        <div className="theme-case-media"><a href={`/project/${project.slug}/`}><picture><source media="(max-width: 767px)" srcSet={siteAsset(project.mobileImage)} /><img src={siteAsset(project.image)} alt={`${project.name} project`} /></picture></a></div>
+        <div className="theme-case-media"><a href={`/project/${project.slug}/`}><picture><source media="(max-width: 767px)" srcSet={siteAsset(project.mobileImage)} /><img src={siteAsset(caseStudyImage)} alt={`${project.name} project`} /></picture></a></div>
         <div className="theme-case-copy">
           <div className="theme-case-topline"><span>{project.category}</span><a className="square-arrow" href={`/project/${project.slug}/`} aria-label={`Open ${project.name}`}><ArrowUpRight size={20} /></a></div>
           <h2><a href={`/project/${project.slug}/`}>{project.name}</a>{(project.categories ?? [project.category]).map((category) => <span className="theme-case-category" key={category}>{category}</span>)}</h2>
