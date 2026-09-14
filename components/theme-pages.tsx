@@ -363,33 +363,23 @@ export function AboutPage() {
   const coreValues = [
     {
       key: "growth",
-      className: "growth",
-      icon: "figma-core-value-growth.svg",
-      content: <><span>We believe in</span>{" "}<strong>growing together</strong></>,
+      label: "We believe in growing together",
     },
     {
       key: "honesty",
-      className: "honesty",
-      icon: "figma-core-value-shield.svg",
-      content: <><strong>Honesty</strong>{" "}is our Guiding Principle</>,
+      label: "Honesty is our guiding principle",
     },
     {
       key: "empathy",
-      className: "empathy",
-      icon: "figma-core-value-shield.svg",
-      content: <>We show{" "}<strong>Empathy</strong>{" "}for each other</>,
+      label: "We show empathy for each other",
     },
     {
       key: "fun",
-      className: "fun",
-      icon: "figma-core-value-fist.svg",
-      content: <><strong>Fun &amp; Entertainment</strong>{" "}<span>is not skipped</span></>,
+      label: "Fun and entertainment is not skipped",
     },
     {
       key: "accountable",
-      className: "accountable",
-      icon: "figma-core-value-shield.svg",
-      content: <>Everyone is equally{" "}<strong>accountable</strong></>,
+      label: "Everyone is equally accountable",
     },
   ] as const;
 
@@ -411,19 +401,14 @@ export function AboutPage() {
       <section className="theme-core-values" aria-labelledby="core-values-title">
         <div className="shell">
           <h2 id="core-values-title">Our Core Values</h2>
-          <div className="core-values-art" role="list" aria-label="DevDimensions core values">
-            <img className="core-values-orbit core-values-orbit--inner" src={themeAsset("figma-core-values-orbit-inner.svg")} alt="" aria-hidden="true" />
-            <img className="core-values-orbit core-values-orbit--middle" src={themeAsset("figma-core-values-orbit-middle.svg")} alt="" aria-hidden="true" />
-            <img className="core-values-orbit core-values-orbit--outer" src={themeAsset("figma-core-values-orbit-outer.svg")} alt="" aria-hidden="true" />
-            <div className="core-values-center" aria-hidden="true">
-              <img src={themeAsset("figma-core-values-logo.svg")} alt="" />
-            </div>
-            {coreValues.map((value) => (
-              <article className={`core-value core-value--${value.className}`} key={value.key} role="listitem">
-                <span className="core-value-icon"><img src={themeAsset(value.icon)} alt="" aria-hidden="true" /></span>
-                <p>{value.content}</p>
-              </article>
-            ))}
+          <div className="core-values-art">
+            <picture className="core-values-picture" aria-hidden="true">
+              <source media="(max-width: 767px)" srcSet={themeAsset("mpbile-about.png")} />
+              <img src={themeAsset("about-circle.png")} alt="" decoding="async" />
+            </picture>
+            <ul className="core-values-accessibility" aria-label="DevDimensions core values">
+              {coreValues.map((value) => <li key={value.key}>{value.label}</li>)}
+            </ul>
           </div>
         </div>
       </section>

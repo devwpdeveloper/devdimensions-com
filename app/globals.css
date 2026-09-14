@@ -330,128 +330,33 @@
 }
 
 .core-values-art {
-  position: relative;
-  container-type: inline-size;
   display: block;
   width: 100%;
   max-width: 785px;
-  aspect-ratio: 785 / 814;
   margin: 0 auto;
 }
 
-.core-values-orbit {
-  position: absolute;
-  top: 48.587%;
-  left: 50%;
-  display: block;
-  width: 42.4435%;
-  height: auto;
-  max-width: none;
-  transform: translate(-50%, -50%);
-}
-
-.core-values-orbit--middle {
-  width: 67.9097%;
-}
-
-.core-values-orbit--outer {
-  width: 93.3758%;
-}
-
-.core-values-center {
-  position: absolute;
-  top: 48.382%;
-  left: 51.061%;
-  display: grid;
-  width: 13.1575%;
-  aspect-ratio: 103.286 / 116.614;
-  place-items: center;
-  transform: translate(-50%, -50%);
-}
-
-.core-values-center img {
+.core-values-picture {
   display: block;
   width: 100%;
-  height: 100%;
 }
 
-.core-value {
-  position: absolute;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 5px;
-  text-align: center;
-}
-
-.core-value-icon {
-  position: relative;
+.core-values-picture img {
   display: block;
-  width: 56.95px;
-  height: 56.95px;
-  width: 7.2548cqw;
-  height: 7.2548cqw;
-  flex: 0 0 auto;
-}
-
-.core-value-icon img {
-  position: absolute;
-  inset: -76.92%;
-  display: block;
-  width: auto;
-  max-width: none;
+  width: 100%;
   height: auto;
 }
 
-.core-value p {
-  width: calc(100% - 4px);
-  margin: 0;
-  padding: 2px;
-  background: #030101;
-  box-sizing: border-box;
-  color: #dcdcdc;
-  font-family: var(--font-medium);
-  font-size: clamp(12px, 2.293cqw, 18px);
-  font-weight: var(--weight-medium);
-  line-height: 1.2;
-}
-
-.core-value p strong {
-  font-family: var(--font-heading);
-  font-weight: var(--weight-semibold);
-  color: var(--white);
-}
-
-.core-value--growth {
-  top: 62.039%;
-  left: 67.797%;
-  width: 20.127%;
-}
-
-.core-value--honesty {
-  top: 25.43%;
-  left: 82.065%;
-  width: 20.51%;
-}
-
-.core-value--empathy {
-  top: 62.285%;
-  left: 10.828%;
-  width: 21.019%;
-}
-
-.core-value--fun {
-  top: 0;
-  left: 50%;
-  width: 22.038%;
-  transform: translateX(-50%);
-}
-
-.core-value--accountable {
-  top: 33.047%;
-  left: -6.879%;
-  width: 22.93%;
+.core-values-accessibility {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .theme-join {
@@ -1402,23 +1307,6 @@
   .theme-mission-card p {
     font-size: 14px;
     line-height: 24px;
-  }
-
-  .theme-core-values {
-    padding: 50px 0;
-  }
-
-  .theme-core-values h2 {
-    margin-bottom: 30px;
-  }
-
-  .core-values-art {
-    max-width: 785px;
-  }
-
-  .core-value p {
-    font-size: clamp(12px, 2.293cqw, 18px);
-    line-height: 1.2;
   }
 
   .theme-join {
@@ -6102,7 +5990,7 @@ h2 span {
   .shell { max-width: var(--container-max); }
 }
 
-/* Core values follows the live page's artwork scale at wide breakpoints. */
+/* Core values uses the supplied desktop/mobile theme compositions. */
 .theme-core-values {
   padding-block: 70px;
 }
@@ -6128,30 +6016,15 @@ h2 span {
 
 @media (max-width: 767px) {
   .theme-core-values {
-    padding-block: 15px;
+    padding-block: 50px;
+  }
+
+  .theme-core-values h2 {
+    margin-bottom: 30px;
   }
 
   .core-values-art {
-    width: calc(100% + (2 * var(--container-gutter-mobile)));
     max-width: none;
-    margin-left: calc(-1 * var(--container-gutter-mobile));
-  }
-
-  /* Keep each value inside the full-bleed mobile artwork. */
-  .core-value--accountable {
-    left: 0;
-  }
-
-  .core-value--honesty {
-    left: 77%;
-  }
-
-  .core-value--empathy {
-    left: 8%;
-  }
-
-  .core-value--growth {
-    left: 71%;
   }
 }
 
