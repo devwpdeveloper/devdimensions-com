@@ -301,13 +301,23 @@ export function SiteFooter() {
 
 export function CtaBand({ onContact }: { onContact: () => void }) {
   return (
-    <section className="cta">
+    <section className="cta" id="contact">
       <div className="shell">
         <div className="cta-box">
-          <h2>Connect With The <span>Top 3%</span> Where Brilliance Ignites Extraordinary Achievements.</h2>
+          <h2>
+            Connect With The <span>Top 3%</span> Where
+            <br className="cta-title-break" />
+            Brilliance Ignites Extraordinary Achievements.
+          </h2>
           <div className="cta-actions">
-            <button className="btn-theme" type="button" onClick={onContact}>Hire Engineers <ArrowUpRight size={17} /></button>
-            <a className="btn-ghost" href="/contact-us/">Develop With Us <ArrowUpRight size={17} /></a>
+            <button className="btn-theme" type="button" onClick={onContact}>
+              Hire Engineers
+              <img className="cta-button-arrow" src={themeAsset("ArrowUpLeft.svg")} alt="" aria-hidden="true" />
+            </button>
+            <a className="btn-ghost" href="/contact-us/">
+              Develop With Us
+              <img className="cta-button-arrow" src={themeAsset("ArrowUpLeft.svg")} alt="" aria-hidden="true" />
+            </a>
           </div>
         </div>
       </div>

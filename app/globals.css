@@ -6148,3 +6148,23 @@ h2 span {
     margin-top: 24px;
   }
 }
+
+/* Let the case-study hero dissolve into the page background instead of
+   ending on a visible horizontal edge. */
+.theme-page--cases .theme-hero--cases::after {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 170px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), var(--black));
+  content: '';
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  .theme-page--cases .theme-hero--cases::after {
+    height: 120px;
+  }
+}
