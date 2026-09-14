@@ -360,6 +360,39 @@ function ThemeHero({ variant, title, description }: { variant: "about" | "cases"
 }
 
 export function AboutPage() {
+  const coreValues = [
+    {
+      key: "fun",
+      className: "top",
+      icon: "core-value-fist.png",
+      content: <><strong>Fun &amp; Entertainment</strong><span>is not skipped</span></>,
+    },
+    {
+      key: "accountable",
+      className: "left",
+      icon: "core-value-shield.png",
+      content: <>Everyone is equally<span><strong>accountable</strong></span></>,
+    },
+    {
+      key: "honesty",
+      className: "right",
+      icon: "core-value-shield.png",
+      content: <><strong>Honesty is our</strong><span>Guiding Principle</span></>,
+    },
+    {
+      key: "empathy",
+      className: "bottom-left",
+      icon: "core-value-shield.png",
+      content: <>We show <strong>Empathy</strong><span>for each other</span></>,
+    },
+    {
+      key: "growth",
+      className: "bottom-right",
+      icon: "core-value-growth.png",
+      content: <>We believe in<span><strong>growing together</strong></span></>,
+    },
+  ] as const;
+
   return (
     <SitePageFrame showCta={false} className="theme-page--about">
       <ThemeHero
@@ -375,10 +408,23 @@ export function AboutPage() {
           </div>
         </div>
       </section>
-      <section className="theme-core-values">
+      <section className="theme-core-values" aria-labelledby="core-values-title">
         <div className="shell">
-          <h2>Our Core Values</h2>
-          <picture><source media="(max-width: 767px)" srcSet={themeAsset("core-value-mobile.png")} /><img src={themeAsset("core_value.png")} alt="Our Core Values" /></picture>
+          <h2 id="core-values-title">Our Core Values</h2>
+          <div className="core-values-art" role="list" aria-label="DevDimensions core values">
+            <span className="core-values-orbit core-values-orbit--inner" aria-hidden="true" />
+            <span className="core-values-orbit core-values-orbit--middle" aria-hidden="true" />
+            <span className="core-values-orbit core-values-orbit--outer" aria-hidden="true" />
+            <div className="core-values-center" aria-hidden="true">
+              <img src={themeAsset("core-values-logo.png")} alt="" />
+            </div>
+            {coreValues.map((value) => (
+              <article className={`core-value core-value--${value.className}`} key={value.key} role="listitem">
+                <img src={themeAsset(value.icon)} alt="" aria-hidden="true" />
+                <p>{value.content}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
       <section className="theme-join">
