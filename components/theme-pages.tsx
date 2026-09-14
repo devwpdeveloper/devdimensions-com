@@ -362,34 +362,34 @@ function ThemeHero({ variant, title, description }: { variant: "about" | "cases"
 export function AboutPage() {
   const coreValues = [
     {
-      key: "fun",
-      className: "top",
-      icon: "core-value-fist.png",
-      content: <><strong>Fun &amp; Entertainment</strong><span>is not skipped</span></>,
-    },
-    {
-      key: "accountable",
-      className: "left",
-      icon: "core-value-shield.png",
-      content: <>Everyone is equally<span><strong>accountable</strong></span></>,
+      key: "growth",
+      className: "growth",
+      icon: "figma-core-value-growth.svg",
+      content: <><span>We believe in</span>{" "}<strong>growing together</strong></>,
     },
     {
       key: "honesty",
-      className: "right",
-      icon: "core-value-shield.png",
-      content: <><strong>Honesty is our</strong><span>Guiding Principle</span></>,
+      className: "honesty",
+      icon: "figma-core-value-shield.svg",
+      content: <><strong>Honesty</strong>{" "}is our Guiding Principle</>,
     },
     {
       key: "empathy",
-      className: "bottom-left",
-      icon: "core-value-shield.png",
-      content: <>We show <strong>Empathy</strong><span>for each other</span></>,
+      className: "empathy",
+      icon: "figma-core-value-shield.svg",
+      content: <>We show{" "}<strong>Empathy</strong>{" "}for each other</>,
     },
     {
-      key: "growth",
-      className: "bottom-right",
-      icon: "core-value-growth.png",
-      content: <>We believe in<span><strong>growing together</strong></span></>,
+      key: "fun",
+      className: "fun",
+      icon: "figma-core-value-fist.svg",
+      content: <><strong>Fun &amp; Entertainment</strong>{" "}<span>is not skipped</span></>,
+    },
+    {
+      key: "accountable",
+      className: "accountable",
+      icon: "figma-core-value-shield.svg",
+      content: <>Everyone is equally{" "}<strong>accountable</strong></>,
     },
   ] as const;
 
@@ -412,15 +412,15 @@ export function AboutPage() {
         <div className="shell">
           <h2 id="core-values-title">Our Core Values</h2>
           <div className="core-values-art" role="list" aria-label="DevDimensions core values">
-            <span className="core-values-orbit core-values-orbit--inner" aria-hidden="true" />
-            <span className="core-values-orbit core-values-orbit--middle" aria-hidden="true" />
-            <span className="core-values-orbit core-values-orbit--outer" aria-hidden="true" />
+            <img className="core-values-orbit core-values-orbit--inner" src={themeAsset("figma-core-values-orbit-inner.svg")} alt="" aria-hidden="true" />
+            <img className="core-values-orbit core-values-orbit--middle" src={themeAsset("figma-core-values-orbit-middle.svg")} alt="" aria-hidden="true" />
+            <img className="core-values-orbit core-values-orbit--outer" src={themeAsset("figma-core-values-orbit-outer.svg")} alt="" aria-hidden="true" />
             <div className="core-values-center" aria-hidden="true">
-              <img src={themeAsset("core-values-logo.png")} alt="" />
+              <img src={themeAsset("figma-core-values-logo.svg")} alt="" />
             </div>
             {coreValues.map((value) => (
               <article className={`core-value core-value--${value.className}`} key={value.key} role="listitem">
-                <img src={themeAsset(value.icon)} alt="" aria-hidden="true" />
+                <span className="core-value-icon"><img src={themeAsset(value.icon)} alt="" aria-hidden="true" /></span>
                 <p>{value.content}</p>
               </article>
             ))}
