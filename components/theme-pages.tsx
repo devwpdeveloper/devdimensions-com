@@ -447,7 +447,7 @@ function CaseStudyCard({ project, index }: { project: ThemeProject; index: numbe
   const caseStudyImage = project.caseStudyImage ?? project.image;
   return (
     <article className="theme-case-card">
-      <img className={`theme-case-shape theme-case-shape--${index % 2 ? "left" : "right"}`} src={themeAsset(index % 2 ? "left-shape.png" : "right-shape.png")} alt="" aria-hidden="true" />
+      <img className={`theme-case-shape theme-case-shape--${index % 2 ? "left" : "right"}`} src={themeAsset(index % 2 ? "left-shape.png" : "rihght-shape.png")} alt="" aria-hidden="true" />
       <div className="theme-case-grid">
         <div className="theme-case-media"><a href={`/project/${project.slug}/`}><picture><source media="(max-width: 767px)" srcSet={siteAsset(project.mobileImage)} /><img src={siteAsset(caseStudyImage)} alt={`${project.name} project`} /></picture></a></div>
         <div className="theme-case-copy">

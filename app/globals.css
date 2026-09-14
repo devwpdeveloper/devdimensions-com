@@ -506,21 +506,20 @@
   position: absolute;
   z-index: 0;
   display: block;
-  width: auto;
+  width: 100%;
   max-width: none;
+  height: auto;
   pointer-events: none;
 }
 
 .theme-case-shape--right {
   top: -350px;
   right: -40px;
-  height: 780px;
 }
 
 .theme-case-shape--left {
   top: -426px;
   left: -340px;
-  height: 840px;
 }
 
 .theme-case-more {
