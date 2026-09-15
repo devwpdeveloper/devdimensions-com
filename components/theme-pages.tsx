@@ -2,12 +2,24 @@
 /* oxlint-disable next/no-img-element */
 
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { CaseStudyCarousel } from "./case-study-carousel";
 
 export const siteAsset = (name: string) => /^https?:\/\//.test(name) ? name : `/assets/${name}`;
 export const themeAsset = (name: string) => `/theme-assets/${name}`;
 const referenceAsset = (name: string) => `https://devdimensions-next.vercel.app/assets/images/${name}`;
+const normalizeNavPath = (path: string) => path.replace(/\/+$/, "") || "/";
+const isNavActive = (pathname: string, href: string) => {
+  const currentPath = normalizeNavPath(pathname);
+  const targetPath = normalizeNavPath(href);
+
+  if (targetPath === "/") return currentPath === "/";
+
+  return currentPath === targetPath
+    || currentPath.startsWith(`${targetPath}/`)
+    || (targetPath === "/case-studies" && currentPath.startsWith("/project/"));
+};
 
 export type ThemeProject = {
   slug: string;
@@ -63,7 +75,7 @@ export const themeProjects: ThemeProject[] = [
     categories: ["Design", "Development"],
     image: "Frame-1261153157-19.png",
     mobileImage: "Frame-1261153157-19.png",
-    heroImage: referenceAsset("Frame-1261153157-12.png"),
+    heroImage: "Frame-1261153157-19.png",
     caseStudyImage: "frame-1261153219-2-668d290a3710a.webp",
     description:
       "The website for Performance Tours showcases a thrilling rafting experience tailored for families seeking adventure in a bold and maximalist aesthetic. Emphasizing safety and excitement, the site’s vibrant visuals and dynamic layout capture the essence of exhilarating river.",
@@ -484,7 +496,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
     event.preventDefault();
     setStatus("submitting");
     try {
-      const response = await fetch("/backend/contact.php", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -525,14 +537,16 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
 }
 
 function SiteHeader({ menuOpen, onToggle, onContact }: { menuOpen: boolean; onToggle: () => void; onContact: () => void }) {
+  const pathname = usePathname();
+
   return (
     <header className="site-header shell">
       <a className="brand" href="/" aria-label="DevDimensions home"><img src={siteAsset("logo.svg")} alt="DevDimensions" /></a>
       <nav className="desktop-nav" aria-label="Primary navigation">
-        <a href="/">Home</a>
-        <a href="/about-us/">About Us</a>
-        <a href="/case-studies/">Case Studies</a>
-        <a href="/contact-us/">Contact Us</a>
+        <a href="/" aria-current={isNavActive(pathname, "/") ? "page" : undefined}>Home</a>
+        <a href="/about-us/" aria-current={isNavActive(pathname, "/about-us/") ? "page" : undefined}>About Us</a>
+        <a href="/case-studies/" aria-current={isNavActive(pathname, "/case-studies/") ? "page" : undefined}>Case Studies</a>
+        <a href="/contact-us/" aria-current={isNavActive(pathname, "/contact-us/") ? "page" : undefined}>Contact Us</a>
       </nav>
       <button className="header-cta" type="button" onClick={onContact}>Get Free Consultation</button>
       <button className="menu-toggle" type="button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} onClick={onToggle}>
@@ -543,21 +557,24 @@ function SiteHeader({ menuOpen, onToggle, onContact }: { menuOpen: boolean; onTo
 }
 
 export function MobileNavigation({ onClose, onContact }: { onClose: () => void; onContact: () => void }) {
+  const pathname = usePathname();
+
   return (
     <aside className="menu-panel" aria-label="Main navigation">
-      <div className="menu-panel-header">
-        <a className="brand" href="/" onClick={onClose}><img src={siteAsset("logo.svg")} alt="DevDimensions" /></a>
-        <button className="menu-close" type="button" aria-label="Close navigation" onClick={onClose}><X size={25} strokeWidth={1.5} /></button>
-      </div>
-      <nav className="menu-links">
-        <a href="/" onClick={onClose}>Home</a>
-        <a href="/about-us/" onClick={onClose}>About Us</a>
-        <a href="/case-studies/" onClick={onClose}>Case Studies</a>
-        <a href="/contact-us/" onClick={onClose}>Contact Us</a>
-      </nav>
-      <div className="menu-consult">
-        <p>Have a project in mind?</p>
-        <button className="btn-theme" type="button" onClick={onContact}>Get Free Consultation <ArrowUpRight size={17} /></button>
+      <div className="menu-panel-body">
+        <div className="menu-panel-header">
+          <h2 className="menu-panel-title">Menu</h2>
+          <button className="menu-close" type="button" aria-label="Close navigation" onClick={onClose}><X size={25} strokeWidth={1.5} /></button>
+        </div>
+        <nav className="menu-links">
+          <a href="/" aria-current={isNavActive(pathname, "/") ? "page" : undefined} onClick={onClose}>Home</a>
+          <a href="/about-us/" aria-current={isNavActive(pathname, "/about-us/") ? "page" : undefined} onClick={onClose}>About Us</a>
+          <a href="/case-studies/" aria-current={isNavActive(pathname, "/case-studies/") ? "page" : undefined} onClick={onClose}>Case Studies</a>
+          <a href="/contact-us/" aria-current={isNavActive(pathname, "/contact-us/") ? "page" : undefined} onClick={onClose}>Contact Us</a>
+        </nav>
+        <div className="menu-consult">
+          <button className="menu-consult-button" type="button" onClick={onContact}>Get Free Consultation</button>
+        </div>
       </div>
     </aside>
   );
@@ -660,7 +677,17 @@ function ThemeHero({ variant, title, description }: { variant: "about" | "cases"
   const isAbout = variant === "about";
   return (
     <section className={`theme-hero theme-hero--${variant}`}>
-      <img className="theme-hero-background" src={themeAsset("home-hero.png")} alt="" aria-hidden="true" />
+      <picture>
+        <source srcSet={themeAsset("home-hero-optimized.webp")} type="image/webp" />
+        <img
+          className="theme-hero-background"
+          src={themeAsset("home-hero.png")}
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+          decoding="async"
+        />
+      </picture>
       <div className="shell theme-hero-inner">
         <div className="theme-hero-copy">
           <h1>{title}</h1>
@@ -705,7 +732,7 @@ export function AboutPage() {
     <SitePageFrame showCta={false} className="theme-page--about">
       <ThemeHero
         variant="about"
-        title={<>Discover DevDimensions:<br /><span>Your Premier Talent Partner</span></>}
+        title={<>Discover DevDimensions:<br /><span className="heading-accent">Your Premier Talent Partner</span></>}
         description="At DD, we’re all about the people. From our talent, teams, to partners: We believe the real magic lies in harnessing human potential. Winning, to us, means creating lasting relationships with our partners. We want to run marathons with you, not just the sprints."
       />
       <section className="theme-mission">
@@ -796,7 +823,7 @@ export function CaseStudiesPage() {
     <SitePageFrame className="theme-page--cases">
       <ThemeHero
         variant="cases"
-        title={<>We Win, <span>When You Do.</span></>}
+        title={<>We Win, <span className="heading-accent">When You Do.</span></>}
         description="You can’t build a winning product without a winning team. Discover what’s possible with our seasoned designers, veteran developers, & technical strategists."
       />
       <section className="theme-case-list">
@@ -809,13 +836,28 @@ export function CaseStudiesPage() {
   );
 }
 
-type ContactStepData = { name: string; company: string; email: string; phone: string; project: string; timeline: string; budget: string; message: string };
+type ContactStepData = { name: string; company: string; email: string; phone: string; services: string; engineers: string; hireType: string; hiringTime: string; message: string };
+
+const contactServiceOptions = [
+  ["UX/UI Design", "UI-UX.svg"],
+  ["React JS", "react.svg"],
+  ["React Native", "react-native.svg"],
+  ["Vue JS", "vue-jus.svg"],
+  ["Laravel", "laraval.svg"],
+  ["MERN Stack", "mern-stack.svg"],
+  ["MEAN Stack", "mern-stockk.svg"],
+  ["Quality Assurance", "QA.svg"],
+  ["DevOps", "Dev-ops-1.svg"],
+  ["Others", "others.svg"],
+] as const;
+
+const contactChoice = (value: string, selected: string) => value === selected ? "is-active" : "";
 
 function ContactForm() {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(false);
-  const [form, setForm] = useState<ContactStepData>({ name: "", company: "", email: "", phone: "", project: "", timeline: "", budget: "", message: "" });
+  const [form, setForm] = useState<ContactStepData>({ name: "", company: "", email: "", phone: "", services: "UX/UI Design", engineers: "", hireType: "", hiringTime: "", message: "" });
   const update = (key: keyof ContactStepData, value: string) => setForm((current) => ({ ...current, [key]: value }));
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
@@ -823,7 +865,7 @@ function ContactForm() {
     if (step < 3) { setStep((current) => current + 1); return; }
     setError(false);
     try {
-      const response = await fetch("/backend/contact.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.name, email: form.email, company: form.company, message: `${form.project}\nTimeline: ${form.timeline}\nBudget: ${form.budget}\n${form.message}` }) });
+      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.name, email: form.email, company: form.company, message: `Technologies: ${form.services}\nEngineers: ${form.engineers}\nHire type: ${form.hireType}\nHiring timeline: ${form.hiringTime}\n${form.message}` }) });
       if (!response.ok) throw new Error("Unable to send message");
       setSubmitted(true);
     } catch { setError(true); }
@@ -833,15 +875,20 @@ function ContactForm() {
 
   return (
     <form className="theme-form" onSubmit={handleSubmit}>
-      <div className="theme-form-card">
-        <div className="theme-form-progress" aria-label="Form progress">
-          {["Your Information", "Project Information", "Let’s finalize"].map((label, index) => <div className={step === index + 1 ? "is-active" : step > index + 1 ? "is-complete" : ""} key={label}><span>0{index + 1}</span><strong>{label}</strong></div>)}
-        </div>
-        {step === 1 ? <div className="theme-form-fields"><label>Full Name<input required value={form.name} onChange={(event) => update("name", event.target.value)} /></label><label>Company/Organization<input value={form.company} onChange={(event) => update("company", event.target.value)} /></label><label>Your Email<input required type="email" value={form.email} onChange={(event) => update("email", event.target.value)} /></label><label>Contact Number<input value={form.phone} onChange={(event) => update("phone", event.target.value)} /></label></div> : null}
-        {step === 2 ? <div className="theme-form-fields"><label className="theme-form-wide">Tell us about your project<textarea required rows={6} value={form.project} onChange={(event) => update("project", event.target.value)} /></label><label>Desired timeline<input value={form.timeline} onChange={(event) => update("timeline", event.target.value)} placeholder="e.g. 8 weeks" /></label><label>Estimated budget<select value={form.budget} onChange={(event) => update("budget", event.target.value)}><option value="">Select one</option><option>Under $10,000</option><option>$10,000–$25,000</option><option>$25,000+</option></select></label></div> : null}
-        {step === 3 ? <div className="theme-form-fields"><label className="theme-form-wide">Anything else we should know?<textarea rows={8} value={form.message} onChange={(event) => update("message", event.target.value)} placeholder="Share any goals, constraints, or context." /></label></div> : null}
+      <div className={`theme-form-progress theme-form-progress--step-${step}`} aria-label="Form progress">
+        <img className="theme-form-progress-bar" src={themeAsset(`bg-${step}.png`)} alt="" aria-hidden="true" />
+        {[
+          ["Your", "Information"],
+          ["Project", "Information"],
+          ["Let’s", "finalize"],
+        ].map(([firstLine, secondLine], index) => <div className={step === index + 1 ? "is-active" : step > index + 1 ? "is-complete" : ""} key={`${firstLine}-${secondLine}`}><span>0{index + 1}</span><strong>{firstLine}<br />{secondLine}</strong></div>)}
       </div>
-      <div className="theme-form-actions">{step > 1 ? <button className="theme-form-back" type="button" onClick={() => setStep((current) => current - 1)}>Back</button> : <span /> }<button className="btn-theme" type="submit">{step === 3 ? "Submit" : "Next"} <ArrowUpRight size={17} /></button></div>
+      <div className="theme-form-card">
+        {step === 1 ? <div className="theme-form-fields"><label>Full Name<input required value={form.name} onChange={(event) => update("name", event.target.value)} /></label><label>Company/Organization<input required value={form.company} onChange={(event) => update("company", event.target.value)} /></label><label>Your Email<input required type="email" value={form.email} onChange={(event) => update("email", event.target.value)} /></label><label>Contact Number<input value={form.phone} onChange={(event) => update("phone", event.target.value)} /></label></div> : null}
+        {step === 2 ? <div className="theme-form-fields theme-form-fields--services"><div className="theme-form-wide theme-form-field-group"><span className="theme-form-field-label">Are there any technologies you want to specify?</span><div className="theme-form-services">{contactServiceOptions.map(([label, asset]) => <button className={`theme-form-service ${contactChoice(label, form.services)}`} type="button" aria-pressed={form.services === label} key={label} onClick={() => update("services", label)}><img src={referenceAsset(asset)} alt="" aria-hidden="true" /><span>{label}</span></button>)}</div></div></div> : null}
+        {step === 3 ? <div className="theme-form-fields theme-form-fields--final"><div className="theme-form-choice-group"><span className="theme-form-field-label">How many Engineers do you want?</span><div className="theme-form-options">{["1 - 2", "2 - 5", "More than 5"].map((value) => <button className={contactChoice(value, form.engineers)} type="button" aria-pressed={form.engineers === value} key={value} onClick={() => update("engineers", value)}>{value}</button>)}</div></div><div className="theme-form-choice-group"><span className="theme-form-field-label">What type of Hire do you need?</span><div className="theme-form-options">{["Full Time", "Part Time"].map((value) => <button className={contactChoice(value, form.hireType)} type="button" aria-pressed={form.hireType === value} key={value} onClick={() => update("hireType", value)}>{value}</button>)}</div></div><div className="theme-form-wide theme-form-choice-group"><span className="theme-form-field-label">How Quickly do you want to hire?</span><div className="theme-form-options theme-form-options--wide">{["Immediately", "Within 2 Weeks", "Within a month", "Within 1-2 Months", "No Specific Timeline"].map((value) => <button className={contactChoice(value, form.hiringTime)} type="button" aria-pressed={form.hiringTime === value} key={value} onClick={() => update("hiringTime", value)}>{value}</button>)}</div></div><label className="theme-form-wide theme-form-message-field">Anything else you want to tell us<textarea required rows={10} value={form.message} onChange={(event) => update("message", event.target.value)} /></label></div> : null}
+      </div>
+      <div className={`theme-form-actions${step > 1 ? " theme-form-actions--with-back" : ""}`}>{step > 1 ? <button className="btn-theme theme-form-back" type="button" onClick={() => setStep((current) => current - 1)}>Back</button> : null}{step === 3 ? <button className="btn-theme theme-form-submit-button" type="submit">Submit <ArrowUpRight size={17} /></button> : step < 3 ? <button className="btn-theme" type="submit">Next <ArrowUpRight size={17} /></button> : null}</div>
       {error ? <p className="form-status form-status--error" role="alert">We couldn’t send this automatically. Please email <a href="mailto:info@devdimensions.com">info@devdimensions.com</a>.</p> : null}
     </form>
   );
@@ -854,7 +901,7 @@ export function ContactPage() {
         <img className="theme-hero-background" src={themeAsset("home-hero.png")} alt="" aria-hidden="true" />
         <div className="shell theme-contact-inner">
           <div className="theme-hero-copy">
-            <h1>Let’s Collaborate. <span>We’re All Ears!</span></h1>
+            <h1>Let’s <span className="heading-accent">Collaborate.</span> We’re All Ears!</h1>
             <p>Unlock the gateway to collaboration by sharing your personal details, project aspirations, and desired timelines. Let our connection become the bridge that brings your vision to life, as we navigate together towards a shared destination.</p>
           </div>
           <div className="theme-contact-form"><ContactForm /></div>

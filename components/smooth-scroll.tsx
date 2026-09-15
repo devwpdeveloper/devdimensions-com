@@ -1,49 +1,70 @@
 "use client";
 
+import gsap from "gsap";
 import Lenis, { type LenisOptions } from "lenis";
-import { ReactLenis, type LenisRef } from "lenis/react";
-import { useEffect, useRef, type ReactNode } from "react";
+import { ReactLenis, useLenis } from "lenis/react";
+import { useEffect, type ReactNode } from "react";
 
 const lenisOptions: LenisOptions = {
   // Keep the instance on the document scroll root so sticky positioning,
   // native focus scrolling, and route transitions continue to work.
   autoRaf: false,
   smoothWheel: true,
-  syncTouch: true,
-  syncTouchLerp: 0.075,
-  touchInertiaExponent: 1.7,
-  lerp: 0.085,
-  duration: 1.05,
+  // Native touch scrolling is more reliable than Lenis' syncTouch inertia on
+  // long pages, especially when a swipe is interrupted over an animated
+  // section. Wheel input remains smoothly interpolated below.
+  syncTouch: false,
+  lerp: 0.1,
   anchors: true,
   stopInertiaOnNavigate: true,
   respectReducedMotion: true,
 };
 
-/**
- * Provides one Lenis instance for every route and advances it from the
- * browser's shared requestAnimationFrame clock.
- */
-export function SmoothScrollProvider({ children }: { children: ReactNode }) {
-  const lenisRef = useRef<LenisRef>(null);
+function LenisTicker() {
+  const lenis = useLenis();
 
   useEffect(() => {
-    let frame = 0;
+    if (!lenis) return;
 
-    const raf = (time: number) => {
-      lenisRef.current?.lenis?.raf(time);
-      frame = window.requestAnimationFrame(raf);
+    // GSAP and Lenis now share one clock. This keeps ScrollTrigger's measured
+    // positions and Lenis' animated scroll value on the same frame. Clamp a
+    // dropped frame so a busy marquee/image paint cannot become a visible
+    // scroll jump when the user reverses direction.
+    const maxFrameDelta = 50;
+    let safeTime: number | null = null;
+    const tick = (time: number) => {
+      const currentTime = time * 1000;
+      if (safeTime === null) {
+        safeTime = currentTime;
+      } else {
+        const frameDelta = Math.max(0, currentTime - safeTime);
+        safeTime += Math.min(frameDelta, maxFrameDelta);
+      }
+      lenis.raf(safeTime);
     };
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(500, 33);
 
-    frame = window.requestAnimationFrame(raf);
-    return () => window.cancelAnimationFrame(frame);
-  }, []);
+    return () => {
+      gsap.ticker.remove(tick);
+      gsap.ticker.lagSmoothing(500, 33);
+    };
+  }, [lenis]);
 
+  return null;
+}
+
+/**
+ * Provides one Lenis instance for every route and advances it from GSAP's
+ * shared ticker so scroll-driven animations stay synchronized.
+ */
+export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   return (
-    <ReactLenis ref={lenisRef} root options={lenisOptions}>
+    <ReactLenis root options={lenisOptions}>
+      <LenisTicker />
       {children}
     </ReactLenis>
   );
 }
 
 export type { Lenis };
-

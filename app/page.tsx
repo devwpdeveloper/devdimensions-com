@@ -1,5 +1,6 @@
 "use client";
 /* oxlint-disable next/no-img-element */
+/* oxlint-disable next/no-html-link-for-pages */
 
 import {
   ArrowUpRight,
@@ -7,7 +8,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLenis } from "lenis/react";
 import { useEffect, useState } from "react";
 import { CaseStudyCarousel } from "../components/case-study-carousel";
@@ -16,6 +17,17 @@ import { MobileNavigation } from "../components/theme-pages";
 
 const ASSET_ROOT = "/assets/";
 const asset = (name: string) => `${ASSET_ROOT}${name}`;
+const normalizeNavPath = (path: string) => path.replace(/\/+$/, "") || "/";
+const isNavActive = (pathname: string, href: string) => {
+  const currentPath = normalizeNavPath(pathname);
+  const targetPath = normalizeNavPath(href);
+
+  if (targetPath === "/") return currentPath === "/";
+
+  return currentPath === targetPath
+    || currentPath.startsWith(`${targetPath}/`)
+    || (targetPath === "/case-studies" && currentPath.startsWith("/project/"));
+};
 
 type Logo = {
   file: string;
@@ -266,16 +278,18 @@ function Header({
   onToggle: () => void;
   onContact: () => void;
 }) {
+  const pathname = usePathname();
+
   return (
     <header className="site-header shell">
-      <Link className="brand" href="/" aria-label="DevDimensions home">
+      <a className="brand" href="/" aria-label="DevDimensions home">
         <img src={asset("logo.svg")} alt="DevDimensions" />
-      </Link>
+      </a>
       <nav className="desktop-nav" aria-label="Primary navigation">
-        <Link href="/">Home</Link>
-        <Link href="/about-us/">About Us</Link>
-        <Link href="/case-studies/">Case Studies</Link>
-        <Link href="/contact-us/">Contact Us</Link>
+        <a href="/" aria-current={isNavActive(pathname, "/") ? "page" : undefined}>Home</a>
+        <a href="/about-us/" aria-current={isNavActive(pathname, "/about-us/") ? "page" : undefined}>About Us</a>
+        <a href="/case-studies/" aria-current={isNavActive(pathname, "/case-studies/") ? "page" : undefined}>Case Studies</a>
+        <a href="/contact-us/" aria-current={isNavActive(pathname, "/contact-us/") ? "page" : undefined}>Contact Us</a>
       </nav>
       <button className="header-cta" type="button" onClick={onContact}>Get Free Consultation</button>
       <button
@@ -305,8 +319,8 @@ function HeroVisual() {
           Do you plan to <strong>Turn Your<br />Ideas into Reality?</strong>
         </p>
         <div className="hero-browser-actions">
-          <Link href="/contact-us/">Hire Engineer</Link>
-          <Link href="/contact-us/">Hire Agency</Link>
+          <a href="/contact-us/">Hire Engineer</a>
+          <a href="/contact-us/">Hire Agency</a>
         </div>
       </div>
 
@@ -428,7 +442,7 @@ function ContactModal({
     setStatus("submitting");
 
     try {
-      const response = await fetch("/backend/contact.php", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -649,15 +663,15 @@ export default function Home() {
           <div className="shell hero-grid">
             <div className="hero-copy">
               <h1>
-                Build Your <span>Dream Team</span>
+                Build Your <span className="heading-accent">Dream Team</span>
               </h1>
               <p className="hero-lede">
                 We&apos;ve scouted and interviewed thousands of game changers in technology: We match you with our top
                 standouts – all while <span>cutting costs by 43% and reducing staffing times by 5x.</span>
               </p>
-              <Link className="btn-theme" href="/contact-us/">
+              <a className="btn-theme" href="/contact-us/">
                 7 Days Free Trial
-              </Link>
+              </a>
             </div>
             <div className="hero-visual">
               <HeroVisual />
@@ -728,6 +742,8 @@ export default function Home() {
               className="problem-map-mobile"
               src={asset("Group-39236.png")}
               alt="A map of common hiring problems"
+              loading="lazy"
+              decoding="async"
             />
           </div>
         </section>
@@ -767,9 +783,9 @@ export default function Home() {
                   </span>
                 </li>
               </ul>
-              <Link className="btn-theme welcome-section-btn" href="/contact-us/" onClick={() => setMenuOpen(false)}>
+              <a className="btn-theme welcome-section-btn" href="/contact-us/" onClick={() => setMenuOpen(false)}>
                 Request Quote
-              </Link>
+              </a>
             </div>
             <div className="welcome-art">
               <HireGraphic />
@@ -785,9 +801,9 @@ export default function Home() {
                   Discover What’s <span>Possible</span>
                 </h2>
               </div>
-              <Link className="btn-theme" href="/case-studies/">
+              <a className="btn-theme" href="/case-studies/">
                 View More Work <ArrowUpRight size={17} />
-              </Link>
+              </a>
             </div>
           </div>
           <CaseStudyCarousel
@@ -854,7 +870,7 @@ export default function Home() {
               </button>
             </div>
             <div className="hiring-cards">
-              <Link className="hire-box" href="/contact-us/">
+              <a className="hire-box" href="/contact-us/" aria-label="Hire a team member">
                 <img className="icon" src={asset("hire-team-member.png")} width={118} height={110} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                 <div className="hire-box-copy">
                 <h3><span className="hire-heading">Hire Team Member</span></h3>
@@ -863,8 +879,8 @@ export default function Home() {
                   seamlessly integrates with your existing team, ensuring rapid and efficient results.
                 </p>
                 </div>
-              </Link>
-              <Link className="hire-box" href="/contact-us/">
+              </a>
+              <a className="hire-box" href="/contact-us/" aria-label="Hire an entire team">
                 <img className="icon" src={asset("hire-entire-team.png")} width={100} height={116} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                 <div className="hire-box-copy">
                 <h3><span className="hire-heading">Hire Entire Team</span></h3>
@@ -873,7 +889,7 @@ export default function Home() {
                   and project managers to ensure your core focus remains on business growth.
                 </p>
                 </div>
-              </Link>
+              </a>
             </div>
           </div>
         </section>
@@ -953,7 +969,7 @@ export default function Home() {
                 Frequently Asked <span>Questions</span>
               </h2>
               <p className="faq-subtitle">We value long-term partnerships, and we bet you do too.</p>
-              <Link className="btn-theme faq-btn" href="/contact-us/">Book a Free Call</Link>
+              <a className="btn-theme faq-btn" href="/contact-us/">Book a Free Call</a>
             </div>
             <div className="faq-content">
               <div className="faq-list">
@@ -988,14 +1004,14 @@ export default function Home() {
                 Brilliance Ignites Extraordinary Achievements.
               </h2>
               <div className="cta-actions">
-                <Link className="btn-theme" href="/contact-us/">
+                <a className="btn-theme" href="/contact-us/">
                   Hire Engineers
                   <img className="cta-button-arrow" src="/theme-assets/ArrowUpLeft.svg" alt="" aria-hidden="true" />
-                </Link>
-                <Link className="btn-ghost" href="/contact-us/">
+                </a>
+                <a className="btn-ghost" href="/contact-us/">
                   Develop With Us
                   <img className="cta-button-arrow" src="/theme-assets/ArrowUpLeft.svg" alt="" aria-hidden="true" />
-                </Link>
+                </a>
               </div>
             </div>
           </div>
@@ -1006,9 +1022,9 @@ export default function Home() {
         <div className="shell">
           <div className="footer-grid">
             <div className="footer-brand">
-              <Link className="brand" href="/" aria-label="DevDimensions home">
+              <a className="brand" href="/" aria-label="DevDimensions home">
                 <img src={asset("logo.svg")} alt="DevDimensions" />
-              </Link>
+              </a>
               <p className="footer-tagline">We believe in growing together by empowering businesses through technology.</p>
               <div className="social-links" aria-label="Social links">
                 <a href="https://www.facebook.com/devdimensions/" target="_blank" rel="noreferrer" aria-label="Facebook">
@@ -1027,8 +1043,8 @@ export default function Home() {
             </div>
             <div className="footer-link-column">
               <h3>Company</h3>
-              <Link href="/about-us/">About Us</Link>
-              <Link href="/case-studies/">Case Studies</Link>
+              <a href="/about-us/">About Us</a>
+              <a href="/case-studies/">Case Studies</a>
               <a href="#faq">FAQs</a>
               <a href="https://www.careers-page.com/devdimensions#openings" target="_blank" rel="noreferrer">
                 Careers
