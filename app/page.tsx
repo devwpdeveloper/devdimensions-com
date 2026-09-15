@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { useLenis } from "lenis/react";
 import { useEffect, useState } from "react";
-import { InfiniteCarousel } from "../components/infinite-carousel";
+import { CaseStudyCarousel } from "../components/case-study-carousel";
 import { useInfiniteCarouselMotion } from "../components/use-carousel-motion";
 import { MobileNavigation } from "../components/theme-pages";
 
@@ -790,50 +790,21 @@ export default function Home() {
               </Link>
             </div>
           </div>
-          <InfiniteCarousel
-            items={projects}
+          <CaseStudyCarousel
+            items={projects.map((project) => ({
+              id: project.href,
+              name: project.name,
+              imageSrc: asset(project.image),
+              mobileImageSrc: asset(project.mobileImage),
+              categories: project.category.split(/,\s*/),
+              href: project.href,
+              description: project.description,
+            }))}
             ariaLabel="Case studies carousel"
             className="work-viewport"
             trackClassName="work-track"
             itemSize="var(--work-card-width)"
-            getItemLabel={(project) => project.name}
-            getKey={(project, physicalIndex) => `${project.name}-${physicalIndex}`}
             dotsClassName="work-dots"
-            renderItem={(project, index, _physicalIndex, isActive) => (
-              <article className={`work-card${isActive ? " is-active" : ""}`}>
-                <div className="work-card-grid">
-                  <a className="work-cover-link" href={project.href} aria-label={`View ${project.name} case study`}>
-                    <picture>
-                      <source media="(max-width: 767px)" srcSet={asset(project.mobileImage)} />
-                      <img className="work-cover" src={asset(project.image)} alt={`${project.name} project`} loading="lazy" decoding="async" />
-                    </picture>
-                  </a>
-                  <div className="work-card-content">
-                    <h3 className="work-card-title">
-                      <span className="work-title-flow">
-                        <a href={project.href}>{project.name}</a>
-                        <span className="work-categories">
-                          {project.category.split(/,\s*/).map((category) => (
-                            <span className="work-category" key={category}>{category}</span>
-                          ))}
-                        </span>
-                      </span>
-                    </h3>
-                    <p className="work-description">{project.description}</p>
-                    <div className="work-tools" aria-label="Tools used">
-                      <span className="work-tools-label">Tools:</span>
-                      <img src={asset("tool-1.png")} alt="Design tool" loading="lazy" decoding="async" />
-                      <img src={asset("tool-2.png")} alt="Development tool" loading="lazy" decoding="async" />
-                    </div>
-                    <div className="work-card-resources">
-                      <a className="square-arrow" href={project.href} aria-label={`Open ${project.name}`}>
-                        <ArrowUpRight size={20} />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            )}
           />
         </section>
 

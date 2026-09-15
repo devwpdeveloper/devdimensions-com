@@ -32,6 +32,9 @@
   --section-pad: var(--space-6);
   --section-pad-tight: var(--space-5);
   --section-pad-mobile: var(--space-5);
+  --section-gap-mobile: var(--space-4);
+  --content-gap-mobile: var(--space-3);
+  --control-gap-mobile: var(--space-2);
   --section-gap: var(--space-7);
   --section-gap-tight: var(--space-5);
   --container-max: 1320px;
@@ -502,7 +505,7 @@
     margin: 0 0 0 120px;
     padding: 0;
     overflow: visible;
-    transform: none !important;
+    transform: none;
     transition: none;
   }
 
@@ -684,6 +687,129 @@
     padding: 3px 15px;
     font-size: 12px;
     line-height: 27px;
+  }
+}
+
+/* The related-projects carousel intentionally reuses the home-page carousel
+   card and track. Only the surrounding section changes; slide geometry,
+   active opacity, controls, and responsive behavior stay shared. */
+.theme-page--project .project-related .work-viewport {
+  --work-card-width: min(900px, 100%);
+  --work-left-offset: max(30px, calc((100vw - 1140px) / 2 + 12px));
+  width: calc(100% - var(--work-left-offset));
+  margin: 50px 0 0 var(--work-left-offset);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.theme-page--project .project-related .work-track {
+  display: flex;
+  width: 100%;
+  height: auto;
+  gap: var(--slider-gap);
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  transition: transform 0.45s ease;
+}
+
+.theme-page--project .project-related .infinite-carousel-item {
+  display: block;
+  flex: 0 0 var(--work-card-width);
+  width: var(--work-card-width);
+  min-width: 0;
+}
+
+.theme-page--project .project-related .work-card {
+  width: 100%;
+  flex-basis: 100%;
+  height: 636px;
+  min-height: 636px;
+}
+
+.theme-page--project .project-related .project-related-dots {
+  position: static;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  gap: 8px;
+  margin: 30px 0 0;
+  padding: 0;
+  transform: none;
+}
+
+.theme-page--project .project-related .project-related-dots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: #f8f8f8;
+}
+
+.theme-page--project .project-related .project-related-dots button.is-active {
+  background: var(--red-bright);
+}
+
+@media (max-width: 991px) {
+  .theme-page--project .project-related {
+    height: auto;
+    min-height: 0;
+    margin: 100px 0 0;
+    padding: 0 0 34px;
+    overflow: visible;
+  }
+
+  .theme-page--project .project-related > .shell {
+    margin-bottom: 0;
+  }
+
+  .theme-page--project .project-related .work-viewport {
+    --work-card-width: 100%;
+    width: min(400px, calc(100vw - 60px));
+    margin: 40px auto 0;
+    overflow: hidden;
+  }
+
+  .theme-page--project .project-related .work-track {
+    display: flex;
+    height: auto;
+    gap: var(--slider-gap);
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    transform: none;
+    transition: transform 0.45s ease;
+  }
+
+  .theme-page--project .project-related .infinite-carousel-item {
+    display: block;
+    flex: 0 0 var(--work-card-width);
+    width: var(--work-card-width);
+    max-width: none;
+  }
+
+  .theme-page--project .project-related .infinite-carousel-item[data-carousel-clone="true"] {
+    display: block;
+  }
+
+  .theme-page--project .project-related .work-card {
+    height: auto;
+    min-height: 0;
+    margin-bottom: 0;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 767px) {
+  .theme-page--project .project-related .work-viewport {
+    margin-top: 40px;
+  }
+
+  .theme-page--project .project-related > .shell {
+    padding-right: 25px;
+    padding-left: 50px;
   }
 }
 
@@ -7878,7 +8004,8 @@ h2 span {
     margin: 0 0 0 120px;
     padding: 0;
     overflow: visible;
-    transform: none !important;
+    /* The shared carousel owns the inline transform on every breakpoint. */
+    transform: none;
     transition: none;
   }
 
@@ -7889,7 +8016,7 @@ h2 span {
   }
 
   .theme-page--project .project-related-track > .infinite-carousel-item[data-carousel-clone="true"] {
-    display: none;
+    display: block;
   }
 
   .theme-page--project .related-case-card {
@@ -8037,5 +8164,428 @@ h2 span {
     padding: 3px 15px;
     font-size: 12px;
     line-height: 27px;
+  }
+}
+
+/* Keep the related slider on the exact same tablet geometry as the home
+   carousel. The detail page adds only its section wrapper and heading. */
+@media (min-width: 768px) and (max-width: 991px) {
+  .theme-page--project .project-related .work-viewport {
+    width: calc(100% - 60px);
+    margin: 45px 30px 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .theme-page--project .project-related .infinite-carousel-item {
+    display: block;
+    flex: 0 0 var(--work-card-width);
+    width: var(--work-card-width);
+    max-width: none;
+  }
+
+  .theme-page--project .project-related .infinite-carousel-item[data-carousel-clone="true"] {
+    display: block;
+  }
+}
+
+/* Keep the measured detail-page rhythm stable after content-only sections
+   are removed when a project has no gallery for that section. */
+.theme-page--project .project-spec-grid .project-type-list li:last-child {
+  margin-bottom: 0;
+}
+
+.theme-page--project .project-gallery {
+  column-gap: 24px;
+  row-gap: 0;
+}
+
+@media (min-width: 992px) {
+  .theme-page--project .project-hero-content > p {
+    max-width: none;
+  }
+
+  .theme-page--project .project-spec-grid h2 {
+    font-size: 36px;
+  }
+}
+
+/* Keep the related carousel's first card on the same content edge as its
+   heading instead of using the wider legacy 1140px offset. */
+@media (min-width: 992px) and (max-width: 1199px) {
+  .theme-page--project .project-related .work-viewport {
+    --work-left-offset: calc((100% - 960px) / 2 + var(--container-gutter));
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .theme-page--project .project-related .work-viewport {
+    --work-left-offset: calc((100% - 1140px) / 2 + var(--container-gutter));
+  }
+}
+
+@media (min-width: 1400px) {
+  .theme-page--project .project-related .work-viewport {
+    --work-left-offset: calc((100% - var(--container-max)) / 2 + var(--container-gutter));
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .theme-page--project .project-related .work-viewport {
+    width: min(400px, calc(100% - ((100% - 720px) / 2 + var(--container-gutter)) - var(--container-gutter)));
+    margin: 40px 0 0 calc((100% - 720px) / 2 + var(--container-gutter));
+  }
+}
+
+@media (min-width: 700px) and (max-width: 767px) {
+  .theme-page--project .project-related .work-viewport {
+    width: min(400px, calc(100vw - 50px));
+    margin: 40px 0 0 25px;
+  }
+}
+
+@media (max-width: 699px) {
+  .theme-page--project .project-related .work-viewport {
+    width: min(400px, calc(100% - max(0px, (100% - 540px) / 2) - 75px));
+    margin: 40px 0 0 calc(max(0px, (100% - 540px) / 2) + 50px);
+  }
+}
+
+/* Do not stack the mobile-gallery bottom rhythm with another full section
+   margin and top padding before the related heading. */
+.theme-page--project .project-related {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Keep detail-page pagination below the card, just like the home carousel.
+   The legacy absolute positioning placed the dots inside the slide. */
+.theme-page--project .project-related .project-related-dots {
+  position: static;
+  inset: auto;
+  z-index: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 18px;
+  margin: 30px 0 0;
+  padding: 0;
+  transform: none;
+}
+
+@media (min-width: 992px) {
+  .theme-page--project .project-related {
+    height: auto;
+    min-height: 0;
+    margin-bottom: 0;
+  }
+
+  .theme-page--project .project-related .project-related-track {
+    height: 636px;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Mobile spacing contract
+
+   Keep section boundaries and the most common content gaps on the same
+   8-point rhythm. A few values remain intentionally bespoke: the 25px FAQ
+   question padding matches the supplied mobile composition, while carousel
+   geometry is kept separate from the page rhythm.
+-------------------------------------------------------------------------- */
+
+@media (max-width: 767px) {
+  .problems,
+  .welcome,
+  .work,
+  .our-process,
+  .utility,
+  .partners,
+  .testimonials,
+  .faqs,
+  .cta {
+    margin-block: 0;
+    padding-block: var(--section-pad-mobile);
+  }
+
+  .work {
+    margin-top: 0;
+  }
+
+  .work-viewport,
+  .theme-page--project .project-related .work-viewport {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .work-card-content {
+    padding-top: var(--control-gap-mobile);
+  }
+
+  .work-description {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .work-tools {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .work-dots,
+  .testimonial-dots {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .our-process .process {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .our-process .proces-box p {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  .utility {
+    margin-bottom: 0;
+  }
+
+  .utility-copy .btn-theme {
+    margin-top: var(--control-gap-mobile);
+  }
+
+  .hiring-cards {
+    gap: var(--control-gap-mobile);
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .hire-box {
+    padding-top: var(--control-gap-mobile);
+    padding-bottom: var(--control-gap-mobile);
+  }
+
+  .hire-box h3 {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  .partners,
+  .testimonials {
+    padding-block: var(--section-pad-mobile);
+  }
+
+  .partner-grid {
+    gap: var(--control-gap-mobile) var(--content-gap-mobile);
+    margin-top: var(--content-gap-mobile);
+    padding-bottom: 0;
+  }
+
+  .testimonial-heading {
+    margin-bottom: var(--content-gap-mobile);
+  }
+
+  .testimonial-card {
+    padding: var(--content-gap-mobile);
+  }
+
+  .faq-subtitle {
+    margin: var(--control-gap-mobile) 0 var(--content-gap-mobile);
+  }
+
+  .faq-item {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  /* Keep the live mobile FAQ control rhythm at 25px vertically. */
+  .faq-question {
+    padding-block: 25px;
+  }
+
+  .cta-actions {
+    gap: var(--control-gap-mobile);
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .footer {
+    padding-block: var(--section-pad-mobile) var(--content-gap-mobile);
+  }
+
+  .footer-brand {
+    padding-bottom: var(--content-gap-mobile);
+  }
+
+  .footer-tagline {
+    margin-block: var(--control-gap-mobile);
+  }
+
+  .office-grid {
+    gap: var(--content-gap-mobile);
+    padding-top: var(--content-gap-mobile);
+  }
+
+  .office-heading {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  .office-list {
+    gap: var(--content-gap-mobile);
+  }
+
+  .copyright {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  /* Secondary templates use the same outer rhythm as the home page. */
+  .theme-mission {
+    margin-top: var(--section-gap-mobile);
+    padding-bottom: var(--section-pad-mobile);
+  }
+
+  .theme-mission-grid {
+    gap: var(--content-gap-mobile);
+  }
+
+  .theme-mission-card h2 {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  .theme-core-values,
+  .theme-join,
+  .theme-case-list,
+  .listing-grid-section {
+    padding-block: var(--section-pad-mobile);
+  }
+
+  .theme-core-values h2 {
+    margin-bottom: var(--content-gap-mobile);
+  }
+
+  .theme-join-inner h2 {
+    margin: var(--content-gap-mobile) 0 var(--control-gap-mobile);
+  }
+
+  .theme-join-inner p {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  .theme-join-inner .btn-theme {
+    margin-top: var(--control-gap-mobile);
+  }
+
+  .theme-case-card {
+    padding-bottom: var(--section-pad-mobile);
+  }
+
+  .theme-case-copy {
+    padding-top: var(--content-gap-mobile);
+  }
+
+  .theme-case-copy h2 {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  .theme-case-category {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  .theme-case-tools {
+    gap: var(--content-gap-mobile);
+    margin-top: var(--control-gap-mobile);
+  }
+
+  .theme-case-arrow {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .theme-contact-hero {
+    padding-bottom: var(--section-pad-mobile);
+  }
+
+  .theme-contact-form {
+    margin-top: var(--section-gap-mobile);
+  }
+
+  .theme-form-card {
+    padding: var(--content-gap-mobile) var(--control-gap-mobile) 0;
+  }
+
+  .theme-form-progress {
+    gap: var(--control-gap-mobile);
+    padding-bottom: var(--content-gap-mobile);
+  }
+
+  .theme-form-fields {
+    gap: var(--control-gap-mobile);
+    padding-top: var(--content-gap-mobile);
+  }
+
+  .theme-form-actions {
+    padding: var(--control-gap-mobile) var(--control-gap-mobile) var(--content-gap-mobile);
+  }
+
+  .listing-grid {
+    gap: var(--content-gap-mobile);
+  }
+
+  .listing-card > a > div {
+    padding: var(--content-gap-mobile);
+  }
+
+  .listing-card h2 {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  .listing-card p {
+    margin-bottom: var(--control-gap-mobile);
+  }
+
+  .post-page {
+    padding-bottom: var(--section-pad-mobile);
+  }
+
+  .post-page h1,
+  .post-body,
+  .post-share {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  /* Project detail sections stack on the same mobile section rhythm. */
+  .theme-page--project .project-hero-content {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .theme-page--project .project-hero-content > p {
+    margin-bottom: var(--content-gap-mobile);
+  }
+
+  .theme-page--project .project-specs,
+  .theme-page--project .project-before-after,
+  .theme-page--project .project-shots {
+    padding-block: var(--section-pad-mobile);
+  }
+
+  .theme-page--project .project-spec-grid > div + div {
+    margin-top: var(--section-pad-mobile);
+  }
+
+  .theme-page--project .project-spec-grid h2,
+  .theme-page--project .project-shots h2,
+  .theme-page--project .project-before-after h2,
+  .theme-page--project .project-related > .shell > h2 {
+    margin-bottom: var(--content-gap-mobile);
+  }
+
+  .theme-page--project .project-feature-grid {
+    gap: var(--content-gap-mobile);
+  }
+
+  .theme-page--project .project-gallery {
+    column-gap: var(--content-gap-mobile);
+    row-gap: 0;
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .theme-page--project .project-gallery img {
+    margin-bottom: var(--content-gap-mobile);
+  }
+
+  .theme-page--project .project-related {
+    padding-bottom: var(--section-pad-mobile);
   }
 }

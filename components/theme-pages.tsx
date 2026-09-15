@@ -3,7 +3,7 @@
 
 import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
-import { InfiniteCarousel } from "./infinite-carousel";
+import { CaseStudyCarousel } from "./case-study-carousel";
 
 export const siteAsset = (name: string) => /^https?:\/\//.test(name) ? name : `/assets/${name}`;
 export const themeAsset = (name: string) => `/theme-assets/${name}`;
@@ -763,63 +763,28 @@ function CaseStudyCard({ project, index }: { project: ThemeProject; index: numbe
   );
 }
 
-function RelatedProjectCard({ project, currentSlug }: { project: ThemeProject; currentSlug: string }) {
-  const caseStudyImage = project.caseStudyImage ?? project.image;
-  const categories = project.categories ?? [project.category];
-  return (
-    <article className={`theme-case-card related-case-card ${project.slug === currentSlug ? "related-case-card--current" : ""}`} data-project-slug={project.slug}>
-      <div className="theme-case-grid">
-        <div className="theme-case-media">
-          <a href={`/project/${project.slug}/`}>
-            <picture>
-              <source media="(max-width: 699px)" srcSet={siteAsset(project.mobileImage)} />
-              <img src={siteAsset(caseStudyImage)} alt={`${project.name} project`} />
-            </picture>
-          </a>
-        </div>
-        <div className="theme-case-copy">
-          <div className="related-case-mobile-topline">
-            <span className="theme-case-category">{project.category}</span>
-            <a className="related-case-mobile-arrow" href={`/project/${project.slug}/`} aria-label={`Open ${project.name}`}><ArrowUpRight size={15} /></a>
-          </div>
-          <h2>
-            <a href={`/project/${project.slug}/`}>{project.name}</a>
-            {categories.map((category) => <span className="theme-case-category" key={category}>{category}</span>)}
-          </h2>
-          <p>{project.description}</p>
-          <div className="theme-case-tools"><span>Tools:</span><img src={siteAsset("tool-1.png")} alt="Design tool" /><img src={siteAsset("tool-2.png")} alt="Development tool" /></div>
-          <div className="related-case-resources">
-            <p>Resources who worked:</p>
-            <div className="related-case-resources-row">
-              <div className="related-case-avatars">
-                <img src={referenceAsset("Frame-1437254780.png")} alt="" aria-hidden="true" />
-                <img src={referenceAsset("ahmed-shahzad.png")} alt="" aria-hidden="true" />
-              </div>
-              <a className="theme-case-arrow" href={`/project/${project.slug}/`} aria-label={`View ${project.name}`}><ArrowUpRight size={25} /></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
 function RelatedProjects({ projects, currentSlug }: { projects: ThemeProject[]; currentSlug: string }) {
   const relatedProjects = projects.filter((project) => project.slug !== currentSlug);
+  const carouselItems = relatedProjects.map((project) => ({
+    id: project.slug,
+    name: project.name,
+    imageSrc: siteAsset(project.caseStudyImage ?? project.image),
+    mobileImageSrc: siteAsset(project.mobileImage),
+    categories: project.categories ?? project.category.split(/,\s*/),
+    href: `/project/${project.slug}/`,
+    description: project.description,
+  }));
   return (
     <section className={`project-related project-related--${currentSlug}`}>
       <div className="shell"><h2>Relevant Case Studies</h2></div>
-      <InfiniteCarousel
-        items={relatedProjects}
+      <CaseStudyCarousel
+        items={carouselItems}
         ariaLabel="Related case studies"
-        className="project-related-viewport"
-        trackClassName="project-related-track"
-        itemSize="var(--related-card-width)"
-        getItemLabel={(project) => project.name}
-        getKey={(project, physicalIndex) => `${project.slug}-${physicalIndex}`}
-        dotsClassName="project-related-dots"
-        dotItems={relatedProjects.slice(0, 5)}
-        renderItem={(project) => <RelatedProjectCard project={project} currentSlug={currentSlug} />}
+        className="work-viewport project-related-viewport"
+        trackClassName="work-track project-related-track"
+        itemSize="var(--work-card-width)"
+        dotsClassName="work-dots project-related-dots"
+        dotItems={carouselItems.slice(0, 5)}
       />
     </section>
   );
@@ -913,10 +878,10 @@ export function ProjectDetailPage({ slug }: { slug: string }) {
         </div>
       </section>
       <section className="project-specs"><div className="shell project-spec-grid"><div><h2>Deliverables</h2><ul>{project.deliverables.map((item) => <li key={item}>{item}</li>)}</ul></div><div><h2>Typography</h2><ul className="project-type-list">{project.typography.map((item, index) => <li key={item} className={`type-${index}`}>{item}</li>)}</ul></div><div><h2>Color Palette</h2><div className="project-palette">{project.paletteImages.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} palette ${index + 1}`} />)}</div></div></div></section>
-      <section className={`project-before-after ${project.featureSections.length ? "project-featured" : "project-featured--empty"}`} aria-label={project.featureSections.length ? "Featured project pages" : undefined}><div className="shell">{project.featureSections.length ? <div className="project-feature-grid">{project.featureSections.map((feature) => <div className="project-feature-item" key={feature.title}><h2>{feature.title}</h2><img src={siteAsset(feature.image)} alt={`${project.name} ${feature.title}`} decoding="async" /></div>)}</div> : null}</div></section>
+      {project.featureSections.length ? <section className="project-before-after project-featured" aria-label="Featured project pages"><div className="shell"><div className="project-feature-grid">{project.featureSections.map((feature) => <div className="project-feature-item" key={feature.title}><h2>{feature.title}</h2><img src={siteAsset(feature.image)} alt={`${project.name} ${feature.title}`} decoding="async" /></div>)}</div></div></section> : null}
       <section className="project-shots"><div className="shell"><h2>{project.topShotsTitle}</h2><div className="project-gallery">{project.gallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} project view ${index + 1}`} decoding="async" />)}</div></div></section>
-      {project.showFinalSection ? <section className={`project-shots project-final ${project.finalGallery.length ? "project-final--filled" : "project-final--empty"}`}><div className="shell"><h2>Relevant Case Studies</h2>{project.finalGallery.length ? <div className="project-gallery project-gallery--single">{project.finalGallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} final project view ${index + 1}`} decoding="async" />)}</div> : <div className="project-final-spacer" aria-hidden="true" />}</div></section> : null}
-      {project.showMobileSection ? <section className={`project-shots project-mobile ${project.mobileGallery.length ? "project-mobile--filled" : "project-mobile--empty"}`}><div className="shell">{project.mobileGallery.length || project.mobileTitle ? <><h2>{project.mobileTitle}</h2>{project.mobileGallery.length ? <div className="project-gallery project-gallery--mobile">{project.mobileGallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} mobile view ${index + 1}`} decoding="async" />)}</div> : null}</> : null}</div></section> : null}
+      {project.showFinalSection && project.finalGallery.length ? <section className="project-shots project-final project-final--filled"><div className="shell"><h2>Relevant Case Studies</h2><div className="project-gallery project-gallery--single">{project.finalGallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} final project view ${index + 1}`} decoding="async" />)}</div></div></section> : null}
+      {project.showMobileSection && (project.mobileGallery.length || project.mobileTitle) ? <section className={`project-shots project-mobile ${project.mobileGallery.length ? "project-mobile--filled" : "project-mobile--empty"}`}><div className="shell"><h2>{project.mobileTitle}</h2>{project.mobileGallery.length ? <div className="project-gallery project-gallery--mobile">{project.mobileGallery.map((image, index) => <img key={`${image}-${index}`} src={siteAsset(image)} alt={`${project.name} mobile view ${index + 1}`} decoding="async" />)}</div> : null}</div></section> : null}
       <RelatedProjects projects={related} currentSlug={project.slug} />
     </SitePageFrame>
   );
