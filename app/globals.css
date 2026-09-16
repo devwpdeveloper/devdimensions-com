@@ -10069,6 +10069,43 @@ h2 span {
   }
 }
 
+/* Keep the desktop contact stepper evenly centered. The label widths differ,
+   so flex space-between otherwise shifts the middle step off the true center. */
+@media (min-width: 768px) {
+  .theme-page--contact .theme-form-progress {
+    display: block;
+    min-height: 116px;
+  }
+
+  .theme-page--contact .theme-form-progress-bar {
+    left: 5%;
+    width: 90%;
+  }
+
+  .theme-page--contact .theme-form-progress > div {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .theme-page--contact .theme-form-progress > div:nth-of-type(1) {
+    left: 5%;
+  }
+
+  .theme-page--contact .theme-form-progress > div:nth-of-type(2) {
+    left: 50%;
+  }
+
+  .theme-page--contact .theme-form-progress > div:nth-of-type(3) {
+    left: 95%;
+  }
+
+  .theme-page--contact .theme-form-progress > div strong {
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
 /* Related case studies use the same carousel geometry as the home page.
    Keep the page-specific wrapper from reintroducing its legacy left offset,
    so the active card stays centered with an even neighboring-card peek. */
