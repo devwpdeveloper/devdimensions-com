@@ -9997,3 +9997,39 @@ h2 span {
 .theme-page--contact .footer {
   padding-bottom: var(--space-2);
 }
+
+/* Keep contact form actions aligned with the shared button scale and give
+   every step the same breathing room below the form card. */
+.theme-page--contact .theme-form-actions {
+  box-sizing: border-box;
+  min-height: 0;
+  padding: var(--space-3) 30px;
+  gap: 20px;
+}
+
+.theme-page--contact .theme-form-actions .btn-theme,
+.theme-page--contact .theme-form-actions .theme-form-back {
+  flex: 0 0 172px;
+  height: 44px;
+  min-height: 44px;
+  margin: 0;
+  line-height: 44px;
+}
+
+.theme-page--contact .theme-form-actions .btn-theme::after {
+  top: 50%;
+}
+
+@media (max-width: 767px) {
+  .theme-page--contact .theme-form-actions {
+    padding: 16px 18px 20px;
+  }
+
+  .theme-page--contact .theme-form-actions .btn-theme,
+  .theme-page--contact .theme-form-actions .theme-form-back {
+    flex-basis: 37px;
+    height: 37px;
+    min-height: 37px;
+    line-height: 37px;
+  }
+}
