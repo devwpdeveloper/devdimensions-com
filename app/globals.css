@@ -9581,7 +9581,9 @@ h2 span {
 }
 
 .hire-graph-card {
-  right: 39.69%;
+  /* Give the card's headline the same proportional breathing room on both
+     sides instead of letting the final word touch the right edge. */
+  right: 29%;
   width: auto;
 }
 
