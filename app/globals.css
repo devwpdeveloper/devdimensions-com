@@ -9826,7 +9826,8 @@ h2 span {
 
   .theme-page--contact .theme-form-actions .btn-theme,
   .theme-page--contact .theme-form-actions .theme-form-back {
-    flex-basis: 172px;
+    /* The action row is vertical on mobile, so flex-basis controls height. */
+    flex-basis: 37px;
   }
 
   .theme-page--contact .theme-form > .form-status--error {
