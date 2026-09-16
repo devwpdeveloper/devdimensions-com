@@ -16,6 +16,7 @@ import { useInfiniteCarouselMotion } from "../components/use-carousel-motion";
 import { MobileNavigation } from "../components/theme-pages";
 
 const ASSET_ROOT = "/assets/";
+const CONTACT_ENDPOINT = "/backend/contact.php";
 const asset = (name: string) => `${ASSET_ROOT}${name}`;
 const normalizeNavPath = (path: string) => path.replace(/\/+$/, "") || "/";
 const isNavActive = (pathname: string, href: string) => {
@@ -442,7 +443,7 @@ function ContactModal({
     setStatus("submitting");
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -498,6 +499,15 @@ function ContactModal({
                 value={form.email}
                 onChange={(event) => setForm({ ...form, email: event.target.value })}
                 placeholder="you@company.com"
+              />
+            </label>
+            <label>
+              Company
+              <input
+                name="company"
+                value={form.company}
+                onChange={(event) => setForm({ ...form, company: event.target.value })}
+                placeholder="Your company"
               />
             </label>
             <label className="contact-form__wide">

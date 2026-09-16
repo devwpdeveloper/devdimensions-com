@@ -8,6 +8,7 @@ import { CaseStudyCarousel } from "./case-study-carousel";
 
 export const siteAsset = (name: string) => /^https?:\/\//.test(name) ? name : `/assets/${name}`;
 export const themeAsset = (name: string) => `/theme-assets/${name}`;
+const CONTACT_ENDPOINT = "/backend/contact.php";
 const referenceAsset = (name: string) => `https://devdimensions-next.vercel.app/assets/images/${name}`;
 const normalizeNavPath = (path: string) => path.replace(/\/+$/, "") || "/";
 const isNavActive = (pathname: string, href: string) => {
@@ -496,7 +497,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
     event.preventDefault();
     setStatus("submitting");
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch(CONTACT_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -524,8 +525,9 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
           </output>
         ) : (
           <form className="contact-form" onSubmit={handleSubmit}>
-            <label>Your Name<input required value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="Your name" /></label>
-            <label>Email<input required type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} placeholder="you@company.com" /></label>
+            <label>Your Name<input required name="name" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="Your name" /></label>
+            <label>Email<input required name="email" type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} placeholder="you@company.com" /></label>
+            <label>Company<input name="company" value={form.company} onChange={(event) => setForm({ ...form, company: event.target.value })} placeholder="Your company" /></label>
             <label className="contact-form__wide">Brief Message<textarea required rows={4} value={form.message} onChange={(event) => setForm({ ...form, message: event.target.value })} placeholder="Tell us about your project" /></label>
             <button className="btn-theme contact-form__wide" type="submit" disabled={status === "submitting"}>{status === "submitting" ? "Sending…" : "Get Free Consultation"} <ArrowUpRight size={17} /></button>
             {status === "error" ? <p className="form-status form-status--error" role="alert">Please email <a href="mailto:info@devdimensions.com">info@devdimensions.com</a>.</p> : null}
@@ -560,20 +562,21 @@ export function MobileNavigation({ onClose, onContact }: { onClose: () => void; 
   const pathname = usePathname();
 
   return (
-    <aside className="menu-panel" aria-label="Main navigation">
+    <aside className="menu-panel" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
+      <button className="menu-panel-scrim" type="button" aria-label="Close menu" onClick={onClose} />
       <div className="menu-panel-body">
         <div className="menu-panel-header">
-          <h2 className="menu-panel-title">Menu</h2>
+          <h2 className="menu-panel-title" id="mobile-menu-title">Menu</h2>
           <button className="menu-close" type="button" aria-label="Close navigation" onClick={onClose}><X size={25} strokeWidth={1.5} /></button>
         </div>
         <nav className="menu-links">
-          <a href="/" aria-current={isNavActive(pathname, "/") ? "page" : undefined} onClick={onClose}>Home</a>
-          <a href="/about-us/" aria-current={isNavActive(pathname, "/about-us/") ? "page" : undefined} onClick={onClose}>About Us</a>
-          <a href="/case-studies/" aria-current={isNavActive(pathname, "/case-studies/") ? "page" : undefined} onClick={onClose}>Case Studies</a>
-          <a href="/contact-us/" aria-current={isNavActive(pathname, "/contact-us/") ? "page" : undefined} onClick={onClose}>Contact Us</a>
+          <a href="/" aria-current={isNavActive(pathname, "/") ? "page" : undefined} onClick={onClose}><span>Home</span><ArrowUpRight className="menu-link-arrow" size={18} strokeWidth={1.8} aria-hidden="true" /></a>
+          <a href="/about-us/" aria-current={isNavActive(pathname, "/about-us/") ? "page" : undefined} onClick={onClose}><span>About Us</span><ArrowUpRight className="menu-link-arrow" size={18} strokeWidth={1.8} aria-hidden="true" /></a>
+          <a href="/case-studies/" aria-current={isNavActive(pathname, "/case-studies/") ? "page" : undefined} onClick={onClose}><span>Case Studies</span><ArrowUpRight className="menu-link-arrow" size={18} strokeWidth={1.8} aria-hidden="true" /></a>
+          <a href="/contact-us/" aria-current={isNavActive(pathname, "/contact-us/") ? "page" : undefined} onClick={onClose}><span>Contact Us</span><ArrowUpRight className="menu-link-arrow" size={18} strokeWidth={1.8} aria-hidden="true" /></a>
         </nav>
         <div className="menu-consult">
-          <button className="menu-consult-button" type="button" onClick={onContact}>Get Free Consultation</button>
+          <button className="menu-consult-button" type="button" onClick={onContact}><span>Get Free Consultation</span><ArrowUpRight size={17} strokeWidth={1.9} aria-hidden="true" /></button>
         </div>
       </div>
     </aside>
@@ -865,7 +868,7 @@ function ContactForm() {
     if (step < 3) { setStep((current) => current + 1); return; }
     setError(false);
     try {
-      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.name, email: form.email, company: form.company, message: `Technologies: ${form.services}\nEngineers: ${form.engineers}\nHire type: ${form.hireType}\nHiring timeline: ${form.hiringTime}\n${form.message}` }) });
+      const response = await fetch(CONTACT_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name: form.name, email: form.email, company: form.company, phone: form.phone, message: `Technologies: ${form.services}\nEngineers: ${form.engineers}\nHire type: ${form.hireType}\nHiring timeline: ${form.hiringTime}\n${form.message}` }) });
       if (!response.ok) throw new Error("Unable to send message");
       setSubmitted(true);
     } catch { setError(true); }

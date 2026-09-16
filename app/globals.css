@@ -3131,6 +3131,14 @@ h2 span {
   }
 }
 
+/* Keep the desktop endpoint inside the viewport at the two common wide
+   desktop widths without changing the map's scale or any other section. */
+@media (min-width: 1281px) and (max-width: 1440px) {
+  .problem-end {
+    right: -88px;
+  }
+}
+
 @media (min-width: 992px) and (max-width: 1100px) {
   .problem-end {
     top: 38%;
@@ -9305,5 +9313,251 @@ h2 span {
 @media (prefers-reduced-motion: reduce) {
   .site-scroll-progress {
     display: none;
+  }
+}
+
+/* Mobile navigation polish: keep the drawer contained, comfortable to tap,
+   and anchored so the consultation CTA never gets lost below the fold. */
+@media (max-width: 991px) {
+  .menu-panel {
+    inset: 0;
+    display: flex;
+    justify-content: flex-end;
+    padding: max(12px, env(safe-area-inset-top, 0px))
+      max(12px, env(safe-area-inset-right, 0px))
+      max(12px, env(safe-area-inset-bottom, 0px))
+      max(12px, env(safe-area-inset-left, 0px));
+    overflow: hidden;
+    background: rgba(4, 4, 4, 0.68);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    animation: menu-scrim-in 240ms ease-out;
+  }
+
+  .menu-panel-scrim {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .menu-panel-body {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: min(100%, 420px);
+    height: 100%;
+    max-height: calc(100dvh - 24px);
+    min-height: 0;
+    flex-direction: column;
+    margin: 0;
+    padding: 28px 28px 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at 100% 0%, rgba(252, 63, 55, 0.12), transparent 34%),
+      linear-gradient(145deg, #1a1a1b 0%, #101011 58%, #0c0c0d 100%);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    scrollbar-color: rgba(255, 255, 255, 0.34) transparent;
+    scrollbar-width: thin;
+    animation: menu-drawer-in 320ms cubic-bezier(0.2, 0.75, 0.25, 1);
+  }
+
+  .menu-panel-body::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .menu-panel-body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .menu-panel-body::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.34);
+  }
+
+  .menu-panel-header {
+    height: auto;
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .menu-panel-title {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: clamp(34px, 8vw, 42px);
+    letter-spacing: -1.2px;
+    line-height: 1;
+  }
+
+  .menu-close {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    margin: 0 -8px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+  }
+
+  .menu-close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .menu-close:hover,
+  .menu-close:focus-visible {
+    border-color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.14);
+    transform: rotate(90deg);
+  }
+
+  .menu-links {
+    display: grid;
+    gap: 12px;
+    margin: 32px 0 0;
+  }
+
+  .menu-links a {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 20px;
+    line-height: 32px;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+
+  .menu-links a:hover,
+  .menu-links a:focus-visible {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--white);
+    transform: translateX(4px);
+  }
+
+  .menu-links a[aria-current="page"] {
+    border-color: rgba(252, 63, 55, 0.26);
+    background: rgba(181, 30, 23, 0.14);
+    color: var(--white);
+  }
+
+  .menu-link-arrow {
+    flex: 0 0 auto;
+    color: var(--red-bright);
+    opacity: 0;
+    transform: translate(-6px, 6px);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .menu-links a:hover .menu-link-arrow,
+  .menu-links a:focus-visible .menu-link-arrow,
+  .menu-links a[aria-current="page"] .menu-link-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .menu-consult {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    margin-top: auto;
+    padding-top: 36px;
+  }
+
+  .menu-consult-button {
+    display: inline-flex;
+    width: min(100%, 248px);
+    min-height: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 0 15px 0 18px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 14px;
+    background: linear-gradient(100deg, var(--red) 0%, var(--red-bright) 100%);
+    box-shadow: 0 10px 26px rgba(181, 30, 23, 0.24);
+    color: var(--white);
+    font-family: var(--font-medium);
+    font-size: 15px;
+    line-height: 20px;
+    text-align: left;
+    white-space: nowrap;
+    transition: box-shadow 180ms ease, filter 180ms ease, transform 180ms ease;
+  }
+
+  .menu-consult-button:hover,
+  .menu-consult-button:focus-visible {
+    border-color: rgba(255, 255, 255, 0.58);
+    background: linear-gradient(100deg, var(--red-bright) 0%, #ff6a50 100%);
+    box-shadow: 0 14px 32px rgba(181, 30, 23, 0.34);
+    color: var(--white);
+    filter: saturate(1.08);
+    transform: translateY(-2px);
+  }
+
+  .menu-consult-button svg {
+    flex: 0 0 auto;
+  }
+}
+
+@keyframes menu-scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes menu-drawer-in {
+  from { opacity: 0; transform: translateX(28px) scale(0.985); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@media (max-width: 380px) {
+  .menu-panel-body {
+    padding: 24px 20px 20px;
+    border-radius: 20px;
+  }
+
+  .menu-links {
+    gap: 8px;
+    margin-top: 28px;
+  }
+
+  .menu-links a {
+    min-height: 44px;
+    padding-inline: 10px;
+  }
+
+  .menu-consult {
+    padding-top: 28px;
+  }
+
+  .menu-consult-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-panel,
+  .menu-panel-body,
+  .menu-links a,
+  .menu-link-arrow,
+  .menu-close,
+  .menu-consult-button {
+    animation: none !important;
+    transition: none !important;
   }
 }

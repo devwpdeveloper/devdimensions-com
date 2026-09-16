@@ -32,10 +32,12 @@ if (!is_array($payload)) {
 $name = trim((string)($payload['name'] ?? ''));
 $email = trim((string)($payload['email'] ?? ''));
 $company = trim((string)($payload['company'] ?? ''));
+$phone = trim((string)($payload['phone'] ?? ''));
 $message = trim((string)($payload['message'] ?? ''));
 
 $name = preg_replace('/[\r\n]+/', ' ', $name) ?: '';
 $company = preg_replace('/[\r\n]+/', ' ', $company) ?: '';
+$phone = preg_replace('/[\r\n]+/', ' ', $phone) ?: '';
 
 if ($name === '' || $email === '' || $message === '') {
     http_response_code(422);
@@ -60,6 +62,7 @@ $body = implode(PHP_EOL, [
     'Name: ' . $name,
     'Email: ' . $email,
     'Company: ' . ($company !== '' ? $company : 'Not provided'),
+    'Phone: ' . ($phone !== '' ? $phone : 'Not provided'),
     '',
     'Message:',
     $message,
