@@ -4026,7 +4026,6 @@ h2 span {
 /* Partners */
 
 .partners {
-  min-height: 407px;
   margin-bottom: var(--section-gap-tight);
   padding-top: var(--section-pad);
   overflow: hidden;
