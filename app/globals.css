@@ -5150,10 +5150,10 @@ h2 span {
 
   .btn-theme {
     min-width: 172px;
-    height: 37px;
+    height: 48px;
     gap: 12px;
     font-size: var(--type-button);
-    line-height: 37px;
+    line-height: 48px;
   }
 
   .btn-arrow {
