@@ -601,14 +601,36 @@ export function SiteFooter() {
             <section className="office">
               <h3 className="office-heading"><img src={themeAsset("us-flag.png")} alt="" aria-hidden="true" />United States</h3>
               <ul className="office-list">
-                <li><img src={themeAsset("icon-location.svg")} alt="" aria-hidden="true" />10788 Lake Wynds, Boynton Beach, FL</li>
+                <li>
+                  <img src={themeAsset("icon-location.svg")} alt="" aria-hidden="true" />
+                  <a
+                    className="office-address"
+                    href="https://www.google.com/maps/search/?api=1&query=10788+Lake+Wynds%2C+Boynton+Beach%2C+FL"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open the United States office in Google Maps"
+                  >
+                    10788 Lake Wynds, Boynton Beach, FL
+                  </a>
+                </li>
                 <li><img src={themeAsset("icon-mobile.svg")} alt="" aria-hidden="true" /><span className="office-contact"><a href="tel:+15613360919">+1 (561) 336-0919</a><a href="mailto:sales@devdimensions.com">sales@devdimensions.com</a></span></li>
               </ul>
             </section>
             <section className="office">
               <h3 className="office-heading"><img src={themeAsset("pak-flag.png")} alt="" aria-hidden="true" />Pakistan</h3>
               <ul className="office-list">
-                <li><img src={themeAsset("icon-location.svg")} alt="" aria-hidden="true" />26 K Service Rd, Block K, Phase 2, Johar Town Lahore, Pakistan.</li>
+                <li>
+                  <img src={themeAsset("icon-location.svg")} alt="" aria-hidden="true" />
+                  <a
+                    className="office-address"
+                    href="https://www.google.com/maps/search/?api=1&query=26+K+Service+Rd%2C+Block+K%2C+Phase+2%2C+Johar+Town%2C+Lahore%2C+Pakistan"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open the Pakistan office in Google Maps"
+                  >
+                    26 K Service Rd, Block K, Phase 2, Johar Town Lahore, Pakistan.
+                  </a>
+                </li>
                 <li><img src={themeAsset("icon-mobile.svg")} alt="" aria-hidden="true" /><span className="office-contact"><a href="tel:+924232296908">+92 42 322 96908</a><a href="mailto:info@devdimensions.com">info@devdimensions.com</a></span></li>
               </ul>
             </section>

@@ -1072,7 +1072,18 @@ export default function Home() {
                 <img src={asset("us-flag.png")} alt="" aria-hidden="true" /> United States
               </h3>
               <ul className="office-list">
-                <li><img src={asset("icon-location.svg")} alt="" aria-hidden="true" /> 10788 Lake Wynds, Boynton Beach, FL</li>
+                <li>
+                  <img src={asset("icon-location.svg")} alt="" aria-hidden="true" />
+                  <a
+                    className="office-address"
+                    href="https://www.google.com/maps/search/?api=1&query=10788+Lake+Wynds%2C+Boynton+Beach%2C+FL"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open the United States office in Google Maps"
+                  >
+                    10788 Lake Wynds, Boynton Beach, FL
+                  </a>
+                </li>
                 <li>
                   <img src={asset("icon-mobile.svg")} alt="" aria-hidden="true" />
                   <span className="office-contact">
@@ -1087,7 +1098,18 @@ export default function Home() {
                 <img src={asset("pak-flag.png")} alt="" aria-hidden="true" /> Pakistan
               </h3>
               <ul className="office-list">
-                <li><img src={asset("icon-location.svg")} alt="" aria-hidden="true" /> 26 K Service Rd, Block K, Phase 2, Johar Town Lahore, Pakistan.</li>
+                <li>
+                  <img src={asset("icon-location.svg")} alt="" aria-hidden="true" />
+                  <a
+                    className="office-address"
+                    href="https://www.google.com/maps/search/?api=1&query=26+K+Service+Rd%2C+Block+K%2C+Phase+2%2C+Johar+Town%2C+Lahore%2C+Pakistan"
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="Open the Pakistan office in Google Maps"
+                  >
+                    26 K Service Rd, Block K, Phase 2, Johar Town Lahore, Pakistan.
+                  </a>
+                </li>
                 <li>
                   <img src={asset("icon-mobile.svg")} alt="" aria-hidden="true" />
                   <span className="office-contact">

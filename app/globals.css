@@ -9561,3 +9561,275 @@ h2 span {
     transition: none !important;
   }
 }
+
+/* -------------------------------------------------------------------------
+   QA refinements
+
+   Keep the measured shell, card, carousel, form, and project-detail rules
+   aligned at the breakpoints called out in the responsive review.
+-------------------------------------------------------------------------- */
+
+.shell {
+  box-sizing: border-box;
+}
+
+/* The hiring artwork must fit inside its grid column so both outer edges keep
+   the same breathing room at 1024px and 1440px. */
+.hire-graphic {
+  width: min(582px, 100%);
+  margin-inline: auto;
+}
+
+.hire-graph-card {
+  right: 39.69%;
+  width: auto;
+}
+
+.hire-review-card {
+  right: 7.2%;
+  width: auto;
+}
+
+@media (min-width: 992px) {
+  .welcome-art {
+    width: min(582px, 100%);
+    margin-left: 0;
+    justify-self: end;
+  }
+}
+
+/* Slow the horizontal slide enough for the card transition to read clearly. */
+.work-track,
+.theme-page--project .project-related-track {
+  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.work-track.is-loop-reset,
+.theme-page--project .project-related-track.is-loop-reset {
+  transition: none;
+}
+
+/* Keep pagination in the same centered measure as the visible slide. */
+.work-dots {
+  box-sizing: border-box;
+  width: min(var(--work-card-width), 100%);
+  max-width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.office-list li > .office-address {
+  display: block;
+  color: var(--white);
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.office-list li > .office-address:hover,
+.office-list li > .office-address:focus-visible {
+  color: var(--red);
+}
+
+.copyright-link {
+  margin-left: 4px;
+}
+
+/* Mobile/tablet home cards should end when their content ends; a fixed legacy
+   viewport height was leaving a large black gap before the dots. */
+@media (max-width: 991px) {
+  .work {
+    padding-bottom: 0;
+  }
+
+  .work-viewport {
+    height: auto;
+    min-height: 0;
+  }
+
+  .work-track {
+    height: auto;
+  }
+
+  .work-card {
+    height: auto;
+    min-height: 0;
+    margin-bottom: 0;
+  }
+}
+
+/* The project-detail carousel uses the same one-slide geometry as the home
+   carousel at tablet and phone widths. This removes the old stacked-grid
+   layout that exposed an empty black column on the right. */
+@media (max-width: 991px) {
+  .theme-page--project .project-related .work-viewport {
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .theme-page--project .project-related .work-track {
+    display: flex;
+    width: 100%;
+    height: auto;
+    gap: var(--slider-gap);
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  .theme-page--project .project-related .infinite-carousel-item {
+    display: block;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .theme-page--project .project-related .work-card {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 15px;
+  }
+
+  .theme-page--project .project-related .work-card-grid {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  .theme-page--project .project-related .work-card-content {
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: var(--control-gap-mobile) 0 0;
+  }
+
+  .theme-page--project .project-related .project-related-dots {
+    position: static;
+    inset: auto;
+    display: flex;
+    width: 100%;
+    height: 21px;
+    margin: var(--content-gap-mobile) auto 0;
+    transform: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .theme-page--project .project-related .work-viewport {
+    width: calc(100% - 60px);
+    max-width: none;
+    margin: 40px 30px 0;
+  }
+
+  .theme-page--project .project-related > .shell {
+    margin-bottom: 24px;
+  }
+
+  .theme-page--project .project-related .work-card-title {
+    font-size: 30px;
+  }
+
+  .theme-page--project .cta-box h2 {
+    max-width: 660px;
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .theme-page--project .cta-actions {
+    gap: 24px;
+    margin-top: 28px;
+  }
+
+  .theme-page--project .cta-actions > .btn-theme,
+  .theme-page--project .cta-actions > .btn-ghost {
+    width: 240px;
+    min-width: 0;
+    flex: 0 1 240px;
+  }
+}
+
+@media (max-width: 699px) {
+  /* Reserve a clear band below the global header before the project artwork. */
+  .theme-page--project .project-hero {
+    padding-top: 96px;
+  }
+
+  .theme-page--project .project-hero-content {
+    margin-top: 56px;
+  }
+
+  .theme-page--project .project-hero-content > p {
+    margin-top: 16px;
+  }
+
+  .theme-page--project .project-related {
+    margin-top: 64px;
+    padding-bottom: var(--section-pad-mobile);
+  }
+
+  .theme-page--project .project-related > .shell {
+    margin-bottom: 24px;
+    padding-inline: var(--container-gutter-mobile);
+  }
+
+  .theme-page--project .project-related .work-viewport {
+    width: min(400px, calc(100vw - 50px));
+    margin: 24px auto 0;
+  }
+
+  .theme-page--project .project-related .work-card {
+    min-height: 0;
+  }
+}
+
+/* Keep the contact actions as equal, border-box buttons and give an error
+   message its own flow space before the CTA band starts. */
+.theme-page--contact .theme-form-actions {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.theme-page--contact .theme-form-actions .btn-theme,
+.theme-page--contact .theme-form-actions .theme-form-back {
+  box-sizing: border-box;
+  flex: 0 0 172px;
+}
+
+.theme-page--contact .theme-form > .form-status--error {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 30px 24px;
+  color: #ff8e88;
+  line-height: 24px;
+  text-align: center;
+}
+
+.theme-page--contact .theme-form > .form-status--error a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .copyright-link {
+    margin-left: 0;
+  }
+
+  .theme-page--contact .theme-form-actions .btn-theme,
+  .theme-page--contact .theme-form-actions .theme-form-back {
+    flex-basis: 172px;
+  }
+
+  .theme-page--contact .theme-form > .form-status--error {
+    padding: 0 18px 16px;
+    font-size: 14px;
+    line-height: 21px;
+  }
+}
