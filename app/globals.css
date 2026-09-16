@@ -10068,3 +10068,60 @@ h2 span {
     border-radius: 7px;
   }
 }
+
+/* Related case studies use the same carousel geometry as the home page.
+   Keep the page-specific wrapper from reintroducing its legacy left offset,
+   so the active card stays centered with an even neighboring-card peek. */
+@media (min-width: 992px) {
+  .theme-page--project .project-related .work-viewport {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    margin: 50px 0 0;
+    padding-bottom: 34px;
+    overflow: hidden;
+  }
+
+  .theme-page--project .project-related .work-track {
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: max(0px, calc((100% - var(--work-card-width)) / 2));
+    padding-right: max(0px, calc((100% - var(--work-card-width)) / 2));
+  }
+
+  .theme-page--project .project-related .project-related-dots {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    transform: none;
+  }
+}
+
+@media (max-width: 991px) {
+  .theme-page--project .project-related .work-viewport {
+    width: min(400px, calc(100vw - 60px));
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .theme-page--project .project-related .work-viewport {
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .theme-page--project .project-related .project-related-dots {
+    gap: 10px;
+    height: 21.2px;
+  }
+
+  .theme-page--project .project-related .project-related-dots button {
+    width: 12px;
+    height: 12px;
+  }
+}
