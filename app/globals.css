@@ -10162,3 +10162,16 @@ h2 span {
     height: 12px;
   }
 }
+
+/* The contact page should end at the copyright line instead of inheriting
+   the site-wide viewport minimum that can leave a black tail below it. */
+.theme-page--contact.site-shell {
+  min-height: 0;
+}
+
+.theme-page--contact .footer {
+  height: auto;
+  min-height: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
