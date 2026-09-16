@@ -9866,3 +9866,22 @@ h2 span {
     margin: 0;
   }
 }
+
+/* Mobile testimonials use one card per view. Keep the compact card design,
+   but make the viewport the same width so adjacent loop cards cannot peek in. */
+@media (max-width: 699px) {
+  .testimonial-viewport {
+    width: min(264px, calc(100vw - 50px));
+    margin-inline: auto;
+  }
+
+  .testimonial-track {
+    --testimonial-step: min(284px, calc(100vw - 30px));
+    padding-left: 0;
+  }
+
+  .testimonial-card {
+    flex: 0 0 min(264px, calc(100vw - 50px));
+    width: min(264px, calc(100vw - 50px));
+  }
+}
