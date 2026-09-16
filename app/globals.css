@@ -9991,10 +9991,10 @@ h2 span {
   }
 }
 
-/* The contact route ends at the copyright line, so keep the page-ending
-   footer space compact instead of leaving a large dead band below it. */
+/* The contact route ends at the copyright line, so do not add a second
+   page-ending gap below the copyright text. */
 .theme-page--contact .footer {
-  padding-bottom: var(--space-2);
+  padding-bottom: 0;
 }
 
 /* Keep contact form actions aligned with the shared button scale and give
