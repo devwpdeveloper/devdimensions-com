@@ -10047,3 +10047,25 @@ h2 span {
     min-width: 0;
   }
 }
+
+/* Keep project-detail CTA buttons consistent with the case-studies CTA on
+   mobile instead of stretching them across the entire card. */
+@media (max-width: 767px) {
+  .theme-page--project .cta-actions {
+    display: grid;
+    width: 100%;
+    gap: var(--control-gap-mobile);
+    margin-top: var(--content-gap-mobile);
+  }
+
+  .theme-page--project .cta-actions > .btn-theme,
+  .theme-page--project .cta-actions > .btn-ghost {
+    width: min(280px, 100%);
+    min-width: 0;
+    height: 66px;
+    min-height: 66px;
+    margin: 0 auto;
+    padding: 0 20px;
+    border-radius: 7px;
+  }
+}
