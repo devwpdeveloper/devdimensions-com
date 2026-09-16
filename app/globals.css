@@ -9844,8 +9844,9 @@ h2 span {
 @media (min-width: 992px) {
   .work-viewport {
     position: relative;
-    width: calc(100% - var(--work-left-offset));
+    width: 100%;
     max-width: none;
+    margin-left: 0;
     margin-right: 0;
     padding-bottom: 34px;
   }
