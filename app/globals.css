@@ -10032,4 +10032,18 @@ h2 span {
     min-height: 37px;
     line-height: 37px;
   }
+
+  .theme-page--contact .theme-form-actions.theme-form-actions--with-back {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .theme-page--contact .theme-form-actions.theme-form-actions--with-back .btn-theme,
+  .theme-page--contact .theme-form-actions.theme-form-actions--with-back .theme-form-back {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+  }
 }
