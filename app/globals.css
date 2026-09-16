@@ -9885,3 +9885,105 @@ h2 span {
     width: min(264px, calc(100vw - 50px));
   }
 }
+
+/* Global section rhythm: use one vertical spacing token across the home
+   page, shared CTA/content sections, and the secondary page templates. */
+.marquee-section,
+.problems,
+.welcome,
+.work,
+.our-process,
+.utility,
+.partners,
+.testimonials,
+.faqs,
+.cta,
+.theme-mission,
+.theme-core-values,
+.theme-join,
+.theme-case-list,
+.project-specs,
+.project-before-after,
+.project-shots,
+.project-related,
+.theme-page--project .project-specs,
+.theme-page--project .project-before-after,
+.theme-page--project .project-shots,
+.theme-page--project .project-related,
+.listing-grid-section {
+  margin-block: 0;
+  padding-block: var(--section-pad);
+}
+
+.marquee-section {
+  height: auto;
+}
+
+.theme-hero--about,
+.theme-hero--cases,
+.project-hero,
+.listing-hero,
+.post-page,
+.not-found,
+.theme-page--contact .theme-contact-hero {
+  margin-block: 0;
+  padding-bottom: var(--section-pad);
+}
+
+.theme-page--project .project-hero {
+  padding-bottom: var(--section-pad);
+}
+
+.theme-page--cases .theme-case-list {
+  padding-block: var(--section-pad);
+}
+
+.theme-page--project .project-related {
+  margin-block: 0;
+}
+
+@media (max-width: 767px) {
+  .marquee-section,
+  .problems,
+  .welcome,
+  .work,
+  .our-process,
+  .utility,
+  .partners,
+  .testimonials,
+  .faqs,
+  .cta,
+  .theme-mission,
+  .theme-core-values,
+  .theme-join,
+  .theme-case-list,
+  .project-specs,
+  .project-before-after,
+  .project-shots,
+  .project-related,
+  .theme-page--project .project-specs,
+  .theme-page--project .project-before-after,
+  .theme-page--project .project-shots,
+  .theme-page--project .project-related,
+  .listing-grid-section {
+    padding-block: var(--section-pad-mobile);
+  }
+
+  .theme-hero--about,
+  .theme-hero--cases,
+  .project-hero,
+  .listing-hero,
+  .post-page,
+  .not-found,
+  .theme-page--contact .theme-contact-hero {
+    padding-bottom: var(--section-pad-mobile);
+  }
+
+  .theme-page--project .project-hero {
+    padding-bottom: var(--section-pad-mobile);
+  }
+
+  .theme-page--cases .theme-case-list {
+    padding-block: var(--section-pad-mobile);
+  }
+}
