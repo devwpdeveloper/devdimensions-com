@@ -9833,3 +9833,28 @@ h2 span {
     line-height: 21px;
   }
 }
+
+/* Center-mode case-study carousel: keep the active card fully visible while
+   allowing the neighboring cards to peek in evenly on both sides. The dots
+   share the viewport's bottom-center measure instead of following the track. */
+@media (min-width: 992px) {
+  .work-viewport {
+    position: relative;
+    padding-bottom: 34px;
+  }
+
+  .work-track {
+    box-sizing: border-box;
+    padding-right: max(0px, calc((100% - var(--work-card-width)) / 2));
+    padding-left: max(0px, calc((100% - var(--work-card-width)) / 2));
+  }
+
+  .work-dots {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    margin: 0;
+  }
+}
