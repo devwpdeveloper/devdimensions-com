@@ -235,7 +235,7 @@ export function SiteMotion() {
           });
         }
 
-        const heroButtons = uniqueElements(hero, ".hero-copy .btn-theme, .theme-contact-form .btn-theme, .listing-hero .btn-theme, .not-found .btn-theme");
+        const heroButtons = uniqueElements(hero, ".hero-copy .btn-theme, .theme-contact-form > .btn-theme, .listing-hero .btn-theme, .not-found .btn-theme");
         if (heroButtons.length) {
           // Keep the branded CTA at full contrast while it enters. Fading the
           // button surface with the copy makes the red gradient look disabled.
