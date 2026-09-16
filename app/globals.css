@@ -9991,3 +9991,9 @@ h2 span {
     padding-block: var(--section-pad-mobile);
   }
 }
+
+/* The contact route ends at the copyright line, so keep the page-ending
+   footer space compact instead of leaving a large dead band below it. */
+.theme-page--contact .footer {
+  padding-bottom: var(--space-2);
+}
