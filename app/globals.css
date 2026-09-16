@@ -9215,14 +9215,15 @@ h2 span {
   transform: translate(0, -50%) rotate(42deg);
 }
 
-/* Back keeps its left-facing theme arrow while sharing the button surface state. */
+/* Mirror the shared forward arrow so Back uses the same icon scale, angle,
+   background tile, and hover motion while remaining on the left. */
 .theme-page--contact .theme-form-actions .theme-form-back::after {
   top: 50%;
   right: auto;
-  left: 15px;
-  width: 33px;
-  height: 33px;
-  background: url('/theme-assets/Arrow--Left.svg') center / cover no-repeat;
+  left: 8px;
+  width: 27px;
+  height: 27px;
+  background: url('/assets/btn-arrow.svg') center / contain no-repeat;
   transform: translate(0, -50%) rotate(180deg);
 }
 
@@ -9231,9 +9232,9 @@ h2 span {
 .theme-page--contact .theme-form-actions .theme-form-back:focus::after,
 .theme-page--contact .theme-form-actions .theme-form-back:focus-visible::after {
   right: auto;
-  left: 15px;
-  background: url('/theme-assets/Arrow--Left.svg') center / cover no-repeat;
-  transform: translate(0, -50%) rotate(180deg);
+  left: 8px;
+  background: url('/assets/btn-arrow.svg') center / contain no-repeat;
+  transform: translate(0, -50%) rotate(222deg);
 }
 
 .theme-page--contact .theme-form > .form-status--error {
