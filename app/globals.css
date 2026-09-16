@@ -2394,6 +2394,14 @@ h2 span {
   -webkit-text-fill-color: transparent;
 }
 
+.hero-copy p span .hero-and {
+  background: none;
+  background-clip: border-box;
+  -webkit-background-clip: border-box;
+  color: var(--white);
+  -webkit-text-fill-color: var(--white);
+}
+
 .heading-accent,
 .heading-accent .site-heading-word,
 .heading-accent .site-heading-letter {

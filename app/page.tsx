@@ -677,7 +677,7 @@ export default function Home() {
               </h1>
               <p className="hero-lede">
                 We&apos;ve scouted and interviewed thousands of game changers in technology: We match you with our top
-                standouts – all while <span>cutting costs by 43% and reducing staffing times by 5x.</span>
+                standouts – all while <span>cutting costs by 43% <span className="hero-and">and</span> reducing staffing times by 5x.</span>
               </p>
               <a className="btn-theme" href="/contact-us/">
                 7 Days Free Trial
