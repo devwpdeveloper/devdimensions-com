@@ -9943,6 +9943,10 @@ h2 span {
 }
 
 @media (max-width: 767px) {
+  .theme-page--cases .theme-hero--cases {
+    min-height: 0;
+  }
+
   .marquee-section,
   .problems,
   .welcome,
