@@ -2989,7 +2989,7 @@ h2 span {
   --problem-line-end-x: 99.5%;
   --problem-line-end-y: 46%;
   --problem-end-width: 269px;
-  --problem-map-right-space: calc(var(--problem-end-width) * 0.4 + var(--container-gutter));
+  --problem-map-right-space: calc(var(--problem-end-width) * 0.5 + var(--container-gutter));
   position: relative;
   width: calc(100% - var(--problem-map-right-space));
   height: auto;
