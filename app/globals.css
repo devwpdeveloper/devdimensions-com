@@ -2786,7 +2786,7 @@ h2 span {
 
 .hero-avatar {
   position: absolute;
-  top: -14px;
+  top: -19px;
   left: 50%;
   display: block;
   width: 100px;
@@ -5299,7 +5299,7 @@ h2 span {
   }
 
   .hero-avatar {
-    top: -11px;
+    top: -16px;
     left: 50%;
     width: 80px;
     height: 97px;
