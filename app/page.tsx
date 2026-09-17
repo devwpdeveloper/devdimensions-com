@@ -882,7 +882,7 @@ export default function Home() {
             </div>
             <div className="hiring-cards">
               <a className="hire-box" href="/contact-us/" aria-label="Hire a team member">
-                <img className="icon" src={asset("hire-team-member.png")} width={118} height={110} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <img className="icon" src={asset("hire-entire-team.png")} width={100} height={116} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                 <div className="hire-box-copy">
                 <h3><span className="hire-heading">Hire Team Member</span></h3>
                 <p>
@@ -892,7 +892,7 @@ export default function Home() {
                 </div>
               </a>
               <a className="hire-box" href="/contact-us/" aria-label="Hire an entire team">
-                <img className="icon" src={asset("hire-entire-team.png")} width={100} height={116} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <img className="icon" src={asset("Group-626683-2.svg")} width={147} height={106} alt="" aria-hidden="true" loading="lazy" decoding="async" />
                 <div className="hire-box-copy">
                 <h3><span className="hire-heading">Hire Entire Team</span></h3>
                 <p>
