@@ -504,7 +504,7 @@ function ContactModal({
                 placeholder="you@company.com"
               />
             </label>
-            <label>
+            <label className="contact-form__wide">
               Company
               <input
                 name="company"
