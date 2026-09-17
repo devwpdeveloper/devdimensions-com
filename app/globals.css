@@ -2984,14 +2984,17 @@ h2 span {
 }
 
 .problem-map {
-  /* Keep the endpoint vertically aligned with the supplied path-line.png
-     while the theme's right edge remains inside the shell gutter. */
+  /* Keep the endpoint attached to the supplied path-line.png terminal while
+     reserving enough canvas on the right for the full endpoint artwork. */
+  --problem-line-end-x: 99.5%;
   --problem-line-end-y: 46%;
+  --problem-end-width: 269px;
+  --problem-map-right-space: calc(var(--problem-end-width) * 0.4 + var(--container-gutter));
   position: relative;
-  width: 100%;
+  width: calc(100% - var(--problem-map-right-space));
   height: auto;
   aspect-ratio: 2.045;
-  margin: 20px 0 0;
+  margin: 20px var(--problem-map-right-space) 0 0;
 }
 
 .problem-map > .map-line {
@@ -3030,11 +3033,11 @@ h2 span {
   position: absolute;
   z-index: 1;
   top: var(--problem-line-end-y);
-  right: 0;
-  left: auto;
-  width: 269px;
+  right: auto;
+  left: var(--problem-line-end-x);
+  width: var(--problem-end-width);
   height: auto;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
 }
 
 .problem-map .steps .step {
@@ -3137,14 +3140,14 @@ h2 span {
 }
 
 @media (min-width: 1101px) and (max-width: 1280px) {
-  .problem-end {
-    width: 200px;
+  .problem-map {
+    --problem-end-width: 200px;
   }
 }
 
 @media (min-width: 992px) and (max-width: 1100px) {
-  .problem-end {
-    width: 161px;
+  .problem-map {
+    --problem-end-width: 161px;
   }
 }
 
@@ -3154,8 +3157,8 @@ h2 span {
     letter-spacing: -0.4px;
   }
 
-  .problem-end {
-    width: 130px;
+  .problem-map {
+    --problem-end-width: 130px;
   }
 
   .problem-map .steps .title {
