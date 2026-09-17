@@ -3353,7 +3353,7 @@ h2 span {
   bottom: 11.6%;
   left: 8.5%;
   display: grid;
-  width: 32.3%;
+  width: calc(42.1% - 8.5%);
   height: 43%;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   column-gap: 4.42cqw;
