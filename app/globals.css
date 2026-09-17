@@ -6349,12 +6349,26 @@ h2 span {
    overflow-wrap: anywhere;
  }
  .our-process .proces-box .no {position:absolute;left:29px;top:15px;z-index:2;width:41px;height:41px;line-height:41px;font-size:20px;margin:0;}
- .our-process .proces-box .icon {position:absolute;max-width:20px;top:20px;}
+ .our-process .proces-box .proces-title {
+   display: flex;
+   min-height: 30px;
+   align-items: center;
+   gap: 8px;
+   margin-bottom: 10px;
+ }
+ .our-process .proces-box .icon {
+   position: static;
+   flex: 0 0 20px;
+   width: 20px;
+   max-width: 20px;
+   max-height: 27px;
+   object-fit: contain;
+ }
  .our-process .proces-box.s-4 .icon {
    max-height:20px;
    object-fit:contain;
  }
- .our-process .proces-box h3 {margin:0 0 10px;padding-left:28px;font-size:14px;letter-spacing:-.28px;}
+ .our-process .proces-box h3 {margin:0;padding:0;font-size:14px;letter-spacing:-.28px;}
  .our-process .proces-box p {font-size:12px;line-height:20px;}
  .our-process .process::after {content:'';position:absolute;background:#b51e17;width:1px;height:95%;left:50px;top:19px;border-radius:0 0 40% 40%;}
 }

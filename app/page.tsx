@@ -854,10 +854,10 @@ export default function Home() {
               {approachSteps.map((step) => (
                 <article className={`proces-box s-${Number(step.number)}`} key={step.number}>
                     <span className="no">{Number(step.number)}</span><br />
-                    <img className="icon" src={asset(step.icon)} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-                    <h3>
-                      {step.title}
-                    </h3>
+                    <div className="proces-title">
+                      <img className="icon" src={asset(step.icon)} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                      <h3>{step.title}</h3>
+                    </div>
                     <p>{step.description}</p>
                 </article>
               ))}
