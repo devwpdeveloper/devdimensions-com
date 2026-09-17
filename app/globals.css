@@ -9594,6 +9594,8 @@ h2 span {
 }
 
 .hire-review-card {
+  /* Keep the final "Rating" label clear of the review panel. */
+  left: calc(42.1% + 5px);
   right: 7.2%;
   width: auto;
 }
