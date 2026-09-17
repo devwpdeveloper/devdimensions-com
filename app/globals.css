@@ -7750,7 +7750,7 @@ h2 span {
 .theme-page--project .project-tools {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
   margin-left: auto;
 }
 
