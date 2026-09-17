@@ -2988,6 +2988,7 @@ h2 span {
      reserving enough canvas on the right for the full endpoint artwork. */
   --problem-line-end-x: 99.5%;
   --problem-line-end-y: 46%;
+  --problem-line-end-offset: 51.5px;
   --problem-end-width: 269px;
   --problem-map-right-space: calc(var(--problem-end-width) * 0.5 + var(--container-gutter));
   position: relative;
@@ -3032,7 +3033,7 @@ h2 span {
 .problem-end {
   position: absolute;
   z-index: 1;
-  top: var(--problem-line-end-y);
+  top: calc(var(--problem-line-end-y) + var(--problem-line-end-offset));
   right: auto;
   left: var(--problem-line-end-x);
   width: var(--problem-end-width);
@@ -3142,6 +3143,7 @@ h2 span {
 @media (min-width: 1101px) and (max-width: 1280px) {
   .problem-map {
     --problem-end-width: 200px;
+    --problem-line-end-offset: 38px;
   }
 }
 
@@ -3152,6 +3154,7 @@ h2 span {
 
   .problem-map {
     --problem-end-width: 161px;
+    --problem-line-end-offset: 31px;
   }
 }
 
@@ -3163,6 +3166,7 @@ h2 span {
 
   .problem-map {
     --problem-end-width: 130px;
+    --problem-line-end-offset: 25px;
   }
 
   .problem-map .steps .title {
