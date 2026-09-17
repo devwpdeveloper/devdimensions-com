@@ -9,7 +9,6 @@ import { useEffect } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
 const heroSelector = ".hero, .theme-hero, .theme-contact-hero, .project-hero, .listing-hero, .post-page, .not-found";
-const headingSelector = ".site-shell h1, .site-shell h2";
 
 const revealSelector = [
   ".problems-intro",
@@ -51,140 +50,6 @@ const revealSelector = [
 const uniqueElements = (root: Element, selector: string) =>
   Array.from(new Set(Array.from(root.querySelectorAll<HTMLElement>(selector))));
 
-const isMainHeading = (heading: HTMLElement) =>
-  !heading.querySelector("a, button, input, textarea, select, [data-no-heading-motion]") &&
-  !heading.closest(
-    ".site-header, .footer, .contact-modal, .theme-form, .faq-question, .faq-item, .theme-case-card, .related-case-card, .project-feature-item, [aria-hidden=\"true\"]",
-  );
-
-const splitHeadingText = (heading: HTMLElement) => {
-  if (heading.dataset.motionSplit === "true") return true;
-
-  const originalMarkup = heading.innerHTML;
-  const originalAriaLabel = heading.getAttribute("aria-label");
-  const accessibleText = heading.innerText.replace(/\s+/gu, " ").trim();
-  const originalHeight = heading.getBoundingClientRect().height;
-  const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
-  const textNodes: Text[] = [];
-  let node = walker.nextNode();
-
-  while (node) {
-    if (node.textContent) textNodes.push(node as Text);
-    node = walker.nextNode();
-  }
-
-  textNodes.forEach((textNode) => {
-    const fragment = document.createDocumentFragment();
-    const tokens = textNode.data.match(/\s+|\S+/gu) ?? [];
-
-    tokens.forEach((token) => {
-      if (/^\s+$/u.test(token)) {
-        fragment.append(document.createTextNode(token));
-        return;
-      }
-
-      const word = document.createElement("span");
-      word.className = "site-heading-word";
-      word.setAttribute("aria-hidden", "true");
-
-      Array.from(token).forEach((character) => {
-        const letter = document.createElement("span");
-        letter.className = "site-heading-letter";
-        letter.textContent = character;
-        word.append(letter);
-      });
-
-      fragment.append(word);
-    });
-
-    textNode.replaceWith(fragment);
-  });
-
-  if (accessibleText && !originalAriaLabel) heading.setAttribute("aria-label", accessibleText);
-  heading.dataset.motionSplit = "true";
-
-  // Character spans must never change the heading's line count. If a heading
-  // has an unusual layout, leave its original markup untouched instead.
-  if (Math.abs(heading.getBoundingClientRect().height - originalHeight) > 1.5) {
-    heading.innerHTML = originalMarkup;
-    heading.removeAttribute("data-motion-split");
-    if (originalAriaLabel) heading.setAttribute("aria-label", originalAriaLabel);
-    else heading.removeAttribute("aria-label");
-    return false;
-  }
-
-  return true;
-};
-
-const addHeadingHover = (heading: HTMLElement) => {
-  if (!window.matchMedia("(hover: hover)").matches || !splitHeadingText(heading)) return () => undefined;
-
-  const letters = Array.from(heading.querySelectorAll<HTMLElement>(".site-heading-letter"));
-  if (!letters.length) return () => undefined;
-
-  const scaleTo = letters.map((letter) =>
-    gsap.quickTo(letter, "scaleY", {
-      duration: 0.4,
-      ease: "power3.out",
-    }),
-  );
-  let letterCenters: Array<{ x: number; y: number }> = [];
-
-  const measureLetters = () => {
-    letterCenters = letters.map((letter) => {
-      const bounds = letter.getBoundingClientRect();
-      return {
-        x: bounds.left + bounds.width / 2,
-        y: bounds.top + bounds.height / 2,
-      };
-    });
-  };
-
-  const resetLetters = () => scaleTo.forEach((setScale) => setScale(1));
-  const handlePointerMove = (event: PointerEvent) => {
-    if (event.pointerType === "touch") return;
-    if (!letterCenters.length) measureLetters();
-
-    const fontSize = Number.parseFloat(window.getComputedStyle(heading).fontSize) || 48;
-    const radius = Math.max(62, Math.min(128, fontSize * 1.8));
-
-    letterCenters.forEach((center, index) => {
-      const distance = Math.hypot(event.clientX - center.x, event.clientY - center.y);
-      const influence = Math.max(0, 1 - distance / radius);
-      const smoothInfluence = influence * influence * (3 - 2 * influence);
-      scaleTo[index](1 + smoothInfluence * 0.52);
-    });
-  };
-  const handlePointerEnter = (event: PointerEvent) => {
-    if (event.pointerType === "touch") return;
-    measureLetters();
-    handlePointerMove(event);
-  };
-  const handlePointerLeave = () => {
-    letterCenters = [];
-    resetLetters();
-  };
-  const handleResize = () => {
-    letterCenters = [];
-    resetLetters();
-  };
-
-  heading.addEventListener("pointerenter", handlePointerEnter);
-  heading.addEventListener("pointermove", handlePointerMove);
-  heading.addEventListener("pointerleave", handlePointerLeave);
-  heading.addEventListener("pointercancel", handlePointerLeave);
-  window.addEventListener("resize", handleResize);
-
-  return () => {
-    heading.removeEventListener("pointerenter", handlePointerEnter);
-    heading.removeEventListener("pointermove", handlePointerMove);
-    heading.removeEventListener("pointerleave", handlePointerLeave);
-    heading.removeEventListener("pointercancel", handlePointerLeave);
-    window.removeEventListener("resize", handleResize);
-    resetLetters();
-  };
-};
-
 export function SiteMotion() {
   const pathname = usePathname();
   const lenis = useLenis();
@@ -204,7 +69,6 @@ export function SiteMotion() {
     const refresh = () => ScrollTrigger.refresh();
     let refreshFrame = 0;
     let refreshTimer = 0;
-    const headingCleanups: Array<() => void> = [];
     const context = gsap.context(() => {
       const headerItems = uniqueElements(page, ".site-header > *");
       if (headerItems.length) {
@@ -282,10 +146,6 @@ export function SiteMotion() {
         });
       }
 
-      uniqueElements(page, headingSelector)
-        .filter(isMainHeading)
-        .forEach((heading) => headingCleanups.push(addHeadingHover(heading)));
-
       const revealItems = uniqueElements(page, revealSelector);
       revealItems.forEach((item) => {
         gsap.from(item, {
@@ -333,7 +193,6 @@ export function SiteMotion() {
       window.cancelAnimationFrame(refreshFrame);
       window.clearTimeout(refreshTimer);
       window.removeEventListener("load", refresh);
-      headingCleanups.forEach((cleanup) => cleanup());
       context.revert();
       if (progress) gsap.set(progress, { scaleX: 0 });
     };

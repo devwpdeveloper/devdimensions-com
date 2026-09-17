@@ -2402,9 +2402,7 @@ h2 span {
   -webkit-text-fill-color: var(--white);
 }
 
-.heading-accent,
-.heading-accent .site-heading-word,
-.heading-accent .site-heading-letter {
+.heading-accent {
   background: linear-gradient(90deg, var(--red) 0%, var(--red-bright) 100%);
   background-clip: text;
   -webkit-background-clip: text;
@@ -9335,20 +9333,6 @@ h2 span {
   background: linear-gradient(90deg, var(--red) 0%, var(--red-bright) 100%);
   transform: scaleX(0);
   transform-origin: left center;
-  will-change: transform;
-}
-
-.site-heading-word {
-  display: inline-block;
-  white-space: nowrap;
-  line-height: inherit;
-}
-
-.site-heading-letter {
-  display: inline-block;
-  transform: scaleY(1);
-  transform-origin: center bottom;
-  line-height: inherit;
   will-change: transform;
 }
 
