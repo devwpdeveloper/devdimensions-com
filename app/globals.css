@@ -9606,6 +9606,30 @@ h2 span {
   }
 }
 
+/* Keep the medium-desktop hero split inside the measured shell. The HTML
+   artwork is wider than its grid cell at 1024px, so it must use the cell's
+   available width after the theme's 24px column gap is applied. */
+@media (min-width: 992px) and (max-width: 1100px) {
+  .hero-grid {
+    column-gap: 24px;
+  }
+
+  .hero-grid > * {
+    min-width: 0;
+  }
+
+  .hero-visual {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .hero-html-visual {
+    flex: 0 0 508px;
+    transform: scale(0.897638);
+    transform-origin: top right;
+  }
+}
+
 /* Slow the horizontal slide enough for the card transition to read clearly. */
 .work-track,
 .theme-page--project .project-related-track {
