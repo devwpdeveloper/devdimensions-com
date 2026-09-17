@@ -3350,13 +3350,13 @@ h2 span {
 
 .hire-bars {
   position: absolute;
+  right: 57.9%;
   bottom: 11.6%;
-  left: 8.5%;
   display: grid;
-  width: calc(42.1% - 8.5%);
+  width: calc(32.68cqw + 20px);
   height: 43%;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  column-gap: 4.42cqw;
+  grid-template-columns: repeat(5, 3cqw);
+  column-gap: calc(4.42cqw + 5px);
   align-items: end;
 }
 

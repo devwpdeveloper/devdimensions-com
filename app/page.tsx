@@ -366,14 +366,15 @@ function HireGraphic() {
         <p className="hire-graph-kicker">Win History - Across All Platforms</p>
         <h3>3:1 Submit to Hire</h3>
         <p className="hire-graph-rating"><strong>98%</strong> Job Success Rating</p>
-        <div className="hire-bars" aria-label="Monthly hiring results">
-          {hireBars.map((bar) => (
-            <div className="hire-bar" key={bar.month}>
-              <span className={`hire-bar-fill hire-bar-fill--${bar.tone}`} style={{ height: `${bar.height}%` }} />
-              <span className="hire-bar-label">{bar.month}</span>
-            </div>
-          ))}
-        </div>
+      </div>
+
+      <div className="hire-bars" aria-label="Monthly hiring results">
+        {hireBars.map((bar) => (
+          <div className="hire-bar" key={bar.month}>
+            <span className={`hire-bar-fill hire-bar-fill--${bar.tone}`} style={{ height: `${bar.height}%` }} />
+            <span className="hire-bar-label">{bar.month}</span>
+          </div>
+        ))}
       </div>
 
       <div className="hire-review-card">
