@@ -351,15 +351,49 @@ function HeroVisual() {
   );
 }
 
+const hireBars = [
+  { month: "Jan", height: 83, tone: "deep" },
+  { month: "Feb", height: 77, tone: "soft" },
+  { month: "Mar", height: 100, tone: "bright" },
+  { month: "Apr", height: 72, tone: "deep" },
+  { month: "May", height: 40, tone: "soft" },
+] as const;
+
 function HireGraphic() {
   return (
-    <img
-      className="hire-graphic"
-      src={asset("submit-hire.png")}
-      alt="Win history and submit-to-hire results"
-      loading="lazy"
-      decoding="async"
-    />
+    <div className="hire-graphic" aria-label="Win history and submit-to-hire results">
+      <div className="hire-graph-card">
+        <p className="hire-graph-kicker">Win History - Across All Platforms</p>
+        <h3>3:1 Submit to Hire</h3>
+        <p className="hire-graph-rating"><strong>98%</strong> Job Success Rating</p>
+        <div className="hire-bars" aria-label="Monthly hiring results">
+          {hireBars.map((bar) => (
+            <div className="hire-bar" key={bar.month}>
+              <span className={`hire-bar-fill hire-bar-fill--${bar.tone}`} style={{ height: `${bar.height}%` }} />
+              <span className="hire-bar-label">{bar.month}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="hire-review-card">
+        <p className="hire-review-count">
+          <strong>3K</strong> <span>reviews</span>
+          <span className="hire-review-stars" aria-label="5 out of 5 stars">★★★★★</span>
+        </p>
+        <div className="hire-review-meta">
+          <span className="hire-review-arrow" aria-hidden="true">↗</span>
+          <strong>4.9</strong>
+        </div>
+        <img
+          className="hire-review-thumbnails"
+          src={asset("review-thumbnails.png")}
+          alt="Client review avatars"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    </div>
   );
 }
 
