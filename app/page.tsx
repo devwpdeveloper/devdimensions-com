@@ -463,6 +463,8 @@ function ContactModal({
       <dialog
         open
         className="contact-modal"
+        data-lenis-prevent
+        aria-modal="true"
         aria-labelledby="contact-modal-title"
       >
         <button className="modal-close" type="button" aria-label="Close contact form" onClick={onClose}>
@@ -581,7 +583,9 @@ export default function Home() {
     const locked = menuOpen || modalOpen;
     if (locked) {
       document.body.style.overflow = "hidden";
+      lenis?.stop();
     } else {
+      lenis?.start();
       document.body.style.removeProperty("overflow");
     }
 
@@ -594,10 +598,11 @@ export default function Home() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => {
+      lenis?.start();
       document.body.style.removeProperty("overflow");
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [menuOpen, modalOpen]);
+  }, [menuOpen, modalOpen, lenis]);
 
   useEffect(() => {
     // Lenis owns wheel input when available. Keep this small header workaround

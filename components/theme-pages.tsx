@@ -562,7 +562,7 @@ export function MobileNavigation({ onClose, onContact }: { onClose: () => void; 
   const pathname = usePathname();
 
   return (
-    <aside className="menu-panel" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
+    <aside className="menu-panel" data-lenis-prevent role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
       <button className="menu-panel-scrim" type="button" aria-label="Close menu" onClick={onClose} />
       <div className="menu-panel-body">
         <div className="menu-panel-header">
