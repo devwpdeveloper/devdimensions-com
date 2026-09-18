@@ -1477,8 +1477,10 @@
 }
 
 .theme-form-success img {
+  display: block;
   width: 180px;
   height: 90px;
+  margin: 0 auto;
   object-fit: contain;
 }
 
@@ -4869,6 +4871,29 @@ h2 span {
 
 .form-status.error {
   color: #ff8e88;
+}
+
+.contact-modal__success {
+  min-height: 0;
+  padding: 24px 0 4px;
+  background: transparent;
+}
+
+.contact-modal__success img {
+  display: block;
+  width: min(281px, 100%);
+  height: auto;
+  margin: 0 auto;
+}
+
+.contact-modal__success h2 {
+  margin: 24px 0 12px;
+  text-align: center;
+}
+
+.contact-modal__success p {
+  margin: 0 auto;
+  text-align: center;
 }
 
 /* Desktop layout */
@@ -10219,4 +10244,39 @@ h2 span {
   height: auto;
   min-height: 0;
   margin-bottom: 0;
+}
+
+/* Keep the mobile contact stepper centered as three equal columns. The
+   previous space-between layout used each label's width, which pushed the
+   middle step to the right and left the outer labels edge-aligned. */
+@media (max-width: 767px) {
+  .theme-page--contact .theme-form-progress {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    width: min(380px, calc(100% - 16px));
+    min-height: 108px;
+    margin-inline: auto;
+  }
+
+  .theme-page--contact .theme-form-progress-bar {
+    top: 16px;
+    left: 0;
+    width: 100%;
+  }
+
+  .theme-page--contact .theme-form-progress > div {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    justify-items: center;
+    text-align: center !important;
+  }
+
+  .theme-page--contact .theme-form-progress strong {
+    width: 100%;
+    max-width: 100px;
+    margin: 15px auto 0;
+    text-align: center;
+  }
 }

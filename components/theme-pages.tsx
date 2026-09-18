@@ -5,7 +5,7 @@ import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { CaseStudyCarousel } from "./case-study-carousel";
-import { CONTACT_ENDPOINT, ContactModal } from "./contact-modal";
+import { CONTACT_ENDPOINT, ContactModal, ContactSuccessMessage } from "./contact-modal";
 
 export const siteAsset = (name: string) => /^https?:\/\//.test(name) ? name : `/assets/${name}`;
 export const themeAsset = (name: string) => `/theme-assets/${name}`;
@@ -845,7 +845,7 @@ function ContactForm() {
     } catch { setError(true); }
   };
 
-  if (submitted) return <div className="theme-form-success"><img src={themeAsset("thank-you.svg")} alt="" aria-hidden="true" /><h2>We Heard You!</h2><p>Your message has been received. We will get back to you as soon as possible.</p><a className="btn-theme" href="/">Return To Home <ArrowUpRight size={17} /></a></div>;
+  if (submitted) return <ContactSuccessMessage><a className="btn-theme" href="/">Return To Home <ArrowUpRight size={17} /></a></ContactSuccessMessage>;
 
   return (
     <form className="theme-form" onSubmit={handleSubmit}>

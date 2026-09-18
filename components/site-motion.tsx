@@ -16,10 +16,8 @@ const revealSelector = [
   ".problem-map-mobile",
   ".welcome-copy",
   ".welcome-art",
-  ".work-heading",
-  ".work-viewport",
-  ".approach-heading",
-  ".process",
+  // Work and approach are intentionally omitted: their large carousel and
+  // diagram must stay visible while the first wheel gesture enters them.
   ".utility-copy",
   ".hiring-cards",
   ".partners > .shell > h2",

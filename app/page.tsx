@@ -141,6 +141,8 @@ const approachSteps = [
   {
     number: "01",
     icon: "icon-1.svg",
+    iconWidth: 30,
+    iconHeight: 40,
     title: "Clarify Objectives",
     description:
       "We'll Meet to collaborate on understanding your requirements, defining your Goals, and Strategising for Your Success.",
@@ -148,6 +150,8 @@ const approachSteps = [
   {
     number: "02",
     icon: "Group-39218.svg",
+    iconWidth: 48,
+    iconHeight: 39,
     title: "Meet Engineers",
     description:
       "We will save your time by efficiently connecting you with one of the Most Compatible Talents from Our Family of Experts.",
@@ -155,6 +159,8 @@ const approachSteps = [
   {
     number: "03",
     icon: "Group-39216.svg",
+    iconWidth: 39,
+    iconHeight: 39,
     title: "7 Day Try Out",
     description:
       "Experience a 7-day trial before deciding because we believe successful allocations build long-term partnerships.",
@@ -162,6 +168,8 @@ const approachSteps = [
   {
     number: "04",
     icon: "startup-1.svg",
+    iconWidth: 20,
+    iconHeight: 41,
     title: "Build Your Dream Team",
     description:
       "Embrace your chosen standout by adding them to your dream team & solidify a powerful partnership built for success.",
@@ -743,7 +751,16 @@ export default function Home() {
                 <article className={`proces-box s-${Number(step.number)}`} key={step.number}>
                     <span className="no">{Number(step.number)}</span><br />
                     <div className="proces-title">
-                      <img className="icon" src={asset(step.icon)} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                      <img
+                        className="icon"
+                        src={asset(step.icon)}
+                        alt=""
+                        aria-hidden="true"
+                        width={step.iconWidth}
+                        height={step.iconHeight}
+                        loading="lazy"
+                        decoding="async"
+                      />
                       <h3>{step.title}</h3>
                     </div>
                     <p>{step.description}</p>

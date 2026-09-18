@@ -51,7 +51,15 @@ export function CaseStudyCarousel({
             <a className="work-cover-link" href={item.href} aria-label={`View ${item.name} case study`}>
               <picture>
                 <source media="(max-width: 767px)" srcSet={item.mobileImageSrc} />
-                <img className="work-cover" src={item.imageSrc} alt={`${item.name} project`} loading="lazy" decoding="async" />
+                <img
+                  className="work-cover"
+                  src={item.imageSrc}
+                  alt={`${item.name} project`}
+                  width={1440}
+                  height={789}
+                  loading="lazy"
+                  decoding="async"
+                />
               </picture>
             </a>
             <div className="work-card-content">
