@@ -10267,6 +10267,7 @@ h2 span {
 
   .theme-page--contact .theme-form-progress > div {
     display: grid;
+    grid-template-columns: 1fr;
     width: 100%;
     min-width: 0;
     justify-items: center;
